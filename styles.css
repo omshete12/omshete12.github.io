@@ -242,6 +242,7 @@ body:has(a:hover) #cursor-follower,body:has(button:hover) #cursor-follower{width
 .footer-copy{font-family:var(--font-m);font-size:0.72rem;color:var(--text-3)}
 
 /* RESPONSIVE */
+/* RESPONSIVE */
 @media(max-width:900px){
   .about-wrap{grid-template-columns:1fr;gap:3rem}
   .proj-grid{grid-template-columns:1fr}
@@ -266,12 +267,12 @@ body:has(a:hover) #cursor-follower,body:has(button:hover) #cursor-follower{width
   #cursor,#cursor-follower{display:none}
 }
 @media(max-width:420px){
-   .hero-name{
-  font-size:1.8rem;
-  white-space:normal;
-  word-break:break-word;
-  letter-spacing:0.02em;
-}
+  .hero-name{
+    font-size:1.8rem;
+    white-space:normal;
+    word-break:break-word;
+    letter-spacing:0.02em;
+  }
   .proj-card{padding:1.5rem}
   .info-row{grid-template-columns:70px 1fr}
 }
