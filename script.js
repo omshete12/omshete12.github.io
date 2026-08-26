@@ -55,8 +55,8 @@
   const lines = [
     "Machine Learning Enthusiast",
     "Data Science Explorer",
-    "Fraud Detection Specialist",
-    "BCA Student @ MIT-WPU Pune",
+    "MSc AI DS Student",
+    "BCA 26 @ MIT-WPU Pune",
   ];
   let li = 0, ci = 0, deleting = false;
   const SPEED_TYPE = 80, SPEED_DEL = 40, PAUSE = 1800;
