@@ -9,32 +9,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
 
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-  <!-- =====================================================
-       BACKGROUND / CURSOR
-       ===================================================== -->
-
+  <!-- Full-page universe canvas -->
   <canvas id="universe-canvas"></canvas>
 
+  <!-- Custom cursor -->
   <div id="cursor"></div>
   <div id="cursor-follower"></div>
 
-
-  <!-- =====================================================
-       NAVIGATION
-       ===================================================== -->
-
+  <!-- NAVIGATION -->
   <nav class="nav" id="nav">
 
-    <div class="logo-box">
-      OS
-    </div>
+    <div class="logo-box">OS</div>
 
     <div class="nav-center">
       <span class="badge-pulse"></span>
@@ -49,12 +44,7 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
 
-    <button
-      class="nav-toggle"
-      id="navToggle"
-      aria-label="Toggle menu"
-      type="button"
-    >
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
       <span></span>
       <span></span>
       <span></span>
@@ -62,13 +52,8 @@
 
   </nav>
 
-
-  <!-- =====================================================
-       MOBILE MENU
-       ===================================================== -->
-
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-
     <ul>
       <li><a href="#about" class="mobile-link">About</a></li>
       <li><a href="#projects" class="mobile-link">Projects</a></li>
@@ -76,24 +61,20 @@
       <li><a href="#languages" class="mobile-link">Languages</a></li>
       <li><a href="#contact" class="mobile-link">Contact</a></li>
     </ul>
-
   </div>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        HERO
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="hero" class="hero">
 
     <div class="hero-bg">
-
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
       <div class="hero-grid-lines"></div>
-
     </div>
-
 
     <div class="hero-inner" id="heroInner">
 
@@ -103,9 +84,7 @@
       </div>
 
       <h1 class="hero-name">
-        <span class="text-gradient">
-          Om Shete
-        </span>
+        <span class="text-gradient">Om Shete</span>
       </h1>
 
       <p class="hero-sub">
@@ -122,49 +101,30 @@
         Precision over hype — always.
       </p>
 
-
       <div class="hero-btns">
-
-        <a
-          href="#projects"
-          class="btn btn-glow"
-          id="heroProjectsBtn"
-        >
+        <a href="#projects" class="btn btn-glow" id="heroProjectsBtn">
           View Projects →
         </a>
 
-        <a
-          href="#contact"
-          class="btn btn-outline"
-          id="heroContactBtn"
-        >
+        <a href="#contact" class="btn btn-outline" id="heroContactBtn">
           Get in Touch
         </a>
 
-        <a
-          href="#"
-          class="btn btn-resume"
-          id="heroResumeBtn"
-        >
+        <a href="#" class="btn btn-resume" id="heroResumeBtn">
           ↓ Resume
         </a>
-
       </div>
 
-
       <div class="hero-tags">
-
         <span class="htag">Python</span>
         <span class="htag">Machine Learning</span>
         <span class="htag">Data Science</span>
         <span class="htag">Fraud Detection</span>
         <span class="htag">IELTS</span>
         <span class="htag">C1 German</span>
-
       </div>
 
     </div>
-
 
     <div class="scroll-indicator">
       <div class="scroll-dot"></div>
@@ -173,9 +133,9 @@
   </section>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        ABOUT
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="about" class="section">
 
@@ -190,26 +150,30 @@
           </p>
 
           <h2 class="sec-title reveal">
-            FY MSc AI &amp; Data Science student with a BCA background from MIT World Peace University, Pune. Passionate about Data Science, Machine Learning, and Artificial Intelligence.
+            FY MSc AI &amp; Data Science student with a BCA background from
+            MIT World Peace University, Pune. Passionate about Data Science,
+            Machine Learning, and Artificial Intelligence.
           </h2>
 
           <p class="about-body reveal">
-            I have hands-on experience building and evaluating machine learning models, working with <em>imbalanced datasets</em>, and using performance metrics like precision, recall, F1-score, and ROC-AUC.
+            I have hands-on experience building and evaluating machine learning
+            models, working with <em>imbalanced datasets</em>, and using
+            performance metrics like precision, recall, F1-score, and ROC-AUC.
           </p>
 
           <p class="about-body reveal">
-            Skilled in <em>Data Science</em> — from data cleaning and feature engineering to building classification pipelines and extracting meaningful signals from raw data.
+            Skilled in <em>Data Science</em> — from data cleaning and feature
+            engineering to building classification pipelines and extracting
+            meaningful signals from raw data.
           </p>
 
           <div class="about-tags reveal">
-
             <span class="atag">Python</span>
             <span class="atag">Pandas</span>
             <span class="atag">Scikit-learn</span>
             <span class="atag">NumPy</span>
             <span class="atag">Matplotlib</span>
             <span class="atag">Jupyter</span>
-
           </div>
 
         </div>
@@ -281,9 +245,9 @@
   </section>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        PROJECTS
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="projects" class="section sec-alt">
 
@@ -298,11 +262,15 @@
       </h2>
 
       <p class="sec-sub reveal">
-        Machine learning projects tackling real-world challenges with measurable outcomes.
+        Machine learning projects tackling real-world challenges with
+        measurable outcomes.
       </p>
 
 
       <div class="proj-grid">
+
+
+        <!-- PROJECT 01 -->
 
         <div
           class="proj-card featured reveal"
@@ -338,9 +306,11 @@
           </h3>
 
           <p class="proj-desc">
-            Developed a machine learning model to detect fraudulent transactions in a highly imbalanced dataset. Applied preprocessing, feature scaling, and class imbalance handling with Logistic Regression and Random Forest.
+            Developed a machine learning model to detect fraudulent
+            transactions in a highly imbalanced dataset. Applied preprocessing,
+            feature scaling, and class imbalance handling with Logistic
+            Regression and Random Forest.
           </p>
-
 
           <div class="proj-info">
 
@@ -351,12 +321,16 @@
 
             <div class="info-row">
               <span class="info-key">Models</span>
-              <span class="info-val">Logistic Regression, Random Forest</span>
+              <span class="info-val">
+                Logistic Regression, Random Forest
+              </span>
             </div>
 
             <div class="info-row">
               <span class="info-key">Focus</span>
-              <span class="info-val">Class imbalance, Precision &amp; Recall</span>
+              <span class="info-val">
+                Class imbalance, Precision &amp; Recall
+              </span>
             </div>
 
           </div>
@@ -399,6 +373,8 @@
         </div>
 
 
+        <!-- PROJECT 02 -->
+
         <div
           class="proj-card reveal"
           data-tilt
@@ -423,31 +399,38 @@
 
           </div>
 
-
           <h3 class="proj-title">
             Student Performance Prediction
           </h3>
 
           <p class="proj-desc">
-            Built a classification model to predict student academic performance. Performed data cleaning, feature selection, and exploratory data analysis. Applied ML algorithms to improve prediction accuracy.
+            Built a classification model to predict student academic
+            performance. Performed data cleaning, feature selection, and
+            exploratory data analysis. Applied ML algorithms to improve
+            prediction accuracy.
           </p>
-
 
           <div class="proj-info">
 
             <div class="info-row">
               <span class="info-key">Type</span>
-              <span class="info-val">Multi-class classification</span>
+              <span class="info-val">
+                Multi-class classification
+              </span>
             </div>
 
             <div class="info-row">
               <span class="info-key">Methods</span>
-              <span class="info-val">Feature selection, EDA, Preprocessing</span>
+              <span class="info-val">
+                Feature selection, EDA, Preprocessing
+              </span>
             </div>
 
             <div class="info-row">
               <span class="info-key">Output</span>
-              <span class="info-val">Academic performance prediction</span>
+              <span class="info-val">
+                Academic performance prediction
+              </span>
             </div>
 
           </div>
@@ -496,9 +479,9 @@
   </section>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        SKILLS
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="skills" class="section">
 
@@ -513,11 +496,13 @@
       </h2>
 
       <p class="sec-sub reveal">
-        Technologies and tools I use to build and evaluate machine learning solutions.
+        Technologies and tools I use to build and evaluate machine learning
+        solutions.
       </p>
 
 
       <div class="skills-grid">
+
 
         <div
           class="skill-group reveal"
@@ -616,9 +601,9 @@
   </section>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        LANGUAGES
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="languages" class="section sec-alt">
 
@@ -638,6 +623,9 @@
 
 
       <div class="lang-grid">
+
+
+        <!-- ENGLISH -->
 
         <div
           class="lang-card reveal"
@@ -674,21 +662,21 @@
           <div class="lang-body">
 
             <p class="lang-desc">
-              Proficient in academic and professional English. Tested via IELTS Academic — the globally recognized English certification for universities and employers worldwide.
+              Proficient in academic and professional English. Tested via
+              IELTS Academic — the globally recognized English certification
+              for universities and employers worldwide.
             </p>
 
 
             <div class="cefr-bar">
 
               <div class="cefr-steps">
-
                 <span class="cstep">A1</span>
                 <span class="cstep">A2</span>
                 <span class="cstep">B1</span>
                 <span class="cstep">B2</span>
                 <span class="cstep active-step">C1</span>
                 <span class="cstep">C2</span>
-
               </div>
 
               <div class="cefr-track">
@@ -702,18 +690,18 @@
 
 
             <div class="lang-skills">
-
               <span class="lskill">Academic Writing</span>
               <span class="lskill">Listening</span>
               <span class="lskill">Reading</span>
               <span class="lskill">Speaking</span>
-
             </div>
 
           </div>
 
         </div>
 
+
+        <!-- GERMAN -->
 
         <div
           class="lang-card reveal"
@@ -752,21 +740,20 @@
           <div class="lang-body">
 
             <p class="lang-desc">
-              Fortgeschrittene Deutschkenntnisse auf B1-Niveau — fähig zur akademischen und beruflichen Kommunikation auf hohem Niveau.
+              Fortgeschrittene Deutschkenntnisse auf B1-Niveau — fähig zur
+              akademischen und beruflichen Kommunikation auf hohem Niveau.
             </p>
 
 
             <div class="cefr-bar">
 
               <div class="cefr-steps">
-
                 <span class="cstep">A1</span>
                 <span class="cstep">A2</span>
                 <span class="cstep">B1</span>
                 <span class="cstep">B2</span>
                 <span class="cstep active-step-gold">C1</span>
                 <span class="cstep">C2</span>
-
               </div>
 
               <div class="cefr-track">
@@ -780,12 +767,10 @@
 
 
             <div class="lang-skills">
-
               <span class="lskill">Lesen</span>
               <span class="lskill">Schreiben</span>
               <span class="lskill">Hören</span>
               <span class="lskill">Sprechen</span>
-
             </div>
 
           </div>
@@ -799,9 +784,9 @@
   </section>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        CONTACT
-       ===================================================== -->
+  ========================================================== -->
 
   <section id="contact" class="section">
 
@@ -814,6 +799,7 @@
 
       <div class="contact-wrap">
 
+
         <div class="contact-cta reveal">
 
           <p class="contact-cta-title">
@@ -821,7 +807,9 @@
           </p>
 
           <p class="contact-cta-text">
-            I'm currently open to internships, ML research collaborations, and interesting conversations about data science, fraud detection, or machine learning systems.
+            I'm currently open to internships, ML research collaborations,
+            and interesting conversations about data science, fraud detection,
+            or machine learning systems.
           </p>
 
           <span class="contact-availability">
@@ -833,6 +821,7 @@
 
 
         <div class="contact-cards">
+
 
           <a
             href="mailto:omshete930@gmail.com"
@@ -847,7 +836,6 @@
             </div>
 
             <div class="ccard-body">
-
               <span class="ccard-label">
                 Email
               </span>
@@ -855,7 +843,6 @@
               <span class="ccard-val">
                 omshete930@gmail.com
               </span>
-
             </div>
 
             <span class="ccard-arrow">
@@ -880,7 +867,6 @@
             </div>
 
             <div class="ccard-body">
-
               <span class="ccard-label">
                 GitHub
               </span>
@@ -888,7 +874,6 @@
               <span class="ccard-val">
                 github.com/omshete12
               </span>
-
             </div>
 
             <span class="ccard-arrow">
@@ -913,7 +898,6 @@
             </div>
 
             <div class="ccard-body">
-
               <span class="ccard-label">
                 LinkedIn
               </span>
@@ -921,7 +905,6 @@
               <span class="ccard-val">
                 linkedin.com/in/omshete12
               </span>
-
             </div>
 
             <span class="ccard-arrow">
@@ -939,278 +922,9 @@
   </section>
 
 
-  <!-- =====================================================
-       FLOATING ASK ASSISTANT
-       ===================================================== -->
-
-  <div
-    class="ai-assistant"
-    id="aiAssistant"
-    aria-label="Portfolio AI Assistant"
-  >
-
-    <!-- Floating trigger -->
-
-    <button
-      class="ai-chat-trigger"
-      id="aiChatTrigger"
-      type="button"
-      aria-label="Open Ask Assistant"
-      aria-expanded="false"
-    >
-
-      <span
-        class="ai-trigger-icon"
-        aria-hidden="true"
-      >
-
-        <span class="robot-antenna"></span>
-
-        <span class="robot-face">
-
-          <span class="robot-eye"></span>
-          <span class="robot-eye"></span>
-
-        </span>
-
-      </span>
-
-
-      <span class="ai-trigger-content">
-
-        <span class="ai-trigger-label">
-          PORTFOLIO AI
-        </span>
-
-        <span class="ai-trigger-text">
-          Ask Assistant
-        </span>
-
-      </span>
-
-
-      <span
-        class="ai-trigger-arrow"
-        aria-hidden="true"
-      >
-        ↗
-      </span>
-
-    </button>
-
-
-    <!-- Chat window -->
-
-    <div
-      class="ai-chat-window"
-      id="aiChatWindow"
-      aria-hidden="true"
-    >
-
-      <!-- Header -->
-
-      <div class="ai-chat-header">
-
-        <div class="ai-chat-title">
-
-          <span
-            class="ai-avatar robot-avatar"
-            aria-hidden="true"
-          >
-
-            <span class="robot-antenna"></span>
-
-            <span class="robot-face">
-
-              <span class="robot-eye"></span>
-              <span class="robot-eye"></span>
-
-            </span>
-
-          </span>
-
-
-          <div>
-
-            <strong>
-              Ask Assistant
-            </strong>
-
-            <span>
-              Om's portfolio assistant
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="ai-chat-close"
-          id="aiChatClose"
-          type="button"
-          aria-label="Close Ask Assistant"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <!-- Messages -->
-
-      <div
-        class="ai-chat-messages"
-        id="aiChatMessages"
-      >
-
-        <div class="ai-message">
-
-          <span
-            class="ai-message-avatar"
-            aria-hidden="true"
-          >
-            ✦
-          </span>
-
-          <div class="ai-message-content">
-
-            <p>
-              Hey! I'm Om's portfolio assistant.
-            </p>
-
-            <p>
-              Ask me about his projects, skills,
-              education, or what he's currently learning.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- Quick questions -->
-
-      <div class="ai-suggestions">
-
-        <button
-          type="button"
-          class="ai-suggestion"
-          data-question="What is Om studying?"
-        >
-
-          <span
-            class="suggestion-icon"
-            aria-hidden="true"
-          >
-            🎓
-          </span>
-
-          <span class="suggestion-text">
-            What is Om studying?
-          </span>
-
-          <span
-            class="suggestion-arrow"
-            aria-hidden="true"
-          >
-            →
-          </span>
-
-        </button>
-
-
-        <button
-          type="button"
-          class="ai-suggestion"
-          data-question="Show me his projects"
-        >
-
-          <span
-            class="suggestion-icon"
-            aria-hidden="true"
-          >
-            ◈
-          </span>
-
-          <span class="suggestion-text">
-            Show me his projects
-          </span>
-
-          <span
-            class="suggestion-arrow"
-            aria-hidden="true"
-          >
-            →
-          </span>
-
-        </button>
-
-
-        <button
-          type="button"
-          class="ai-suggestion"
-          data-question="What are his ML skills?"
-        >
-
-          <span
-            class="suggestion-icon"
-            aria-hidden="true"
-          >
-            ◉
-          </span>
-
-          <span class="suggestion-text">
-            What are his ML skills?
-          </span>
-
-          <span
-            class="suggestion-arrow"
-            aria-hidden="true"
-          >
-            →
-          </span>
-
-        </button>
-
-      </div>
-
-
-      <!-- Input -->
-
-      <form
-        class="ai-chat-input"
-        id="aiChatForm"
-      >
-
-        <input
-          type="text"
-          id="aiChatInput"
-          placeholder="Ask me something..."
-          autocomplete="off"
-          aria-label="Ask the portfolio assistant"
-        >
-
-        <button
-          type="submit"
-          class="ai-chat-send"
-          aria-label="Send message"
-        >
-          ↑
-        </button>
-
-      </form>
-
-    </div>
-
-  </div>
-
-
-  <!-- =====================================================
+  <!-- =========================================================
        FOOTER
-       ===================================================== -->
+  ========================================================== -->
 
   <footer class="footer">
 
@@ -1241,9 +955,9 @@
   </footer>
 
 
-  <!-- =====================================================
-       JAVASCRIPT LIBRARIES
-       ===================================================== -->
+  <!-- =========================================================
+       EXTERNAL LIBRARIES
+  ========================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
@@ -1252,9 +966,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
-
-
-  <!-- Your JavaScript -->
 
   <script src="script.js"></script>
 
