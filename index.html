@@ -5,37 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Om Dattatray Shete — Machine Learning & Data Science portfolio. MSc AI DS Student.">
   <title>Om Shete — Portfolio</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet"
-  >
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
   <!-- Full-page universe canvas -->
   <canvas id="universe-canvas"></canvas>
 
-  <!-- Custom cursor -->
   <div id="cursor"></div>
   <div id="cursor-follower"></div>
 
-  <!-- NAVIGATION -->
   <nav class="nav" id="nav">
-
     <div class="logo-box">OS</div>
-
     <div class="nav-center">
       <span class="badge-pulse"></span>
       <span>Open to Work</span>
     </div>
-
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -43,16 +30,11 @@
       <li><a href="#languages">Languages</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
   </nav>
 
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <ul>
       <li><a href="#about" class="mobile-link">About</a></li>
@@ -63,911 +45,281 @@
     </ul>
   </div>
 
-
-  <!-- =========================================================
-       HERO
-  ========================================================== -->
-
   <section id="hero" class="hero">
-
     <div class="hero-bg">
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
       <div class="hero-grid-lines"></div>
     </div>
-
     <div class="hero-inner" id="heroInner">
-
-      <div class="hero-badge">
-        <span class="badge-pulse"></span>
-        Available for Internships
-      </div>
-
-      <h1 class="hero-name">
-        <span class="text-gradient">Om Shete</span>
-      </h1>
-
-      <p class="hero-sub">
-        <span id="typewriter"></span>
-        <span class="tw-cursor">|</span>
-      </p>
-
-      <p class="hero-tagline">
-        Focused on Machine Learning &amp; Predictive Modeling
-      </p>
-
-      <p class="hero-desc">
-        Building ML systems that make sense of messy, real-world data.
-        Precision over hype — always.
-      </p>
-
+      <div class="hero-badge"><span class="badge-pulse"></span>Available for Internships</div>
+      <h1 class="hero-name"><span class="text-gradient">Om Shete</span></h1>
+      <p class="hero-sub"><span id="typewriter"></span><span class="tw-cursor">|</span></p>
+      <p class="hero-tagline">Focused on Machine Learning &amp; Predictive Modeling</p>
+      <p class="hero-desc">Building ML systems that make sense of messy, real-world data. Precision over hype — always.</p>
       <div class="hero-btns">
-        <a href="#projects" class="btn btn-glow" id="heroProjectsBtn">
-          View Projects →
-        </a>
-
-        <a href="#contact" class="btn btn-outline" id="heroContactBtn">
-          Get in Touch
-        </a>
-
-        <a href="#" class="btn btn-resume" id="heroResumeBtn">
-          ↓ Resume
-        </a>
+        <a href="#projects" class="btn btn-glow" id="heroProjectsBtn">View Projects →</a>
+        <a href="#contact" class="btn btn-outline" id="heroContactBtn">Get in Touch</a>
+        <a href="#" class="btn btn-resume" id="heroResumeBtn">↓ Resume</a>
       </div>
-
       <div class="hero-tags">
         <span class="htag">Python</span>
         <span class="htag">Machine Learning</span>
         <span class="htag">Data Science</span>
         <span class="htag">Fraud Detection</span>
         <span class="htag">IELTS</span>
-        <span class="htag">C1 German</span>
+        <span class="htag">B1 German</span>
       </div>
-
     </div>
-
-    <div class="scroll-indicator">
-      <div class="scroll-dot"></div>
-    </div>
-
+    <div class="scroll-indicator"><div class="scroll-dot"></div></div>
   </section>
 
-
-  <!-- =========================================================
-       ABOUT
-  ========================================================== -->
-
   <section id="about" class="section">
-
     <div class="container">
-
       <div class="about-wrap">
-
         <div class="about-text">
-
-          <p class="sec-label reveal">
-            01 · About
-          </p>
-
-          <h2 class="sec-title reveal">
-            FY MSc AI &amp; Data Science student with a BCA background from
-            MIT World Peace University, Pune. Passionate about Data Science,
-            Machine Learning, and Artificial Intelligence.
-          </h2>
-
-          <p class="about-body reveal">
-            I have hands-on experience building and evaluating machine learning
-            models, working with <em>imbalanced datasets</em>, and using
-            performance metrics like precision, recall, F1-score, and ROC-AUC.
-          </p>
-
-          <p class="about-body reveal">
-            Skilled in <em>Data Science</em> — from data cleaning and feature
-            engineering to building classification pipelines and extracting
-            meaningful signals from raw data.
-          </p>
-
-          <div class="about-tags reveal">
-            <span class="atag">Python</span>
-            <span class="atag">Pandas</span>
-            <span class="atag">Scikit-learn</span>
-            <span class="atag">NumPy</span>
-            <span class="atag">Matplotlib</span>
-            <span class="atag">Jupyter</span>
+          <p class="sec-label reveal">01 · About</p>
+           <h2 class="sec-title reveal">FY MSc AI & Data Science student with a BCA background from MIT World Peace University, Pune. Passionate about Data Science, Machine Learning, and Artificial Intelligence.</h2>
+           <p class="about-body reveal">I have hands-on experience building and evaluating machine learning models, working with <em>imbalanced datasets</em>, and using performance metrics like precision, recall, F1-score, and ROC-AUC.</p>
+           <p class="about-body reveal">Skilled in <em>Data Science</em> — from data cleaning and feature engineering to building classification pipelines and extracting meaningful signals from raw data.</p>
+           <div class="about-tags reveal">
+            <span class="atag">Python</span><span class="atag">Pandas</span><span class="atag">Scikit-learn</span>
+            <span class="atag">NumPy</span><span class="atag">Matplotlib</span><span class="atag">Jupyter</span>
           </div>
-
         </div>
-
-
         <div class="stats-wrap">
-
-          <div
-            class="stat-card s-blue reveal"
-            data-tilt
-            data-tilt-max="10"
-            data-tilt-speed="400"
-            data-tilt-glare="true"
-            data-tilt-max-glare="0.2"
-          >
+          <div class="stat-card s-blue reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
             <span class="stat-emoji">🧪</span>
             <span class="stat-num count-up" data-target="2">0</span>
             <span class="stat-name">Projects</span>
           </div>
-
-
-          <div
-            class="stat-card s-purple reveal"
-            data-tilt
-            data-tilt-max="10"
-            data-tilt-speed="400"
-            data-tilt-glare="true"
-            data-tilt-max-glare="0.2"
-          >
+          <div class="stat-card s-purple reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
             <span class="stat-emoji">📊</span>
             <span class="stat-num count-up" data-target="5">0</span>
             <span class="stat-name">Models Tested</span>
           </div>
-
-
-          <div
-            class="stat-card s-green reveal"
-            data-tilt
-            data-tilt-max="10"
-            data-tilt-speed="400"
-            data-tilt-glare="true"
-            data-tilt-max-glare="0.2"
-          >
+          <div class="stat-card s-green reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
             <span class="stat-emoji">🏆</span>
             <span class="stat-num count-up" data-target="7">0</span>
             <span class="stat-name">IELTS Band</span>
           </div>
-
-
-          <div
-            class="stat-card s-orange reveal"
-            data-tilt
-            data-tilt-max="10"
-            data-tilt-speed="400"
-            data-tilt-glare="true"
-            data-tilt-max-glare="0.2"
-          >
+          <div class="stat-card s-orange reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
             <span class="stat-emoji">🌍</span>
             <span class="stat-num count-up" data-target="2">0</span>
             <span class="stat-name">Languages</span>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- =========================================================
-       PROJECTS
-  ========================================================== -->
-
   <section id="projects" class="section sec-alt">
-
     <div class="container">
-
-      <p class="sec-label reveal">
-        02 · Projects
-      </p>
-
-      <h2 class="sec-title reveal">
-        Featured Work
-      </h2>
-
-      <p class="sec-sub reveal">
-        Machine learning projects tackling real-world challenges with
-        measurable outcomes.
-      </p>
-
-
+      <p class="sec-label reveal">02 · Projects</p>
+      <h2 class="sec-title reveal">Featured Work</h2>
+      <p class="sec-sub reveal">Machine learning projects tackling real-world challenges with measurable outcomes.</p>
       <div class="proj-grid">
-
-
-        <!-- PROJECT 01 -->
-
-        <div
-          class="proj-card featured reveal"
-          data-tilt
-          data-tilt-max="8"
-          data-tilt-speed="400"
-          data-tilt-glare="true"
-          data-tilt-max-glare="0.15"
-        >
-
+        <div class="proj-card featured reveal" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.15">
           <div class="proj-glow"></div>
-
           <div class="proj-top">
-
-            <span class="proj-num">
-              01
-            </span>
-
+            <span class="proj-num">01</span>
             <div class="proj-badges">
               <span class="pbadge pb-blue">Python</span>
               <span class="pbadge pb-red">Imbalanced</span>
               <span class="pbadge pb-green">ML</span>
             </div>
-
           </div>
-
-          <span class="proj-featured-tag">
-            ★ Featured
-          </span>
-
-          <h3 class="proj-title">
-            Credit Card Fraud Detection
-          </h3>
-
-          <p class="proj-desc">
-            Developed a machine learning model to detect fraudulent
-            transactions in a highly imbalanced dataset. Applied preprocessing,
-            feature scaling, and class imbalance handling with Logistic
-            Regression and Random Forest.
-          </p>
-
+          <span class="proj-featured-tag">★ Featured</span>
+          <h3 class="proj-title">Credit Card Fraud Detection</h3>
+          <p class="proj-desc">Developed a machine learning model to detect fraudulent transactions in a highly imbalanced dataset. Applied preprocessing, feature scaling, and class imbalance handling with Logistic Regression and Random Forest.</p>
           <div class="proj-info">
-
-            <div class="info-row">
-              <span class="info-key">Dataset</span>
-              <span class="info-val">Real-world transaction data</span>
-            </div>
-
-            <div class="info-row">
-              <span class="info-key">Models</span>
-              <span class="info-val">
-                Logistic Regression, Random Forest
-              </span>
-            </div>
-
-            <div class="info-row">
-              <span class="info-key">Focus</span>
-              <span class="info-val">
-                Class imbalance, Precision &amp; Recall
-              </span>
-            </div>
-
+            <div class="info-row"><span class="info-key">Dataset</span><span class="info-val">Real-world transaction data</span></div>
+            <div class="info-row"><span class="info-key">Models</span><span class="info-val">Logistic Regression, Random Forest</span></div>
+            <div class="info-row"><span class="info-key">Focus</span><span class="info-val">Class imbalance, Precision & Recall</span></div>
           </div>
-
-
           <div class="metrics">
-
-            <div class="metric">
-              <span class="m-val">ROC</span>
-              <span class="m-name">AUC</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">F1</span>
-              <span class="m-name">Score</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">SMOTE</span>
-              <span class="m-name">Sampling</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">RF</span>
-              <span class="m-name">Best Model</span>
-            </div>
-
+            <div class="metric"><span class="m-val">ROC</span><span class="m-name">AUC</span></div>
+            <div class="metric"><span class="m-val">F1</span><span class="m-name">Score</span></div>
+            <div class="metric"><span class="m-val">SMOTE</span><span class="m-name">Sampling</span></div>
+            <div class="metric"><span class="m-val">RF</span><span class="m-name">Best Model</span></div>
           </div>
-
-
-          <a
-            href="https://github.com/omshete12/credit-card-fraud-detection-ml"
-            target="_blank"
-            rel="noopener"
-            class="proj-btn"
-          >
-            View Code on GitHub ↗
-          </a>
-
+          <a href="https://github.com/omshete12/credit-card-fraud-detection-ml" target="_blank" rel="noopener" class="proj-btn">View Code on GitHub ↗</a>
         </div>
-
-
-        <!-- PROJECT 02 -->
-
-        <div
-          class="proj-card reveal"
-          data-tilt
-          data-tilt-max="8"
-          data-tilt-speed="400"
-          data-tilt-glare="true"
-          data-tilt-max-glare="0.15"
-        >
-
+        <div class="proj-card reveal" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.15">
           <div class="proj-glow"></div>
-
           <div class="proj-top">
-
-            <span class="proj-num">
-              02
-            </span>
-
+            <span class="proj-num">02</span>
             <div class="proj-badges">
               <span class="pbadge pb-purple">Classification</span>
               <span class="pbadge pb-green">EDA</span>
             </div>
-
           </div>
-
-          <h3 class="proj-title">
-            Student Performance Prediction
-          </h3>
-
-          <p class="proj-desc">
-            Built a classification model to predict student academic
-            performance. Performed data cleaning, feature selection, and
-            exploratory data analysis. Applied ML algorithms to improve
-            prediction accuracy.
-          </p>
-
+          <h3 class="proj-title">Student Performance Prediction</h3>
+          <p class="proj-desc">Built a classification model to predict student academic performance. Performed data cleaning, feature selection, and exploratory data analysis. Applied ML algorithms to improve prediction accuracy.</p>
           <div class="proj-info">
-
-            <div class="info-row">
-              <span class="info-key">Type</span>
-              <span class="info-val">
-                Multi-class classification
-              </span>
-            </div>
-
-            <div class="info-row">
-              <span class="info-key">Methods</span>
-              <span class="info-val">
-                Feature selection, EDA, Preprocessing
-              </span>
-            </div>
-
-            <div class="info-row">
-              <span class="info-key">Output</span>
-              <span class="info-val">
-                Academic performance prediction
-              </span>
-            </div>
-
+            <div class="info-row"><span class="info-key">Type</span><span class="info-val">Multi-class classification</span></div>
+            <div class="info-row"><span class="info-key">Methods</span><span class="info-val">Feature selection, EDA, Preprocessing</span></div>
+            <div class="info-row"><span class="info-key">Output</span><span class="info-val">Academic performance prediction</span></div>
           </div>
-
-
           <div class="metrics">
-
-            <div class="metric">
-              <span class="m-val">EDA</span>
-              <span class="m-name">Analysis</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">FE</span>
-              <span class="m-name">Feature Eng.</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">CV</span>
-              <span class="m-name">Cross-Val</span>
-            </div>
-
-            <div class="metric">
-              <span class="m-val">Acc</span>
-              <span class="m-name">Metric</span>
-            </div>
-
+            <div class="metric"><span class="m-val">EDA</span><span class="m-name">Analysis</span></div>
+            <div class="metric"><span class="m-val">FE</span><span class="m-name">Feature Eng.</span></div>
+            <div class="metric"><span class="m-val">CV</span><span class="m-name">Cross-Val</span></div>
+            <div class="metric"><span class="m-val">Acc</span><span class="m-name">Metric</span></div>
           </div>
-
-
-          <a
-            href="https://github.com/omshete12"
-            target="_blank"
-            rel="noopener"
-            class="proj-btn"
-          >
-            View on GitHub ↗
-          </a>
-
+          <a href="https://github.com/omshete12" target="_blank" rel="noopener" class="proj-btn">View on GitHub ↗</a>
         </div>
-
       </div>
-
     </div>
-
   </section>
-
-
-  <!-- =========================================================
-       SKILLS
-  ========================================================== -->
 
   <section id="skills" class="section">
-
     <div class="container">
-
-      <p class="sec-label reveal">
-        03 · Skills
-      </p>
-
-      <h2 class="sec-title reveal">
-        Technical Toolkit
-      </h2>
-
-      <p class="sec-sub reveal">
-        Technologies and tools I use to build and evaluate machine learning
-        solutions.
-      </p>
-
-
+      <p class="sec-label reveal">03 · Skills</p>
+      <h2 class="sec-title reveal">Technical Toolkit</h2>
+      <p class="sec-sub reveal">Technologies and tools I use to build and evaluate machine learning solutions.</p>
       <div class="skills-grid">
-
-
-        <div
-          class="skill-group reveal"
-          data-tilt
-          data-tilt-max="6"
-          data-tilt-speed="400"
-        >
-
-          <div class="sg-header sg-blue">
-            <span>⚙️</span>
-            Core Languages
-          </div>
-
+        <div class="skill-group reveal" data-tilt data-tilt-max="6" data-tilt-speed="400">
+          <div class="sg-header sg-blue"><span>⚙️</span> Core Languages</div>
           <div class="sg-pills">
-            <span class="spill sp-blue">Python</span>
-            <span class="spill sp-blue">SQL</span>
-            <span class="spill sp-blue">Bash</span>
-            <span class="spill sp-blue">Markdown</span>
+            <span class="spill sp-blue">Python</span><span class="spill sp-blue">SQL</span>
+            <span class="spill sp-blue">Bash</span><span class="spill sp-blue">Markdown</span>
           </div>
-
         </div>
-
-
-        <div
-          class="skill-group reveal"
-          data-tilt
-          data-tilt-max="6"
-          data-tilt-speed="400"
-        >
-
-          <div class="sg-header sg-purple">
-            <span>🤖</span>
-            ML &amp; Data Science
-          </div>
-
+        <div class="skill-group reveal" data-tilt data-tilt-max="6" data-tilt-speed="400">
+          <div class="sg-header sg-purple"><span>🤖</span> ML & Data Science</div>
           <div class="sg-pills">
-            <span class="spill sp-purple">Scikit-learn</span>
-            <span class="spill sp-purple">Pandas</span>
-            <span class="spill sp-purple">NumPy</span>
-            <span class="spill sp-purple">Matplotlib</span>
-            <span class="spill sp-purple">Seaborn</span>
-            <span class="spill sp-purple">SMOTE</span>
+            <span class="spill sp-purple">Scikit-learn</span><span class="spill sp-purple">Pandas</span>
+            <span class="spill sp-purple">NumPy</span><span class="spill sp-purple">Matplotlib</span>
+            <span class="spill sp-purple">Seaborn</span><span class="spill sp-purple">SMOTE</span>
           </div>
-
         </div>
-
-
-        <div
-          class="skill-group reveal"
-          data-tilt
-          data-tilt-max="6"
-          data-tilt-speed="400"
-        >
-
-          <div class="sg-header sg-green">
-            <span>🛠️</span>
-            Tools &amp; Workflow
-          </div>
-
+        <div class="skill-group reveal" data-tilt data-tilt-max="6" data-tilt-speed="400">
+          <div class="sg-header sg-green"><span>🛠️</span> Tools & Workflow</div>
           <div class="sg-pills">
-            <span class="spill sp-green">Jupyter Notebook</span>
-            <span class="spill sp-green">Git &amp; GitHub</span>
-            <span class="spill sp-green">VS Code</span>
-            <span class="spill sp-green">Google Colab</span>
+            <span class="spill sp-green">Jupyter Notebook</span><span class="spill sp-green">Git & GitHub</span>
+            <span class="spill sp-green">VS Code</span><span class="spill sp-green">Google Colab</span>
           </div>
-
         </div>
-
-
-        <div
-          class="skill-group reveal"
-          data-tilt
-          data-tilt-max="6"
-          data-tilt-speed="400"
-        >
-
-          <div class="sg-header sg-orange">
-            <span>📈</span>
-            ML Concepts
-          </div>
-
+        <div class="skill-group reveal" data-tilt data-tilt-max="6" data-tilt-speed="400">
+          <div class="sg-header sg-orange"><span>📈</span> ML Concepts</div>
           <div class="sg-pills">
-            <span class="spill sp-orange">Precision &amp; Recall</span>
-            <span class="spill sp-orange">ROC-AUC</span>
-            <span class="spill sp-orange">Cross-Validation</span>
-            <span class="spill sp-orange">Feature Engineering</span>
+            <span class="spill sp-orange">Precision & Recall</span><span class="spill sp-orange">ROC-AUC</span>
+            <span class="spill sp-orange">Cross-Validation</span><span class="spill sp-orange">Feature Engineering</span>
             <span class="spill sp-orange">EDA</span>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </section>
-
-
-  <!-- =========================================================
-       LANGUAGES
-  ========================================================== -->
 
   <section id="languages" class="section sec-alt">
-
     <div class="container">
-
-      <p class="sec-label reveal">
-        04 · Languages
-      </p>
-
-      <h2 class="sec-title reveal">
-        Language Proficiency
-      </h2>
-
-      <p class="sec-sub reveal">
-        Certified multilingual — advanced level in English and German.
-      </p>
-
-
+      <p class="sec-label reveal">04 · Languages</p>
+      <h2 class="sec-title reveal">Language Proficiency</h2>
+      <p class="sec-sub reveal">Certified multilingual — advanced level in English and German.</p>
       <div class="lang-grid">
-
-
-        <!-- ENGLISH -->
-
-        <div
-          class="lang-card reveal"
-          data-tilt
-          data-tilt-max="8"
-          data-tilt-speed="400"
-          data-tilt-glare="true"
-          data-tilt-max-glare="0.1"
-        >
-
+        <div class="lang-card reveal" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
           <div class="lang-header">
-
-            <span class="lang-flag">
-              EG
-            </span>
-
-            <div>
-              <p class="lang-name">
-                English
-              </p>
-
-              <p class="lang-cert">
-                IELTS Academic · International
-              </p>
-            </div>
-
-            <div class="lang-level lv-blue">
-              C1+
-            </div>
-
+            <span class="lang-flag">EG</span>
+            <div><p class="lang-name">English</p><p class="lang-cert">IELTS Academic · International</p></div>
+            <div class="lang-level lv-blue">C1+</div>
           </div>
-
-
           <div class="lang-body">
-
-            <p class="lang-desc">
-              Proficient in academic and professional English. Tested via
-              IELTS Academic — the globally recognized English certification
-              for universities and employers worldwide.
-            </p>
-
-
+            <p class="lang-desc">Proficient in academic and professional English. Tested via IELTS Academic — the globally recognized English certification for universities and employers worldwide.</p>
             <div class="cefr-bar">
-
               <div class="cefr-steps">
-                <span class="cstep">A1</span>
-                <span class="cstep">A2</span>
-                <span class="cstep">B1</span>
-                <span class="cstep">B2</span>
-                <span class="cstep active-step">C1</span>
-                <span class="cstep">C2</span>
+                <span class="cstep">A1</span><span class="cstep">A2</span><span class="cstep">B1</span>
+                <span class="cstep">B2</span><span class="cstep active-step">C1</span><span class="cstep">C2</span>
               </div>
-
-              <div class="cefr-track">
-                <div
-                  class="cefr-fill fill-blue"
-                  style="width:83%"
-                ></div>
-              </div>
-
+              <div class="cefr-track"><div class="cefr-fill fill-blue" style="width:83%"></div></div>
             </div>
-
-
             <div class="lang-skills">
-              <span class="lskill">Academic Writing</span>
-              <span class="lskill">Listening</span>
-              <span class="lskill">Reading</span>
-              <span class="lskill">Speaking</span>
+              <span class="lskill">Academic Writing</span><span class="lskill">Listening</span>
+              <span class="lskill">Reading</span><span class="lskill">Speaking</span>
             </div>
-
           </div>
-
         </div>
-
-
-        <!-- GERMAN -->
-
-        <div
-          class="lang-card reveal"
-          data-tilt
-          data-tilt-max="8"
-          data-tilt-speed="400"
-          data-tilt-glare="true"
-          data-tilt-max-glare="0.1"
-        >
-
+        <div class="lang-card reveal" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
           <div class="lang-header">
-
-            <span class="lang-flag">
-              🇩🇪
-            </span>
-
-            <div>
-
-              <p class="lang-name">
-                Deutsch
-              </p>
-
-              <p class="lang-cert">
-                Deutschkenntnisse · B1
-              </p>
-
-            </div>
-
-            <div class="lang-level lv-gold">
-              B1
-            </div>
-
+            <span class="lang-flag">🇩🇪</span>
+            <div><p class="lang-name">Deutsch</p><p class="lang-cert">Deutschkenntnisse · B1</p></div>
+            <div class="lang-level lv-gold">B1</div>
           </div>
-
-
           <div class="lang-body">
-
-            <p class="lang-desc">
-              Fortgeschrittene Deutschkenntnisse auf B1-Niveau — fähig zur
-              akademischen und beruflichen Kommunikation auf hohem Niveau.
-            </p>
-
-
+            <p class="lang-desc">Fortgeschrittene Deutschkenntnisse auf B1-Niveau — fähig zur akademischen und beruflichen Kommunikation auf hohem Niveau.</p>
             <div class="cefr-bar">
-
               <div class="cefr-steps">
-                <span class="cstep">A1</span>
-                <span class="cstep">A2</span>
-                <span class="cstep">B1</span>
-                <span class="cstep">B2</span>
-                <span class="cstep active-step-gold">C1</span>
-                <span class="cstep">C2</span>
+                <span class="cstep">A1</span><span class="cstep">A2</span><span class="cstep">B1</span>
+                <span class="cstep">B2</span><span class="cstep">C1</span><span class="cstep">C2</span>
               </div>
-
-              <div class="cefr-track">
-                <div
-                  class="cefr-fill fill-gold"
-                  style="width:83%"
-                ></div>
-              </div>
-
+              <div class="cefr-track"><div class="cefr-fill fill-gold" style="width:50%"></div></div>
             </div>
-
-
             <div class="lang-skills">
-              <span class="lskill">Lesen</span>
-              <span class="lskill">Schreiben</span>
-              <span class="lskill">Hören</span>
-              <span class="lskill">Sprechen</span>
+              <span class="lskill">Lesen</span><span class="lskill">Schreiben</span>
+              <span class="lskill">Hören</span><span class="lskill">Sprechen</span>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </section>
-
-
-  <!-- =========================================================
-       CONTACT
-  ========================================================== -->
 
   <section id="contact" class="section">
-
     <div class="container">
-
-      <p class="sec-label reveal">
-        05 · Contact
-      </p>
-
-
+      <p class="sec-label reveal">05 · Contact</p>
       <div class="contact-wrap">
-
-
         <div class="contact-cta reveal">
-
-          <p class="contact-cta-title">
-            Let's build something meaningful together.
-          </p>
-
-          <p class="contact-cta-text">
-            I'm currently open to internships, ML research collaborations,
-            and interesting conversations about data science, fraud detection,
-            or machine learning systems.
-          </p>
-
-          <span class="contact-availability">
-            <span class="badge-pulse"></span>
-            Available for internships · Pune / Remote
-          </span>
-
+          <p class="contact-cta-title">Let's build something meaningful together.</p>
+          <p class="contact-cta-text">I'm currently open to internships, ML research collaborations, and interesting conversations about data science, fraud detection, or machine learning systems.</p>
+          <span class="contact-availability"><span class="badge-pulse"></span> Available for internships · Pune / Remote</span>
         </div>
-
-
         <div class="contact-cards">
-
-
-          <a
-            href="mailto:omshete930@gmail.com"
-            class="ccard reveal"
-            data-tilt
-            data-tilt-max="4"
-            data-tilt-speed="400"
-          >
-
-            <div class="ccard-icon ci-blue">
-              ✉
-            </div>
-
-            <div class="ccard-body">
-              <span class="ccard-label">
-                Email
-              </span>
-
-              <span class="ccard-val">
-                omshete930@gmail.com
-              </span>
-            </div>
-
-            <span class="ccard-arrow">
-              ↗
-            </span>
-
+          <a href="mailto:omshete930@gmail.com" class="ccard reveal" data-tilt data-tilt-max="4" data-tilt-speed="400">
+            <div class="ccard-icon ci-blue">✉</div>
+            <div class="ccard-body"><span class="ccard-label">Email</span><span class="ccard-val">omshete930@gmail.com</span></div>
+            <span class="ccard-arrow">↗</span>
           </a>
-
-
-          <a
-            href="https://github.com/omshete12"
-            target="_blank"
-            rel="noopener"
-            class="ccard reveal"
-            data-tilt
-            data-tilt-max="4"
-            data-tilt-speed="400"
-          >
-
-            <div class="ccard-icon ci-purple">
-              ⌥
-            </div>
-
-            <div class="ccard-body">
-              <span class="ccard-label">
-                GitHub
-              </span>
-
-              <span class="ccard-val">
-                github.com/omshete12
-              </span>
-            </div>
-
-            <span class="ccard-arrow">
-              ↗
-            </span>
-
+          <a href="https://github.com/omshete12" target="_blank" rel="noopener" class="ccard reveal" data-tilt data-tilt-max="4" data-tilt-speed="400">
+            <div class="ccard-icon ci-purple">⌥</div>
+            <div class="ccard-body"><span class="ccard-label">GitHub</span><span class="ccard-val">github.com/omshete12</span></div>
+            <span class="ccard-arrow">↗</span>
           </a>
-
-
-          <a
-            href="https://www.linkedin.com/in/omshete12"
-            target="_blank"
-            rel="noopener"
-            class="ccard reveal"
-            data-tilt
-            data-tilt-max="4"
-            data-tilt-speed="400"
-          >
-
-            <div class="ccard-icon ci-green">
-              in
-            </div>
-
-            <div class="ccard-body">
-              <span class="ccard-label">
-                LinkedIn
-              </span>
-
-              <span class="ccard-val">
-                linkedin.com/in/omshete12
-              </span>
-            </div>
-
-            <span class="ccard-arrow">
-              ↗
-            </span>
-
+          <a href="https://www.linkedin.com/in/omshete12" target="_blank" rel="noopener" class="ccard reveal" data-tilt data-tilt-max="4" data-tilt-speed="400">
+            <div class="ccard-icon ci-green">in</div>
+            <div class="ccard-body"><span class="ccard-label">LinkedIn</span><span class="ccard-val">linkedin.com/in/omshete12</span></div>
+            <span class="ccard-arrow">↗</span>
           </a>
-
         </div>
-
       </div>
-
     </div>
-
   </section>
 
 
-  <!-- =========================================================
-       FOOTER
-  ========================================================== -->
-
+<div class="ai-assistant" id="aiAssistant" aria-label="Portfolio AI Assistant">
+<button class="ai-chat-trigger" id="aiChatTrigger" type="button" aria-label="Open Ask Assistant" aria-expanded="false"><span class="ai-trigger-icon"><span class="robot-antenna"></span><span class="robot-face"><i class="robot-eye"></i><i class="robot-eye"></i></span></span><span class="ai-trigger-content"><small>PORTFOLIO AI</small><strong>Ask Assistant</strong></span><span class="ai-trigger-arrow">↗</span></button>
+<div class="ai-chat-window" id="aiChatWindow" aria-hidden="true">
+<div class="ai-chat-header"><div class="ai-chat-title"><span class="ai-avatar"><span class="robot-antenna"></span><span class="robot-face"><i class="robot-eye"></i><i class="robot-eye"></i></span></span><div><strong>Ask Assistant</strong><span>Om's portfolio assistant</span></div></div><button class="ai-chat-close" id="aiChatClose" type="button" aria-label="Close Ask Assistant">×</button></div>
+<div class="ai-chat-messages" id="aiChatMessages"><div class="ai-message"><span class="ai-message-avatar">✦</span><div class="ai-message-content"><p>Hey! I'm Om's portfolio assistant.</p><p>Ask me about his projects, skills, education, or what he's currently learning.</p></div></div></div>
+<div class="ai-suggestions"><button class="ai-suggestion" data-question="What is Om studying?">🎓 <span>What is Om studying?</span><b>→</b></button><button class="ai-suggestion" data-question="Show me his projects">◈ <span>Show me his projects</span><b>→</b></button><button class="ai-suggestion" data-question="What are his ML skills?">◉ <span>What are his ML skills?</span><b>→</b></button></div>
+<form class="ai-chat-input" id="aiChatForm"><input id="aiChatInput" type="text" placeholder="Ask me something..." autocomplete="off"><button class="ai-chat-send" type="submit">↑</button></form>
+</div></div>
   <footer class="footer">
-
     <div class="container">
-
       <div class="footer-inner">
-
         <div class="footer-left">
-
-          <span class="footer-logo">
-            Om Shete
-          </span>
-
-          <span class="footer-role">
-            ML &amp; Data Science · Pune
-          </span>
-
+          <span class="footer-logo">Om Shete</span>
+          <span class="footer-role">ML &amp; Data Science · Pune</span>
         </div>
-
-        <span class="footer-copy">
-          © 2026 Om Shete
-        </span>
-
+        <span class="footer-copy">© 2026 Om Shete</span>
       </div>
-
     </div>
-
   </footer>
 
-
-  <!-- =========================================================
-       EXTERNAL LIBRARIES
-  ========================================================== -->
-
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
-
   <script src="script.js"></script>
-
 </body>
 </html>
