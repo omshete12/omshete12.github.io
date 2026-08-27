@@ -2,11 +2,512 @@
   "use strict";
 
   /* =========================================================
+     ASK ASSISTANT CHATBOT
+     Initialized first so it is independent of other effects.
+  ========================================================= */
+
+  function initChatbot() {
+    const chatTrigger = document.getElementById("aiChatTrigger");
+    const chatWindow = document.getElementById("aiChatWindow");
+    const chatClose = document.getElementById("aiChatClose");
+    const chatForm = document.getElementById("aiChatForm");
+    const chatInput = document.getElementById("aiChatInput");
+    const chatMessages = document.getElementById("aiChatMessages");
+    const suggestions = document.querySelectorAll(".ai-suggestion");
+
+    if (!chatTrigger || !chatWindow || !chatMessages) {
+      console.warn("Ask Assistant: chatbot elements not found.");
+      return;
+    }
+
+    /* ---------------------------------------------------------
+       OPEN
+    --------------------------------------------------------- */
+
+    function openChat() {
+      chatWindow.classList.add("open");
+      chatWindow.setAttribute("aria-hidden", "false");
+
+      chatTrigger.classList.add("active");
+      chatTrigger.setAttribute("aria-expanded", "true");
+
+      if (chatInput) {
+        setTimeout(function () {
+          chatInput.focus();
+        }, 200);
+      }
+    }
+
+    /* ---------------------------------------------------------
+       CLOSE
+    --------------------------------------------------------- */
+
+    function closeChat() {
+      chatWindow.classList.remove("open");
+      chatWindow.setAttribute("aria-hidden", "true");
+
+      chatTrigger.classList.remove("active");
+      chatTrigger.setAttribute("aria-expanded", "false");
+    }
+
+    /* ---------------------------------------------------------
+       TOGGLE
+    --------------------------------------------------------- */
+
+    chatTrigger.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      if (chatWindow.classList.contains("open")) {
+        closeChat();
+      } else {
+        openChat();
+      }
+    });
+
+    /* ---------------------------------------------------------
+       CLOSE BUTTON
+    --------------------------------------------------------- */
+
+    if (chatClose) {
+      chatClose.addEventListener("click", function (event) {
+        event.preventDefault();
+        closeChat();
+      });
+    }
+
+    /* =========================================================
+       PORTFOLIO KNOWLEDGE
+    ========================================================= */
+
+    const portfolio = {
+      name: "Om Shete",
+
+      currentStudy:
+        "Om is currently a First Year MSc Artificial Intelligence & Data Science student.",
+
+      education:
+        "Om completed his BCA from MIT World Peace University, Pune. He is currently pursuing an MSc in Artificial Intelligence & Data Science.",
+
+      bca:
+        "Om completed his Bachelor of Computer Applications from MIT World Peace University, Pune.",
+
+      interests:
+        "Om is currently exploring Data Science, Machine Learning and Artificial Intelligence, with a focus on building practical skills through projects and experimentation.",
+
+      skills:
+        "Om's current technical focus includes Python, SQL, NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, data preprocessing, exploratory data analysis, feature engineering, classification, model evaluation and machine learning.",
+
+      ml:
+        "Machine Learning is one of Om's main areas of interest. He has worked with classification problems, imbalanced datasets, preprocessing, feature scaling and evaluation metrics such as precision, recall, F1-score and ROC-AUC.",
+
+      dataScience:
+        "Om is interested in the complete Data Science workflow — from data cleaning and exploratory data analysis to feature engineering, modelling and evaluation.",
+
+      projects:
+        "Om's current portfolio features projects including Credit Card Fraud Detection and Student Performance Prediction. More projects and experiments are being developed.",
+
+      fraud:
+        "Om built a Credit Card Fraud Detection project using machine learning on an imbalanced transaction dataset. The project explores preprocessing, class imbalance handling, Logistic Regression, Random Forest, precision, recall, F1-score and ROC-AUC.",
+
+      studentProject:
+        "Om built a Student Performance Prediction classification project involving data cleaning, feature selection, exploratory data analysis and machine learning.",
+
+      github:
+        "You can explore Om's code and projects through the GitHub links available throughout this portfolio.",
+
+      contact:
+        "You can connect with Om through the GitHub and LinkedIn links available in the Contact section of this portfolio.",
+
+      future:
+        "Om is currently building stronger foundations in AI, Data Science, Machine Learning and statistics while developing more practical projects."
+    };
+
+    /* =========================================================
+       NORMALIZE
+    ========================================================= */
+
+    function normalize(text) {
+      return String(text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[?!.,]/g, "");
+    }
+
+    /* =========================================================
+       RESPONSE ENGINE
+    ========================================================= */
+
+    function getResponse(question) {
+      const text = normalize(question);
+
+      /* Greeting */
+
+      if (
+        text === "hi" ||
+        text === "hello" ||
+        text === "hey" ||
+        text.includes("hey om")
+      ) {
+        return (
+          "Hey! I'm Om's portfolio assistant. " +
+          "Ask me about his education, skills, projects, " +
+          "Machine Learning, Data Science, or what he's currently studying."
+        );
+      }
+
+      /* Current study */
+
+      if (
+        text.includes("what is om studying") ||
+        text.includes("what is he studying") ||
+        text.includes("what are you studying") ||
+        text.includes("currently studying") ||
+        text.includes("current study") ||
+        text.includes("msc") ||
+        text.includes("master")
+      ) {
+        return portfolio.currentStudy;
+      }
+
+      /* Education */
+
+      if (
+        text.includes("education") ||
+        text.includes("degree") ||
+        text.includes("college") ||
+        text.includes("university")
+      ) {
+        return portfolio.education;
+      }
+
+      /* BCA */
+
+      if (
+        text.includes("bca") ||
+        text.includes("mit wpu") ||
+        text.includes("mit-wpu")
+      ) {
+        return portfolio.bca;
+      }
+
+      /* Skills */
+
+      if (
+        text.includes("skills") ||
+        text.includes("skill") ||
+        text.includes("technologies") ||
+        text.includes("technology") ||
+        text.includes("tech stack")
+      ) {
+        return portfolio.skills;
+      }
+
+      /* Machine Learning */
+
+      if (
+        text.includes("machine learning") ||
+        text === "ml" ||
+        text.includes("classification") ||
+        text.includes("model")
+      ) {
+        return portfolio.ml;
+      }
+
+      /* Data Science */
+
+      if (
+        text.includes("data science") ||
+        text.includes("data analysis") ||
+        text.includes("pandas") ||
+        text.includes("numpy")
+      ) {
+        return portfolio.dataScience;
+      }
+
+      /* Fraud */
+
+      if (
+        text.includes("fraud") ||
+        text.includes("credit card")
+      ) {
+        return portfolio.fraud;
+      }
+
+      /* Student project */
+
+      if (
+        text.includes("student performance") ||
+        text.includes("student prediction")
+      ) {
+        return portfolio.studentProject;
+      }
+
+      /* Projects */
+
+      if (
+        text.includes("project") ||
+        text.includes("projects") ||
+        text.includes("work") ||
+        text.includes("built")
+      ) {
+        return portfolio.projects;
+      }
+
+      /* GitHub */
+
+      if (
+        text.includes("github") ||
+        text.includes("code") ||
+        text.includes("repository")
+      ) {
+        return portfolio.github;
+      }
+
+      /* Contact */
+
+      if (
+        text.includes("contact") ||
+        text.includes("email") ||
+        text.includes("linkedin") ||
+        text.includes("reach")
+      ) {
+        return portfolio.contact;
+      }
+
+      /* Interests */
+
+      if (
+        text.includes("interest") ||
+        text.includes("passion")
+      ) {
+        return portfolio.interests;
+      }
+
+      /* Future / current focus */
+
+      if (
+        text.includes("future") ||
+        text.includes("goal") ||
+        text.includes("focus") ||
+        text.includes("currently") ||
+        text.includes("now")
+      ) {
+        return portfolio.future;
+      }
+
+      /* Default */
+
+      return (
+        "I don't have an answer for that yet. " +
+        "Try asking me about Om's education, skills, " +
+        "projects, Machine Learning, Data Science, " +
+        "or what he's currently studying."
+      );
+    }
+
+    /* =========================================================
+       ADD MESSAGE
+    ========================================================= */
+
+    function addMessage(text, type) {
+      const wrapper = document.createElement("div");
+
+      if (type === "user") {
+        wrapper.className = "ai-message ai-message-user";
+
+        wrapper.innerHTML = `
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
+      } else {
+        wrapper.className = "ai-message";
+
+        wrapper.innerHTML = `
+          <span class="ai-message-avatar">✦</span>
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
+      }
+
+      const paragraph = wrapper.querySelector("p");
+
+      if (paragraph) {
+        paragraph.textContent = text;
+      }
+
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      return wrapper;
+    }
+
+    /* =========================================================
+       TYPING INDICATOR
+    ========================================================= */
+
+    function showTyping() {
+      const wrapper = document.createElement("div");
+
+      wrapper.className = "ai-message ai-typing";
+
+      wrapper.innerHTML = `
+        <span class="ai-message-avatar">✦</span>
+        <div class="ai-message-content">
+          <div class="ai-typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      `;
+
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      return wrapper;
+    }
+
+    /* =========================================================
+       SEND MESSAGE
+    ========================================================= */
+
+    function sendMessage(question) {
+      const text = String(question || "").trim();
+
+      if (!text) {
+        return;
+      }
+
+      addMessage(text, "user");
+
+      if (chatInput) {
+        chatInput.value = "";
+      }
+
+      const typing = showTyping();
+
+      setTimeout(function () {
+        if (typing) {
+          typing.remove();
+        }
+
+        addMessage(
+          getResponse(text),
+          "assistant"
+        );
+      }, 450);
+    }
+
+    /* =========================================================
+       QUICK QUESTIONS
+    ========================================================= */
+
+    suggestions.forEach(function (button) {
+      button.type = "button";
+      button.setAttribute("tabindex", "0");
+
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const question =
+          button.dataset.question ||
+          button.textContent.trim();
+
+        openChat();
+        sendMessage(question);
+      });
+
+      button.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const question =
+            button.dataset.question ||
+            button.textContent.trim();
+
+          openChat();
+          sendMessage(question);
+        }
+      });
+    });
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    if (chatForm) {
+      chatForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!chatInput) {
+          return;
+        }
+
+        sendMessage(chatInput.value);
+      });
+    }
+
+    /* =========================================================
+       ESCAPE
+    ========================================================= */
+
+    document.addEventListener("keydown", function (event) {
+      if (
+        event.key === "Escape" &&
+        chatWindow.classList.contains("open")
+      ) {
+        closeChat();
+      }
+    });
+
+    /* =========================================================
+       INITIAL STATE
+    ========================================================= */
+
+    chatWindow.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    chatTrigger.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    console.log("Ask Assistant initialized successfully.");
+  }
+
+
+  /* =========================================================
+     START CHATBOT FIRST
+  ========================================================= */
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initChatbot
+    );
+  } else {
+    initChatbot();
+  }
+
+
+  /* =========================================================
      CUSTOM CURSOR
   ========================================================= */
 
-  const cursor = document.getElementById("cursor");
-  const follower = document.getElementById("cursor-follower");
+  const cursor =
+    document.getElementById("cursor");
+
+  const follower =
+    document.getElementById("cursor-follower");
 
   let fx = 0;
   let fy = 0;
@@ -14,22 +515,41 @@
   let my = 0;
 
   if (cursor && follower) {
-    document.addEventListener("mousemove", e => {
-      mx = e.clientX;
-      my = e.clientY;
 
-      cursor.style.left = mx + "px";
-      cursor.style.top = my + "px";
-    });
+    document.addEventListener(
+      "mousemove",
+      function (event) {
 
-    (function animFollower() {
-      fx += (mx - fx) * 0.12;
-      fy += (my - fy) * 0.12;
+        mx = event.clientX;
+        my = event.clientY;
 
-      follower.style.left = fx + "px";
-      follower.style.top = fy + "px";
+        cursor.style.left =
+          mx + "px";
 
-      requestAnimationFrame(animFollower);
+        cursor.style.top =
+          my + "px";
+      },
+      { passive: true }
+    );
+
+    (function animateFollower() {
+
+      fx +=
+        (mx - fx) * 0.12;
+
+      fy +=
+        (my - fy) * 0.12;
+
+      follower.style.left =
+        fx + "px";
+
+      follower.style.top =
+        fy + "px";
+
+      requestAnimationFrame(
+        animateFollower
+      );
+
     })();
   }
 
@@ -38,83 +558,116 @@
      NAVIGATION
   ========================================================= */
 
-  const nav = document.getElementById("nav");
+  const nav =
+    document.getElementById("nav");
 
   if (nav) {
+
     window.addEventListener(
       "scroll",
-      () => {
+      function () {
+
         nav.classList.toggle(
           "scrolled",
           window.scrollY > 40
         );
+
       },
       { passive: true }
     );
+
   }
 
 
   const toggle =
-    document.getElementById("navToggle");
+    document.getElementById(
+      "navToggle"
+    );
 
   const mobileMenu =
-    document.getElementById("mobileMenu");
+    document.getElementById(
+      "mobileMenu"
+    );
 
 
-  function closeMenu() {
+  function closeMobileMenu() {
 
     if (toggle) {
-      toggle.classList.remove("open");
+
+      toggle.classList.remove(
+        "open"
+      );
+
       toggle.setAttribute(
         "aria-expanded",
         "false"
       );
+
     }
 
     if (mobileMenu) {
-      mobileMenu.classList.remove("open");
+
+      mobileMenu.classList.remove(
+        "open"
+      );
+
     }
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+      "";
+
   }
 
 
-  if (toggle && mobileMenu) {
+  if (
+    toggle &&
+    mobileMenu
+  ) {
 
     toggle.addEventListener(
       "click",
-      () => {
+      function () {
 
-        const open =
-          mobileMenu.classList.toggle("open");
+        const isOpen =
+          mobileMenu.classList.toggle(
+            "open"
+          );
 
         toggle.classList.toggle(
           "open",
-          open
+          isOpen
         );
 
         toggle.setAttribute(
           "aria-expanded",
-          String(open)
+          String(isOpen)
         );
 
         document.body.style.overflow =
-          open ? "hidden" : "";
+          isOpen
+            ? "hidden"
+            : "";
+
       }
     );
+
   }
 
 
   document
-    .querySelectorAll(".mobile-link")
-    .forEach(link => {
+    .querySelectorAll(
+      ".mobile-link"
+    )
+    .forEach(
+      function (link) {
 
-      link.addEventListener(
-        "click",
-        closeMenu
-      );
+        link.addEventListener(
+          "click",
+          closeMobileMenu
+        );
 
-    });
+      }
+    );
 
 
   /* =========================================================
@@ -122,45 +675,51 @@
   ========================================================= */
 
   document
-    .querySelectorAll('a[href^="#"]')
-    .forEach(anchor => {
+    .querySelectorAll(
+      'a[href^="#"]'
+    )
+    .forEach(
+      function (anchor) {
 
-      anchor.addEventListener(
-        "click",
-        function (e) {
+        anchor.addEventListener(
+          "click",
+          function (event) {
 
-          const targetSelector =
-            this.getAttribute("href");
+            const selector =
+              this.getAttribute(
+                "href"
+              );
 
-          if (
-            !targetSelector ||
-            targetSelector === "#"
-          ) {
-            return;
+            if (
+              !selector ||
+              selector === "#"
+            ) {
+              return;
+            }
+
+            const target =
+              document.querySelector(
+                selector
+              );
+
+            if (target) {
+
+              event.preventDefault();
+
+              closeMobileMenu();
+
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+              });
+
+            }
+
           }
+        );
 
-          const target =
-            document.querySelector(
-              targetSelector
-            );
-
-          if (target) {
-
-            e.preventDefault();
-
-            closeMenu();
-
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-          }
-
-        }
-      );
-
-    });
+      }
+    );
 
 
   /* =========================================================
@@ -168,8 +727,9 @@
   ========================================================= */
 
   const tw =
-    document.getElementById("typewriter");
-
+    document.getElementById(
+      "typewriter"
+    );
 
   const lines = [
     "Machine Learning Enthusiast",
@@ -178,46 +738,43 @@
     "BCA 26 @ MIT-WPU Pune"
   ];
 
-
-  let li = 0;
-  let ci = 0;
+  let lineIndex = 0;
+  let charIndex = 0;
   let deleting = false;
 
-
-  const SPEED_TYPE = 80;
-  const SPEED_DEL = 40;
+  const TYPE_SPEED = 80;
+  const DELETE_SPEED = 40;
   const PAUSE = 1800;
 
 
-  function typeTick() {
+  function typewriterTick() {
 
     if (!tw) {
       return;
     }
 
-    const currentLine =
-      lines[li];
-
+    const current =
+      lines[lineIndex];
 
     if (!deleting) {
 
-      ci++;
+      charIndex++;
 
       tw.textContent =
-        currentLine.slice(
+        current.slice(
           0,
-          ci
+          charIndex
         );
 
-
       if (
-        ci === currentLine.length
+        charIndex >=
+        current.length
       ) {
 
         deleting = true;
 
         setTimeout(
-          typeTick,
+          typewriterTick,
           PAUSE
         );
 
@@ -226,25 +783,28 @@
 
     } else {
 
-      ci--;
+      charIndex--;
 
       tw.textContent =
-        currentLine.slice(
+        current.slice(
           0,
-          ci
+          charIndex
         );
 
-
-      if (ci === 0) {
+      if (
+        charIndex <= 0
+      ) {
 
         deleting = false;
 
-        li =
-          (li + 1) %
+        lineIndex =
+          (
+            lineIndex + 1
+          ) %
           lines.length;
 
         setTimeout(
-          typeTick,
+          typewriterTick,
           300
         );
 
@@ -252,12 +812,11 @@
       }
     }
 
-
     setTimeout(
-      typeTick,
+      typewriterTick,
       deleting
-        ? SPEED_DEL
-        : SPEED_TYPE
+        ? DELETE_SPEED
+        : TYPE_SPEED
     );
   }
 
@@ -265,7 +824,7 @@
   if (tw) {
 
     setTimeout(
-      typeTick,
+      typewriterTick,
       600
     );
 
@@ -273,7 +832,7 @@
 
 
   /* =========================================================
-     THREE.JS UNIVERSE / STARFIELD
+     THREE.JS UNIVERSE
   ========================================================= */
 
   function initUniverse() {
@@ -285,21 +844,17 @@
       return;
     }
 
-
     const canvas =
       document.getElementById(
         "universe-canvas"
       );
 
-
     if (!canvas) {
       return;
     }
 
-
     const scene =
       new THREE.Scene();
-
 
     const camera =
       new THREE.PerspectiveCamera(
@@ -310,17 +865,15 @@
         2000
       );
 
-
-    camera.position.z = 1;
-
+    camera.position.z =
+      1;
 
     const renderer =
       new THREE.WebGLRenderer({
-        canvas,
+        canvas: canvas,
         alpha: true,
         antialias: true
       });
-
 
     renderer.setPixelRatio(
       Math.min(
@@ -329,22 +882,16 @@
       )
     );
 
-
     renderer.setSize(
       window.innerWidth,
       window.innerHeight
     );
-
 
     renderer.setClearColor(
       0x000000,
       0
     );
 
-
-    /* ---------------------------------------------------------
-       STAR GENERATOR
-    --------------------------------------------------------- */
 
     function makeStars(
       count,
@@ -354,11 +901,10 @@
       opacity
     ) {
 
-      const pos =
+      const positions =
         new Float32Array(
           count * 3
         );
-
 
       for (
         let i = 0;
@@ -366,7 +912,7 @@
         i++
       ) {
 
-        pos[i] =
+        positions[i] =
           (
             Math.random() -
             0.5
@@ -374,38 +920,32 @@
 
       }
 
-
-      const geo =
+      const geometry =
         new THREE.BufferGeometry();
 
-
-      geo.setAttribute(
+      geometry.setAttribute(
         "position",
         new THREE.BufferAttribute(
-          pos,
+          positions,
           3
         )
       );
 
-
-      const mat =
+      const material =
         new THREE.PointsMaterial({
-
-          color,
-          size,
+          color: color,
+          size: size,
           transparent: true,
-          opacity,
+          opacity: opacity,
           sizeAttenuation: true,
           blending:
             THREE.AdditiveBlending,
           depthWrite: false
-
         });
 
-
       return new THREE.Points(
-        geo,
-        mat
+        geometry,
+        material
       );
     }
 
@@ -419,7 +959,6 @@
         0.7
       );
 
-
     const stars2 =
       makeStars(
         1200,
@@ -428,7 +967,6 @@
         0x8ab4ff,
         0.6
       );
-
 
     const stars3 =
       makeStars(
@@ -439,7 +977,6 @@
         0.9
       );
 
-
     const stars4 =
       makeStars(
         600,
@@ -448,7 +985,6 @@
         0xc084fc,
         0.5
       );
-
 
     const stars5 =
       makeStars(
@@ -463,7 +999,6 @@
     const starGroup =
       new THREE.Group();
 
-
     starGroup.add(
       stars1,
       stars2,
@@ -472,15 +1007,10 @@
       stars5
     );
 
-
     scene.add(
       starGroup
     );
 
-
-    /* ---------------------------------------------------------
-       NEBULA CLOUDS
-    --------------------------------------------------------- */
 
     function makeNebula(
       x,
@@ -491,37 +1021,29 @@
       opacity
     ) {
 
-      const geo =
+      const geometry =
         new THREE.PlaneGeometry(
           1,
           1
         );
 
-
-      const mat =
+      const material =
         new THREE.MeshBasicMaterial({
-
-          color,
+          color: color,
           transparent: true,
-          opacity,
-
+          opacity: opacity,
           blending:
             THREE.AdditiveBlending,
-
           depthWrite: false,
-
           side:
             THREE.DoubleSide
-
         });
-
 
       const mesh =
         new THREE.Mesh(
-          geo,
-          mat
+          geometry,
+          material
         );
-
 
       mesh.position.set(
         x,
@@ -529,18 +1051,15 @@
         z
       );
 
-
       mesh.scale.set(
         scale,
         scale,
         1
       );
 
-
       mesh.rotation.z =
         Math.random() *
         Math.PI;
-
 
       return mesh;
     }
@@ -548,7 +1067,6 @@
 
     const nebulaGroup =
       new THREE.Group();
-
 
     nebulaGroup.add(
 
@@ -599,7 +1117,6 @@
 
     );
 
-
     scene.add(
       nebulaGroup
     );
@@ -614,13 +1131,11 @@
 
     function spawnShooter() {
 
-      const geo =
+      const geometry =
         new THREE.BufferGeometry();
 
-
-      const len =
+      const length =
         Math.random() * 4 + 2;
-
 
       const x =
         (
@@ -628,19 +1143,18 @@
           0.5
         ) * 300;
 
-
       const y =
         (
           Math.random() -
           0.5
         ) * 150 + 60;
 
-
       const z =
-        -Math.random() * 50 - 5;
+        -Math.random() *
+          50 -
+        5;
 
-
-      geo.setAttribute(
+      geometry.setAttribute(
         "position",
         new THREE.BufferAttribute(
           new Float32Array([
@@ -648,37 +1162,30 @@
             y,
             z,
 
-            x - len,
-            y - len * 0.4,
+            x - length,
+            y - length * 0.4,
             z
           ]),
           3
         )
       );
 
-
-      const mat =
+      const material =
         new THREE.LineBasicMaterial({
-
           color: 0xffffff,
           transparent: true,
           opacity: 0.9,
-
           blending:
             THREE.AdditiveBlending
-
         });
-
 
       const line =
         new THREE.Line(
-          geo,
-          mat
+          geometry,
+          material
         );
 
-
       line.userData = {
-
         vx:
           -(
             Math.random() *
@@ -693,10 +1200,8 @@
             0.1
           ),
 
-        life: 1.0
-
+        life: 1
       };
-
 
       scene.add(line);
 
@@ -714,93 +1219,77 @@
        MOUSE PARALLAX
     --------------------------------------------------------- */
 
-    let tmx = 0;
-    let tmy = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
 
-    let camX = 0;
-    let camY = 0;
+    let cameraX = 0;
+    let cameraY = 0;
 
 
     document.addEventListener(
       "mousemove",
-      e => {
+      function (event) {
 
-        tmx =
+        targetMouseX =
           (
-            e.clientX /
+            event.clientX /
               window.innerWidth -
             0.5
           ) * 2;
 
-
-        tmy =
+        targetMouseY =
           (
-            e.clientY /
+            event.clientY /
               window.innerHeight -
             0.5
           ) * 2;
 
       },
-      {
-        passive: true
-      }
+      { passive: true }
     );
 
-
-    /* ---------------------------------------------------------
-       ANIMATION
-    --------------------------------------------------------- */
 
     const clock =
       new THREE.Clock();
 
 
-    function animate() {
+    function animateUniverse() {
 
       requestAnimationFrame(
-        animate
+        animateUniverse
       );
 
-
-      const t =
+      const time =
         clock.getElapsedTime();
 
-
       starGroup.rotation.y =
-        t * 0.012;
-
+        time * 0.012;
 
       starGroup.rotation.x =
         Math.sin(
-          t * 0.007
+          time * 0.007
         ) * 0.08;
 
-
       nebulaGroup.rotation.z =
-        t * 0.005;
+        time * 0.005;
 
-
-      camX +=
+      cameraX +=
         (
-          tmx * 8 -
-          camX
+          targetMouseX * 8 -
+          cameraX
         ) * 0.025;
 
-
-      camY +=
+      cameraY +=
         (
-          -tmy * 5 -
-          camY
+          -targetMouseY * 5 -
+          cameraY
         ) * 0.025;
-
 
       camera.position.x =
-        camX;
-
+        cameraX;
 
       camera.position.y =
-        camY;
-
+        cameraY;
 
       camera.lookAt(
         0,
@@ -809,8 +1298,6 @@
       );
 
 
-      /* Shooting stars */
-
       for (
         let i =
           shooters.length - 1;
@@ -818,65 +1305,57 @@
         i--
       ) {
 
-        const s =
+        const shooter =
           shooters[i];
 
-
-        s.userData.life -=
+        shooter.userData.life -=
           0.018;
 
-
-        s.material.opacity =
-          s.userData.life *
+        shooter.material.opacity =
+          shooter.userData.life *
           0.9;
 
-
-        const pos =
-          s.geometry
+        const positions =
+          shooter.geometry
             .attributes
             .position
             .array;
 
+        positions[0] +=
+          shooter.userData.vx;
 
-        pos[0] +=
-          s.userData.vx;
+        positions[1] +=
+          shooter.userData.vy;
 
+        positions[3] +=
+          shooter.userData.vx;
 
-        pos[1] +=
-          s.userData.vy;
+        positions[4] +=
+          shooter.userData.vy;
 
-
-        pos[3] +=
-          s.userData.vx;
-
-
-        pos[4] +=
-          s.userData.vy;
-
-
-        s.geometry
+        shooter.geometry
           .attributes
           .position
           .needsUpdate =
           true;
 
-
         if (
-          s.userData.life <=
+          shooter.userData.life <=
           0
         ) {
 
-          scene.remove(s);
+          scene.remove(
+            shooter
+          );
 
-          s.geometry.dispose();
+          shooter.geometry.dispose();
 
-          s.material.dispose();
+          shooter.material.dispose();
 
           shooters.splice(
             i,
             1
           );
-
         }
       }
 
@@ -888,24 +1367,18 @@
     }
 
 
-    animate();
+    animateUniverse();
 
-
-    /* ---------------------------------------------------------
-       RESIZE
-    --------------------------------------------------------- */
 
     window.addEventListener(
       "resize",
-      () => {
+      function () {
 
         camera.aspect =
           window.innerWidth /
           window.innerHeight;
 
-
         camera.updateProjectionMatrix();
-
 
         renderer.setSize(
           window.innerWidth,
@@ -913,19 +1386,26 @@
         );
 
       },
-      {
-        passive: true
-      }
+      { passive: true }
     );
 
   }
 
 
-  initUniverse();
+  /* Run visual universe separately */
+
+  try {
+    initUniverse();
+  } catch (error) {
+    console.error(
+      "Universe initialization failed:",
+      error
+    );
+  }
 
 
   /* =========================================================
-     GSAP SCROLL ANIMATIONS
+     GSAP / SCROLL ANIMATIONS
   ========================================================= */
 
   function initGSAP() {
@@ -937,33 +1417,31 @@
         "undefined"
     ) {
 
-      const obs =
+      const observer =
         new IntersectionObserver(
-          entries => {
+          function (entries) {
 
             entries.forEach(
-              (entry, i) => {
+              function (entry, index) {
 
                 if (
                   entry.isIntersecting
                 ) {
 
                   setTimeout(
-                    () => {
+                    function () {
 
                       entry.target.classList.add(
                         "in"
                       );
 
                     },
-                    i * 60
+                    index * 60
                   );
 
-
-                  obs.unobserve(
+                  observer.unobserve(
                     entry.target
                   );
-
                 }
 
               }
@@ -983,10 +1461,12 @@
           ".reveal"
         )
         .forEach(
-          el =>
-            obs.observe(el)
+          function (element) {
+            observer.observe(
+              element
+            );
+          }
         );
-
 
       return;
     }
@@ -996,8 +1476,6 @@
       ScrollTrigger
     );
 
-
-    /* Hero entrance */
 
     const hero =
       document.getElementById(
@@ -1022,27 +1500,23 @@
     }
 
 
-    /* Section reveals */
-
     document
       .querySelectorAll(
         ".section"
       )
       .forEach(
-        section => {
+        function (section) {
 
           const reveals =
             section.querySelectorAll(
               ".reveal"
             );
 
-
           if (
             !reveals.length
           ) {
             return;
           }
-
 
           gsap.fromTo(
             reveals,
@@ -1073,17 +1547,15 @@
       );
 
 
-    /* Section titles */
-
     document
       .querySelectorAll(
         ".sec-title"
       )
       .forEach(
-        el => {
+        function (element) {
 
           gsap.fromTo(
-            el,
+            element,
 
             {
               scale: 0.95,
@@ -1097,7 +1569,7 @@
               ease: "power3.out",
 
               scrollTrigger: {
-                trigger: el,
+                trigger: element,
                 start: "top 85%"
               }
 
@@ -1108,15 +1580,13 @@
       );
 
 
-    /* Stat cards */
-
     gsap
       .utils
       .toArray(
         ".stat-card"
       )
       .forEach(
-        (card, i) => {
+        function (card, index) {
 
           gsap.fromTo(
             card,
@@ -1130,8 +1600,10 @@
               scale: 1,
               opacity: 1,
               duration: 0.6,
-              delay: i * 0.1,
-              ease: "back.out(1.4)",
+              delay:
+                index * 0.1,
+              ease:
+                "back.out(1.4)",
 
               scrollTrigger: {
                 trigger: card,
@@ -1145,24 +1617,23 @@
       );
 
 
-    /* Project cards */
-
     gsap
       .utils
       .toArray(
         ".proj-card"
       )
       .forEach(
-        (card, i) => {
+        function (card, index) {
 
           gsap.fromTo(
             card,
 
             {
               x:
-                i % 2 === 0
+                index % 2 === 0
                   ? -60
                   : 60,
+
               opacity: 0
             },
 
@@ -1184,15 +1655,13 @@
       );
 
 
-    /* Skill pills */
-
     gsap
       .utils
       .toArray(
         ".spill"
       )
       .forEach(
-        (pill, i) => {
+        function (pill, index) {
 
           gsap.fromTo(
             pill,
@@ -1206,8 +1675,10 @@
               scale: 1,
               opacity: 1,
               duration: 0.4,
-              delay: i * 0.03,
-              ease: "back.out(1.7)",
+              delay:
+                index * 0.03,
+              ease:
+                "back.out(1.7)",
 
               scrollTrigger: {
                 trigger: pill,
@@ -1223,118 +1694,126 @@
   }
 
 
-  initGSAP();
+  try {
+    initGSAP();
+  } catch (error) {
+    console.error(
+      "GSAP initialization failed:",
+      error
+    );
+  }
 
 
   /* =========================================================
      COUNT-UP NUMBERS
   ========================================================= */
 
-  const countEls =
+  const countElements =
     document.querySelectorAll(
       ".count-up"
     );
 
+  if (
+    countElements.length
+  ) {
 
-  const countObs =
-    new IntersectionObserver(
-      entries => {
+    const countObserver =
+      new IntersectionObserver(
+        function (entries) {
 
-        entries.forEach(
-          entry => {
-
-            if (
-              !entry.isIntersecting
-            ) {
-              return;
-            }
-
-
-            const el =
-              entry.target;
-
-
-            const target =
-              parseInt(
-                el.dataset.target,
-                10
-              );
-
-
-            const duration =
-              1200;
-
-
-            const start =
-              performance.now();
-
-
-            function step(now) {
-
-              const pct =
-                Math.min(
-                  (
-                    now - start
-                  ) / duration,
-                  1
-                );
-
-
-              const eased =
-                1 -
-                Math.pow(
-                  1 - pct,
-                  3
-                );
-
-
-              el.textContent =
-                Math.floor(
-                  eased * target
-                );
-
+          entries.forEach(
+            function (entry) {
 
               if (
-                pct < 1
+                !entry.isIntersecting
               ) {
+                return;
+              }
 
-                requestAnimationFrame(
-                  step
+              const element =
+                entry.target;
+
+              const target =
+                parseInt(
+                  element.dataset.target,
+                  10
                 );
 
-              } else {
+              const duration =
+                1200;
 
-                el.textContent =
-                  target;
+              const start =
+                performance.now();
+
+
+              function countStep(now) {
+
+                const progress =
+                  Math.min(
+                    (
+                      now - start
+                    ) /
+                      duration,
+                    1
+                  );
+
+                const eased =
+                  1 -
+                  Math.pow(
+                    1 - progress,
+                    3
+                  );
+
+                element.textContent =
+                  Math.floor(
+                    eased * target
+                  );
+
+                if (
+                  progress < 1
+                ) {
+
+                  requestAnimationFrame(
+                    countStep
+                  );
+
+                } else {
+
+                  element.textContent =
+                    target;
+
+                }
 
               }
 
+
+              requestAnimationFrame(
+                countStep
+              );
+
+              countObserver.unobserve(
+                element
+              );
+
             }
+          );
+
+        },
+        {
+          threshold: 0.6
+        }
+      );
 
 
-            requestAnimationFrame(
-              step
-            );
-
-
-            countObs.unobserve(
-              el
-            );
-
-          }
+    countElements.forEach(
+      function (element) {
+        countObserver.observe(
+          element
         );
-
-      },
-      {
-        threshold: 0.6
       }
     );
 
-
-  countEls.forEach(
-    el =>
-      countObs.observe(el)
-  );
+  }
 
 
   /* =========================================================
@@ -1347,57 +1826,63 @@
     );
 
 
-  const barObs =
-    new IntersectionObserver(
-      entries => {
+  if (bars.length) {
 
-        entries.forEach(
-          entry => {
+    const barObserver =
+      new IntersectionObserver(
+        function (entries) {
 
-            if (
-              !entry.isIntersecting
-            ) {
-              return;
+          entries.forEach(
+            function (entry) {
+
+              if (
+                !entry.isIntersecting
+              ) {
+                return;
+              }
+
+              const element =
+                entry.target;
+
+              const width =
+                element.style.width;
+
+              element.style.width =
+                "0%";
+
+              setTimeout(
+                function () {
+
+                  element.style.width =
+                    width;
+
+                },
+                250
+              );
+
+              barObserver.unobserve(
+                element
+              );
+
             }
+          );
+
+        },
+        {
+          threshold: 0.5
+        }
+      );
 
 
-            const width =
-              entry.target.style.width;
-
-
-            entry.target.style.width =
-              "0%";
-
-
-            setTimeout(
-              () => {
-
-                entry.target.style.width =
-                  width;
-
-              },
-              250
-            );
-
-
-            barObs.unobserve(
-              entry.target
-            );
-
-          }
+    bars.forEach(
+      function (bar) {
+        barObserver.observe(
+          bar
         );
-
-      },
-      {
-        threshold: 0.5
       }
     );
 
-
-  bars.forEach(
-    bar =>
-      barObs.observe(bar)
-  );
+  }
 
 
   /* =========================================================
@@ -1413,19 +1898,16 @@
       return;
     }
 
-
     const tiltElements =
       document.querySelectorAll(
         "[data-tilt]"
       );
-
 
     if (
       !tiltElements.length
     ) {
       return;
     }
-
 
     VanillaTilt.init(
       tiltElements,
@@ -1441,11 +1923,18 @@
   }
 
 
-  initTilt();
+  try {
+    initTilt();
+  } catch (error) {
+    console.error(
+      "Tilt initialization failed:",
+      error
+    );
+  }
 
 
   /* =========================================================
-     SKILL PILL HOVER GLOW
+     SKILL PILL HOVER
   ========================================================= */
 
   document
@@ -1453,11 +1942,11 @@
       ".spill"
     )
     .forEach(
-      pill => {
+      function (pill) {
 
         pill.addEventListener(
           "mouseenter",
-          () => {
+          function () {
 
             pill.style.boxShadow =
               "0 0 12px currentColor";
@@ -1465,10 +1954,9 @@
           }
         );
 
-
         pill.addEventListener(
           "mouseleave",
-          () => {
+          function () {
 
             pill.style.boxShadow =
               "";
@@ -1478,879 +1966,5 @@
 
       }
     );
-
-
-  /* =========================================================
-     ASK ASSISTANT CHATBOT
-  ========================================================= */
-
-  function initChatbot() {
-
-    const chatTrigger =
-      document.getElementById(
-        "aiChatTrigger"
-      );
-
-
-    const chatWindow =
-      document.getElementById(
-        "aiChatWindow"
-      );
-
-
-    const chatClose =
-      document.getElementById(
-        "aiChatClose"
-      );
-
-
-    const chatForm =
-      document.getElementById(
-        "aiChatForm"
-      );
-
-
-    const chatInput =
-      document.getElementById(
-        "aiChatInput"
-      );
-
-
-    const chatMessages =
-      document.getElementById(
-        "aiChatMessages"
-      );
-
-
-    const suggestions =
-      document.querySelectorAll(
-        ".ai-suggestion"
-      );
-
-
-    /* ---------------------------------------------------------
-       SAFETY CHECK
-    --------------------------------------------------------- */
-
-    if (
-      !chatTrigger ||
-      !chatWindow ||
-      !chatMessages
-    ) {
-
-      console.warn(
-        "Ask Assistant: chatbot elements not found."
-      );
-
-      return;
-    }
-
-
-    /* ---------------------------------------------------------
-       OPEN CHAT
-    --------------------------------------------------------- */
-
-    function openChat() {
-
-      chatWindow.classList.add(
-        "open"
-      );
-
-
-      chatWindow.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-
-
-      chatTrigger.classList.add(
-        "active"
-      );
-
-
-      chatTrigger.setAttribute(
-        "aria-expanded",
-        "true"
-      );
-
-
-      if (chatInput) {
-
-        setTimeout(
-          () => {
-            chatInput.focus();
-          },
-          250
-        );
-
-      }
-
-    }
-
-
-    /* ---------------------------------------------------------
-       CLOSE CHAT
-    --------------------------------------------------------- */
-
-    function closeChat() {
-
-      chatWindow.classList.remove(
-        "open"
-      );
-
-
-      chatWindow.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-
-      chatTrigger.classList.remove(
-        "active"
-      );
-
-
-      chatTrigger.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-    }
-
-
-    /* ---------------------------------------------------------
-       TOGGLE
-    --------------------------------------------------------- */
-
-    chatTrigger.addEventListener(
-      "click",
-      () => {
-
-        if (
-          chatWindow.classList.contains(
-            "open"
-          )
-        ) {
-
-          closeChat();
-
-        } else {
-
-          openChat();
-
-        }
-
-      }
-    );
-
-
-    /* ---------------------------------------------------------
-       CLOSE BUTTON
-    --------------------------------------------------------- */
-
-    if (chatClose) {
-
-      chatClose.addEventListener(
-        "click",
-        closeChat
-      );
-
-    }
-
-
-    /* =========================================================
-       PORTFOLIO KNOWLEDGE
-    ========================================================= */
-
-    const portfolio = {
-
-      name:
-        "Om Shete",
-
-      currentStudy:
-        "Om is currently a First Year MSc Artificial Intelligence & Data Science student.",
-
-      education:
-        "Om completed his BCA from MIT World Peace University, Pune. He is currently pursuing an MSc in Artificial Intelligence & Data Science.",
-
-      bca:
-        "Om completed his Bachelor of Computer Applications from MIT World Peace University, Pune.",
-
-      interests:
-        "Om is currently exploring Data Science, Machine Learning and Artificial Intelligence, with a focus on building practical skills through projects and experimentation.",
-
-      skills:
-        "Om's current technical focus includes Python, SQL, NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, data preprocessing, exploratory data analysis, feature engineering, classification, model evaluation and machine learning.",
-
-      ml:
-        "Machine Learning is one of Om's main areas of interest. He has worked with classification problems, imbalanced datasets, preprocessing, feature scaling and evaluation metrics such as precision, recall, F1-score and ROC-AUC.",
-
-      dataScience:
-        "Om is interested in the complete Data Science workflow — from data cleaning and exploratory data analysis to feature engineering, modelling and evaluation.",
-
-      projects:
-        "Om's current portfolio features projects including Credit Card Fraud Detection and Student Performance Prediction. More projects and experiments are being developed.",
-
-      fraud:
-        "Om built a Credit Card Fraud Detection project using machine learning on an imbalanced transaction dataset. The project explores preprocessing, class imbalance handling, Logistic Regression, Random Forest, precision, recall, F1-score and ROC-AUC.",
-
-      studentProject:
-        "Om built a Student Performance Prediction classification project involving data cleaning, feature selection, exploratory data analysis and machine learning.",
-
-      github:
-        "You can explore Om's code and projects through the GitHub links available throughout this portfolio.",
-
-      contact:
-        "You can connect with Om through the GitHub and LinkedIn links available in the Contact section of this portfolio.",
-
-      future:
-        "Om is currently building stronger foundations in AI, Data Science, Machine Learning and statistics while developing more practical projects."
-
-    };
-
-
-    /* =========================================================
-       NORMALIZE TEXT
-    ========================================================= */
-
-    function normalize(text) {
-
-      return text
-        .toLowerCase()
-        .trim()
-        .replace(
-          /[?!.,]/g,
-          ""
-        );
-
-    }
-
-
-    /* =========================================================
-       RESPONSE ENGINE
-    ========================================================= */
-
-    function getResponse(
-      question
-    ) {
-
-      const text =
-        normalize(
-          question
-        );
-
-
-      /* Greeting */
-
-      if (
-        text === "hi" ||
-        text === "hello" ||
-        text === "hey" ||
-        text.includes("hey om")
-      ) {
-
-        return (
-          "Hey! I'm Om's portfolio assistant. " +
-          "Ask me about his education, skills, projects, " +
-          "Machine Learning, Data Science, or what he's currently studying."
-        );
-
-      }
-
-
-      /* Current study */
-
-      if (
-        text.includes(
-          "what is om studying"
-        ) ||
-        text.includes(
-          "what is he studying"
-        ) ||
-        text.includes(
-          "what are you studying"
-        ) ||
-        text.includes(
-          "currently studying"
-        ) ||
-        text.includes(
-          "current study"
-        ) ||
-        text.includes(
-          "msc"
-        ) ||
-        text.includes(
-          "master"
-        )
-      ) {
-
-        return portfolio.currentStudy;
-
-      }
-
-
-      /* Education */
-
-      if (
-        text.includes(
-          "education"
-        ) ||
-        text.includes(
-          "degree"
-        ) ||
-        text.includes(
-          "college"
-        ) ||
-        text.includes(
-          "university"
-        )
-      ) {
-
-        return portfolio.education;
-
-      }
-
-
-      /* BCA */
-
-      if (
-        text.includes(
-          "bca"
-        ) ||
-        text.includes(
-          "mit wpu"
-        ) ||
-        text.includes(
-          "mit-wpu"
-        )
-      ) {
-
-        return portfolio.bca;
-
-      }
-
-
-      /* Skills */
-
-      if (
-        text.includes(
-          "skills"
-        ) ||
-        text.includes(
-          "skill"
-        ) ||
-        text.includes(
-          "technologies"
-        ) ||
-        text.includes(
-          "technology"
-        ) ||
-        text.includes(
-          "tech stack"
-        )
-      ) {
-
-        return portfolio.skills;
-
-      }
-
-
-      /* Machine Learning */
-
-      if (
-        text.includes(
-          "machine learning"
-        ) ||
-        text === "ml" ||
-        text.includes(
-          "classification"
-        ) ||
-        text.includes(
-          "model"
-        )
-      ) {
-
-        return portfolio.ml;
-
-      }
-
-
-      /* Data Science */
-
-      if (
-        text.includes(
-          "data science"
-        ) ||
-        text.includes(
-          "data analysis"
-        ) ||
-        text.includes(
-          "pandas"
-        ) ||
-        text.includes(
-          "numpy"
-        )
-      ) {
-
-        return portfolio.dataScience;
-
-      }
-
-
-      /* Fraud project */
-
-      if (
-        text.includes(
-          "fraud"
-        ) ||
-        text.includes(
-          "credit card"
-        )
-      ) {
-
-        return portfolio.fraud;
-
-      }
-
-
-      /* Student project */
-
-      if (
-        text.includes(
-          "student performance"
-        ) ||
-        text.includes(
-          "student prediction"
-        )
-      ) {
-
-        return portfolio.studentProject;
-
-      }
-
-
-      /* Projects */
-
-      if (
-        text.includes(
-          "project"
-        ) ||
-        text.includes(
-          "projects"
-        ) ||
-        text.includes(
-          "work"
-        ) ||
-        text.includes(
-          "built"
-        )
-      ) {
-
-        return portfolio.projects;
-
-      }
-
-
-      /* GitHub */
-
-      if (
-        text.includes(
-          "github"
-        ) ||
-        text.includes(
-          "code"
-        ) ||
-        text.includes(
-          "repository"
-        )
-      ) {
-
-        return portfolio.github;
-
-      }
-
-
-      /* Contact */
-
-      if (
-        text.includes(
-          "contact"
-        ) ||
-        text.includes(
-          "email"
-        ) ||
-        text.includes(
-          "linkedin"
-        ) ||
-        text.includes(
-          "reach"
-        )
-      ) {
-
-        return portfolio.contact;
-
-      }
-
-
-      /* Interests */
-
-      if (
-        text.includes(
-          "interest"
-        ) ||
-        text.includes(
-          "passion"
-        )
-      ) {
-
-        return portfolio.interests;
-
-      }
-
-
-      /* Future / current focus */
-
-      if (
-        text.includes(
-          "future"
-        ) ||
-        text.includes(
-          "goal"
-        ) ||
-        text.includes(
-          "focus"
-        ) ||
-        text.includes(
-          "currently"
-        ) ||
-        text.includes(
-          "now"
-        )
-      ) {
-
-        return portfolio.future;
-
-      }
-
-
-      /* Default */
-
-      return (
-        "I don't have an answer for that yet. " +
-        "Try asking me about Om's education, skills, " +
-        "projects, Machine Learning, Data Science, " +
-        "or what he's currently studying."
-      );
-
-    }
-
-
-    /* =========================================================
-       ADD MESSAGE
-    ========================================================= */
-
-    function addMessage(
-      text,
-      type
-    ) {
-
-      const wrapper =
-        document.createElement(
-          "div"
-        );
-
-
-      if (
-        type === "user"
-      ) {
-
-        wrapper.className =
-          "ai-message ai-message-user";
-
-
-        wrapper.innerHTML = `
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-
-      } else {
-
-        wrapper.className =
-          "ai-message";
-
-
-        wrapper.innerHTML = `
-          <span class="ai-message-avatar">
-            ✦
-          </span>
-
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-
-      }
-
-
-      const paragraph =
-        wrapper.querySelector(
-          "p"
-        );
-
-
-      paragraph.textContent =
-        text;
-
-
-      chatMessages.appendChild(
-        wrapper
-      );
-
-
-      chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-
-      return wrapper;
-
-    }
-
-
-    /* =========================================================
-       TYPING INDICATOR
-    ========================================================= */
-
-    function showTyping() {
-
-      const wrapper =
-        document.createElement(
-          "div"
-        );
-
-
-      wrapper.className =
-        "ai-message ai-typing";
-
-
-      wrapper.innerHTML = `
-        <span class="ai-message-avatar">
-          ✦
-        </span>
-
-        <div class="ai-message-content">
-          <div class="ai-typing-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      `;
-
-
-      chatMessages.appendChild(
-        wrapper
-      );
-
-
-      chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-
-      return wrapper;
-
-    }
-
-
-    /* =========================================================
-       SEND MESSAGE
-    ========================================================= */
-
-    function sendMessage(
-      question
-    ) {
-
-      const text =
-        question.trim();
-
-
-      if (!text) {
-        return;
-      }
-
-
-      addMessage(
-        text,
-        "user"
-      );
-
-
-      if (chatInput) {
-        chatInput.value = "";
-      }
-
-
-      const typing =
-        showTyping();
-
-
-      setTimeout(
-        () => {
-
-          if (typing) {
-            typing.remove();
-          }
-
-
-          addMessage(
-            getResponse(text),
-            "assistant"
-          );
-
-        },
-        450
-      );
-
-    }
-
-
-    /* =========================================================
-       QUICK QUESTION BUTTONS
-    ========================================================= */
-
-    suggestions.forEach(
-      button => {
-
-        /* Make sure every question is keyboard accessible */
-
-        button.setAttribute(
-          "tabindex",
-          "0"
-        );
-
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            const question =
-              button.dataset.question ||
-              button
-                .querySelector(
-                  ".suggestion-text"
-                )
-                ?.textContent ||
-              button.textContent;
-
-
-            openChat();
-
-            sendMessage(
-              question
-            );
-
-          }
-        );
-
-
-        /* Enter / Space support */
-
-        button.addEventListener(
-          "keydown",
-          e => {
-
-            if (
-              e.key === "Enter" ||
-              e.key === " "
-            ) {
-
-              e.preventDefault();
-
-              button.click();
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       CHAT FORM
-    ========================================================= */
-
-    if (chatForm) {
-
-      chatForm.addEventListener(
-        "submit",
-        e => {
-
-          e.preventDefault();
-
-
-          if (!chatInput) {
-            return;
-          }
-
-
-          sendMessage(
-            chatInput.value
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       ESCAPE KEY CLOSE
-    ========================================================= */
-
-    document.addEventListener(
-      "keydown",
-      e => {
-
-        if (
-          e.key === "Escape" &&
-          chatWindow.classList.contains(
-            "open"
-          )
-        ) {
-
-          closeChat();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       INITIAL ARIA STATE
-    ========================================================= */
-
-    chatWindow.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-
-    chatTrigger.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-  }
-
-
-  /* =========================================================
-     START CHATBOT
-  ========================================================= */
-
-  initChatbot();
-
 
 })();
