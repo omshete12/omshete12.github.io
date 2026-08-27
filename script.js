@@ -2,512 +2,11 @@
   "use strict";
 
   /* =========================================================
-     ASK ASSISTANT CHATBOT
-     Initialized first so it is independent of other effects.
-  ========================================================= */
-
-  function initChatbot() {
-    const chatTrigger = document.getElementById("aiChatTrigger");
-    const chatWindow = document.getElementById("aiChatWindow");
-    const chatClose = document.getElementById("aiChatClose");
-    const chatForm = document.getElementById("aiChatForm");
-    const chatInput = document.getElementById("aiChatInput");
-    const chatMessages = document.getElementById("aiChatMessages");
-    const suggestions = document.querySelectorAll(".ai-suggestion");
-
-    if (!chatTrigger || !chatWindow || !chatMessages) {
-      console.warn("Ask Assistant: chatbot elements not found.");
-      return;
-    }
-
-    /* ---------------------------------------------------------
-       OPEN
-    --------------------------------------------------------- */
-
-    function openChat() {
-      chatWindow.classList.add("open");
-      chatWindow.setAttribute("aria-hidden", "false");
-
-      chatTrigger.classList.add("active");
-      chatTrigger.setAttribute("aria-expanded", "true");
-
-      if (chatInput) {
-        setTimeout(function () {
-          chatInput.focus();
-        }, 200);
-      }
-    }
-
-    /* ---------------------------------------------------------
-       CLOSE
-    --------------------------------------------------------- */
-
-    function closeChat() {
-      chatWindow.classList.remove("open");
-      chatWindow.setAttribute("aria-hidden", "true");
-
-      chatTrigger.classList.remove("active");
-      chatTrigger.setAttribute("aria-expanded", "false");
-    }
-
-    /* ---------------------------------------------------------
-       TOGGLE
-    --------------------------------------------------------- */
-
-    chatTrigger.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      if (chatWindow.classList.contains("open")) {
-        closeChat();
-      } else {
-        openChat();
-      }
-    });
-
-    /* ---------------------------------------------------------
-       CLOSE BUTTON
-    --------------------------------------------------------- */
-
-    if (chatClose) {
-      chatClose.addEventListener("click", function (event) {
-        event.preventDefault();
-        closeChat();
-      });
-    }
-
-    /* =========================================================
-       PORTFOLIO KNOWLEDGE
-    ========================================================= */
-
-    const portfolio = {
-      name: "Om Shete",
-
-      currentStudy:
-        "Om is currently a First Year MSc Artificial Intelligence & Data Science student.",
-
-      education:
-        "Om completed his BCA from MIT World Peace University, Pune. He is currently pursuing an MSc in Artificial Intelligence & Data Science.",
-
-      bca:
-        "Om completed his Bachelor of Computer Applications from MIT World Peace University, Pune.",
-
-      interests:
-        "Om is currently exploring Data Science, Machine Learning and Artificial Intelligence, with a focus on building practical skills through projects and experimentation.",
-
-      skills:
-        "Om's current technical focus includes Python, SQL, NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, data preprocessing, exploratory data analysis, feature engineering, classification, model evaluation and machine learning.",
-
-      ml:
-        "Machine Learning is one of Om's main areas of interest. He has worked with classification problems, imbalanced datasets, preprocessing, feature scaling and evaluation metrics such as precision, recall, F1-score and ROC-AUC.",
-
-      dataScience:
-        "Om is interested in the complete Data Science workflow — from data cleaning and exploratory data analysis to feature engineering, modelling and evaluation.",
-
-      projects:
-        "Om's current portfolio features projects including Credit Card Fraud Detection and Student Performance Prediction. More projects and experiments are being developed.",
-
-      fraud:
-        "Om built a Credit Card Fraud Detection project using machine learning on an imbalanced transaction dataset. The project explores preprocessing, class imbalance handling, Logistic Regression, Random Forest, precision, recall, F1-score and ROC-AUC.",
-
-      studentProject:
-        "Om built a Student Performance Prediction classification project involving data cleaning, feature selection, exploratory data analysis and machine learning.",
-
-      github:
-        "You can explore Om's code and projects through the GitHub links available throughout this portfolio.",
-
-      contact:
-        "You can connect with Om through the GitHub and LinkedIn links available in the Contact section of this portfolio.",
-
-      future:
-        "Om is currently building stronger foundations in AI, Data Science, Machine Learning and statistics while developing more practical projects."
-    };
-
-    /* =========================================================
-       NORMALIZE
-    ========================================================= */
-
-    function normalize(text) {
-      return String(text || "")
-        .toLowerCase()
-        .trim()
-        .replace(/[?!.,]/g, "");
-    }
-
-    /* =========================================================
-       RESPONSE ENGINE
-    ========================================================= */
-
-    function getResponse(question) {
-      const text = normalize(question);
-
-      /* Greeting */
-
-      if (
-        text === "hi" ||
-        text === "hello" ||
-        text === "hey" ||
-        text.includes("hey om")
-      ) {
-        return (
-          "Hey! I'm Om's portfolio assistant. " +
-          "Ask me about his education, skills, projects, " +
-          "Machine Learning, Data Science, or what he's currently studying."
-        );
-      }
-
-      /* Current study */
-
-      if (
-        text.includes("what is om studying") ||
-        text.includes("what is he studying") ||
-        text.includes("what are you studying") ||
-        text.includes("currently studying") ||
-        text.includes("current study") ||
-        text.includes("msc") ||
-        text.includes("master")
-      ) {
-        return portfolio.currentStudy;
-      }
-
-      /* Education */
-
-      if (
-        text.includes("education") ||
-        text.includes("degree") ||
-        text.includes("college") ||
-        text.includes("university")
-      ) {
-        return portfolio.education;
-      }
-
-      /* BCA */
-
-      if (
-        text.includes("bca") ||
-        text.includes("mit wpu") ||
-        text.includes("mit-wpu")
-      ) {
-        return portfolio.bca;
-      }
-
-      /* Skills */
-
-      if (
-        text.includes("skills") ||
-        text.includes("skill") ||
-        text.includes("technologies") ||
-        text.includes("technology") ||
-        text.includes("tech stack")
-      ) {
-        return portfolio.skills;
-      }
-
-      /* Machine Learning */
-
-      if (
-        text.includes("machine learning") ||
-        text === "ml" ||
-        text.includes("classification") ||
-        text.includes("model")
-      ) {
-        return portfolio.ml;
-      }
-
-      /* Data Science */
-
-      if (
-        text.includes("data science") ||
-        text.includes("data analysis") ||
-        text.includes("pandas") ||
-        text.includes("numpy")
-      ) {
-        return portfolio.dataScience;
-      }
-
-      /* Fraud */
-
-      if (
-        text.includes("fraud") ||
-        text.includes("credit card")
-      ) {
-        return portfolio.fraud;
-      }
-
-      /* Student project */
-
-      if (
-        text.includes("student performance") ||
-        text.includes("student prediction")
-      ) {
-        return portfolio.studentProject;
-      }
-
-      /* Projects */
-
-      if (
-        text.includes("project") ||
-        text.includes("projects") ||
-        text.includes("work") ||
-        text.includes("built")
-      ) {
-        return portfolio.projects;
-      }
-
-      /* GitHub */
-
-      if (
-        text.includes("github") ||
-        text.includes("code") ||
-        text.includes("repository")
-      ) {
-        return portfolio.github;
-      }
-
-      /* Contact */
-
-      if (
-        text.includes("contact") ||
-        text.includes("email") ||
-        text.includes("linkedin") ||
-        text.includes("reach")
-      ) {
-        return portfolio.contact;
-      }
-
-      /* Interests */
-
-      if (
-        text.includes("interest") ||
-        text.includes("passion")
-      ) {
-        return portfolio.interests;
-      }
-
-      /* Future / current focus */
-
-      if (
-        text.includes("future") ||
-        text.includes("goal") ||
-        text.includes("focus") ||
-        text.includes("currently") ||
-        text.includes("now")
-      ) {
-        return portfolio.future;
-      }
-
-      /* Default */
-
-      return (
-        "I don't have an answer for that yet. " +
-        "Try asking me about Om's education, skills, " +
-        "projects, Machine Learning, Data Science, " +
-        "or what he's currently studying."
-      );
-    }
-
-    /* =========================================================
-       ADD MESSAGE
-    ========================================================= */
-
-    function addMessage(text, type) {
-      const wrapper = document.createElement("div");
-
-      if (type === "user") {
-        wrapper.className = "ai-message ai-message-user";
-
-        wrapper.innerHTML = `
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-      } else {
-        wrapper.className = "ai-message";
-
-        wrapper.innerHTML = `
-          <span class="ai-message-avatar">✦</span>
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-      }
-
-      const paragraph = wrapper.querySelector("p");
-
-      if (paragraph) {
-        paragraph.textContent = text;
-      }
-
-      chatMessages.appendChild(wrapper);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      return wrapper;
-    }
-
-    /* =========================================================
-       TYPING INDICATOR
-    ========================================================= */
-
-    function showTyping() {
-      const wrapper = document.createElement("div");
-
-      wrapper.className = "ai-message ai-typing";
-
-      wrapper.innerHTML = `
-        <span class="ai-message-avatar">✦</span>
-        <div class="ai-message-content">
-          <div class="ai-typing-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      `;
-
-      chatMessages.appendChild(wrapper);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      return wrapper;
-    }
-
-    /* =========================================================
-       SEND MESSAGE
-    ========================================================= */
-
-    function sendMessage(question) {
-      const text = String(question || "").trim();
-
-      if (!text) {
-        return;
-      }
-
-      addMessage(text, "user");
-
-      if (chatInput) {
-        chatInput.value = "";
-      }
-
-      const typing = showTyping();
-
-      setTimeout(function () {
-        if (typing) {
-          typing.remove();
-        }
-
-        addMessage(
-          getResponse(text),
-          "assistant"
-        );
-      }, 450);
-    }
-
-    /* =========================================================
-       QUICK QUESTIONS
-    ========================================================= */
-
-    suggestions.forEach(function (button) {
-      button.type = "button";
-      button.setAttribute("tabindex", "0");
-
-      button.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const question =
-          button.dataset.question ||
-          button.textContent.trim();
-
-        openChat();
-        sendMessage(question);
-      });
-
-      button.addEventListener("keydown", function (event) {
-        if (
-          event.key === "Enter" ||
-          event.key === " "
-        ) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          const question =
-            button.dataset.question ||
-            button.textContent.trim();
-
-          openChat();
-          sendMessage(question);
-        }
-      });
-    });
-
-    /* =========================================================
-       FORM
-    ========================================================= */
-
-    if (chatForm) {
-      chatForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        if (!chatInput) {
-          return;
-        }
-
-        sendMessage(chatInput.value);
-      });
-    }
-
-    /* =========================================================
-       ESCAPE
-    ========================================================= */
-
-    document.addEventListener("keydown", function (event) {
-      if (
-        event.key === "Escape" &&
-        chatWindow.classList.contains("open")
-      ) {
-        closeChat();
-      }
-    });
-
-    /* =========================================================
-       INITIAL STATE
-    ========================================================= */
-
-    chatWindow.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    chatTrigger.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-    console.log("Ask Assistant initialized successfully.");
-  }
-
-
-  /* =========================================================
-     START CHATBOT FIRST
-  ========================================================= */
-
-  if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      initChatbot
-    );
-  } else {
-    initChatbot();
-  }
-
-
-  /* =========================================================
      CUSTOM CURSOR
   ========================================================= */
 
-  const cursor =
-    document.getElementById("cursor");
-
-  const follower =
-    document.getElementById("cursor-follower");
+  const cursor = document.getElementById("cursor");
+  const follower = document.getElementById("cursor-follower");
 
   let fx = 0;
   let fy = 0;
@@ -515,41 +14,26 @@
   let my = 0;
 
   if (cursor && follower) {
-
     document.addEventListener(
       "mousemove",
-      function (event) {
+      (e) => {
+        mx = e.clientX;
+        my = e.clientY;
 
-        mx = event.clientX;
-        my = event.clientY;
-
-        cursor.style.left =
-          mx + "px";
-
-        cursor.style.top =
-          my + "px";
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
       },
       { passive: true }
     );
 
-    (function animateFollower() {
+    (function animFollower() {
+      fx += (mx - fx) * 0.12;
+      fy += (my - fy) * 0.12;
 
-      fx +=
-        (mx - fx) * 0.12;
+      follower.style.left = fx + "px";
+      follower.style.top = fy + "px";
 
-      fy +=
-        (my - fy) * 0.12;
-
-      follower.style.left =
-        fx + "px";
-
-      follower.style.top =
-        fy + "px";
-
-      requestAnimationFrame(
-        animateFollower
-      );
-
+      requestAnimationFrame(animFollower);
     })();
   }
 
@@ -558,116 +42,65 @@
      NAVIGATION
   ========================================================= */
 
-  const nav =
-    document.getElementById("nav");
+  const nav = document.getElementById("nav");
 
   if (nav) {
-
     window.addEventListener(
       "scroll",
-      function () {
-
+      () => {
         nav.classList.toggle(
           "scrolled",
           window.scrollY > 40
         );
-
       },
       { passive: true }
     );
-
   }
 
 
-  const toggle =
-    document.getElementById(
-      "navToggle"
-    );
+  /* =========================================================
+     MOBILE NAVIGATION
+  ========================================================= */
 
-  const mobileMenu =
-    document.getElementById(
-      "mobileMenu"
-    );
+  const toggle = document.getElementById("navToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
 
-
-  function closeMobileMenu() {
-
+  function closeMenu() {
     if (toggle) {
-
-      toggle.classList.remove(
-        "open"
-      );
-
-      toggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
+      toggle.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
     }
 
     if (mobileMenu) {
-
-      mobileMenu.classList.remove(
-        "open"
-      );
-
+      mobileMenu.classList.remove("open");
     }
 
-    document.body.style.overflow =
-      "";
-
+    document.body.style.overflow = "";
   }
 
+  if (toggle && mobileMenu) {
+    toggle.addEventListener("click", () => {
+      const open = mobileMenu.classList.toggle("open");
 
-  if (
-    toggle &&
-    mobileMenu
-  ) {
+      toggle.classList.toggle("open", open);
+      toggle.setAttribute(
+        "aria-expanded",
+        String(open)
+      );
 
-    toggle.addEventListener(
-      "click",
-      function () {
-
-        const isOpen =
-          mobileMenu.classList.toggle(
-            "open"
-          );
-
-        toggle.classList.toggle(
-          "open",
-          isOpen
-        );
-
-        toggle.setAttribute(
-          "aria-expanded",
-          String(isOpen)
-        );
-
-        document.body.style.overflow =
-          isOpen
-            ? "hidden"
-            : "";
-
-      }
-    );
-
+      document.body.style.overflow =
+        open ? "hidden" : "";
+    });
   }
-
 
   document
-    .querySelectorAll(
-      ".mobile-link"
-    )
-    .forEach(
-      function (link) {
-
-        link.addEventListener(
-          "click",
-          closeMobileMenu
-        );
-
-      }
-    );
+    .querySelectorAll(".mobile-link")
+    .forEach((link) => {
+      link.addEventListener(
+        "click",
+        closeMenu
+      );
+    });
 
 
   /* =========================================================
@@ -675,51 +108,37 @@
   ========================================================= */
 
   document
-    .querySelectorAll(
-      'a[href^="#"]'
-    )
-    .forEach(
-      function (anchor) {
+    .querySelectorAll('a[href^="#"]')
+    .forEach((anchor) => {
+      anchor.addEventListener(
+        "click",
+        function (e) {
+          const href =
+            this.getAttribute("href");
 
-        anchor.addEventListener(
-          "click",
-          function (event) {
-
-            const selector =
-              this.getAttribute(
-                "href"
-              );
-
-            if (
-              !selector ||
-              selector === "#"
-            ) {
-              return;
-            }
-
-            const target =
-              document.querySelector(
-                selector
-              );
-
-            if (target) {
-
-              event.preventDefault();
-
-              closeMobileMenu();
-
-              target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-              });
-
-            }
-
+          if (
+            !href ||
+            href === "#"
+          ) {
+            return;
           }
-        );
 
-      }
-    );
+          const target =
+            document.querySelector(href);
+
+          if (target) {
+            e.preventDefault();
+
+            closeMenu();
+
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+        }
+      );
+    });
 
 
   /* =========================================================
@@ -727,9 +146,7 @@
   ========================================================= */
 
   const tw =
-    document.getElementById(
-      "typewriter"
-    );
+    document.getElementById("typewriter");
 
   const lines = [
     "Machine Learning Enthusiast",
@@ -738,73 +155,50 @@
     "BCA 26 @ MIT-WPU Pune"
   ];
 
-  let lineIndex = 0;
-  let charIndex = 0;
+  let li = 0;
+  let ci = 0;
   let deleting = false;
 
-  const TYPE_SPEED = 80;
-  const DELETE_SPEED = 40;
+  const SPEED_TYPE = 80;
+  const SPEED_DEL = 40;
   const PAUSE = 1800;
 
+  function typeTick() {
+    if (!tw) return;
 
-  function typewriterTick() {
-
-    if (!tw) {
-      return;
-    }
-
-    const current =
-      lines[lineIndex];
+    const current = lines[li];
 
     if (!deleting) {
-
-      charIndex++;
+      ci++;
 
       tw.textContent =
-        current.slice(
-          0,
-          charIndex
-        );
+        current.slice(0, ci);
 
-      if (
-        charIndex >=
-        current.length
-      ) {
-
+      if (ci >= current.length) {
         deleting = true;
 
         setTimeout(
-          typewriterTick,
+          typeTick,
           PAUSE
         );
 
         return;
       }
-
     } else {
-
-      charIndex--;
+      ci--;
 
       tw.textContent =
-        current.slice(
-          0,
-          charIndex
-        );
+        current.slice(0, ci);
 
-      if (
-        charIndex <= 0
-      ) {
-
+      if (ci <= 0) {
         deleting = false;
 
-        lineIndex =
-          (
-            lineIndex + 1
-          ) %
+        li =
+          (li + 1) %
           lines.length;
 
         setTimeout(
-          typewriterTick,
+          typeTick,
           300
         );
 
@@ -813,21 +207,18 @@
     }
 
     setTimeout(
-      typewriterTick,
+      typeTick,
       deleting
-        ? DELETE_SPEED
-        : TYPE_SPEED
+        ? SPEED_DEL
+        : SPEED_TYPE
     );
   }
 
-
   if (tw) {
-
     setTimeout(
-      typewriterTick,
+      typeTick,
       600
     );
-
   }
 
 
@@ -836,7 +227,6 @@
   ========================================================= */
 
   function initUniverse() {
-
     if (
       typeof THREE ===
       "undefined"
@@ -865,12 +255,11 @@
         2000
       );
 
-    camera.position.z =
-      1;
+    camera.position.z = 1;
 
     const renderer =
       new THREE.WebGLRenderer({
-        canvas: canvas,
+        canvas,
         alpha: true,
         antialias: true
       });
@@ -893,6 +282,10 @@
     );
 
 
+    /* ---------------------------------------------------------
+       STAR GENERATOR
+    --------------------------------------------------------- */
+
     function makeStars(
       count,
       spread,
@@ -900,8 +293,7 @@
       color,
       opacity
     ) {
-
-      const positions =
+      const pos =
         new Float32Array(
           count * 3
         );
@@ -911,32 +303,31 @@
         i < count * 3;
         i++
       ) {
-
-        positions[i] =
+        pos[i] =
           (
             Math.random() -
             0.5
-          ) * spread;
-
+          ) *
+          spread;
       }
 
-      const geometry =
+      const geo =
         new THREE.BufferGeometry();
 
-      geometry.setAttribute(
+      geo.setAttribute(
         "position",
         new THREE.BufferAttribute(
-          positions,
+          pos,
           3
         )
       );
 
-      const material =
+      const mat =
         new THREE.PointsMaterial({
-          color: color,
-          size: size,
+          color,
+          size,
           transparent: true,
-          opacity: opacity,
+          opacity,
           sizeAttenuation: true,
           blending:
             THREE.AdditiveBlending,
@@ -944,8 +335,8 @@
         });
 
       return new THREE.Points(
-        geometry,
-        material
+        geo,
+        mat
       );
     }
 
@@ -1012,6 +403,10 @@
     );
 
 
+    /* ---------------------------------------------------------
+       NEBULA
+    --------------------------------------------------------- */
+
     function makeNebula(
       x,
       y,
@@ -1020,18 +415,17 @@
       color,
       opacity
     ) {
-
-      const geometry =
+      const geo =
         new THREE.PlaneGeometry(
           1,
           1
         );
 
-      const material =
+      const mat =
         new THREE.MeshBasicMaterial({
-          color: color,
+          color,
           transparent: true,
-          opacity: opacity,
+          opacity,
           blending:
             THREE.AdditiveBlending,
           depthWrite: false,
@@ -1041,8 +435,8 @@
 
       const mesh =
         new THREE.Mesh(
-          geometry,
-          material
+          geo,
+          mat
         );
 
       mesh.position.set(
@@ -1069,7 +463,6 @@
       new THREE.Group();
 
     nebulaGroup.add(
-
       makeNebula(
         -120,
         60,
@@ -1114,7 +507,6 @@
         0x1e40af,
         0.03
       )
-
     );
 
     scene.add(
@@ -1128,33 +520,36 @@
 
     const shooters = [];
 
-
     function spawnShooter() {
-
-      const geometry =
+      const geo =
         new THREE.BufferGeometry();
 
-      const length =
-        Math.random() * 4 + 2;
+      const len =
+        Math.random() *
+          4 +
+        2;
 
       const x =
         (
           Math.random() -
           0.5
-        ) * 300;
+        ) *
+        300;
 
       const y =
         (
           Math.random() -
           0.5
-        ) * 150 + 60;
+        ) *
+          150 +
+        60;
 
       const z =
         -Math.random() *
           50 -
         5;
 
-      geometry.setAttribute(
+      geo.setAttribute(
         "position",
         new THREE.BufferAttribute(
           new Float32Array([
@@ -1162,15 +557,15 @@
             y,
             z,
 
-            x - length,
-            y - length * 0.4,
+            x - len,
+            y - len * 0.4,
             z
           ]),
           3
         )
       );
 
-      const material =
+      const mat =
         new THREE.LineBasicMaterial({
           color: 0xffffff,
           transparent: true,
@@ -1181,8 +576,8 @@
 
       const line =
         new THREE.Line(
-          geometry,
-          material
+          geo,
+          mat
         );
 
       line.userData = {
@@ -1208,7 +603,6 @@
       shooters.push(line);
     }
 
-
     setInterval(
       spawnShooter,
       2500
@@ -1219,77 +613,82 @@
        MOUSE PARALLAX
     --------------------------------------------------------- */
 
-    let targetMouseX = 0;
-    let targetMouseY = 0;
+    let tmx = 0;
+    let tmy = 0;
 
-    let cameraX = 0;
-    let cameraY = 0;
-
+    let camX = 0;
+    let camY = 0;
 
     document.addEventListener(
       "mousemove",
-      function (event) {
-
-        targetMouseX =
+      (e) => {
+        tmx =
           (
-            event.clientX /
+            e.clientX /
               window.innerWidth -
             0.5
-          ) * 2;
+          ) *
+          2;
 
-        targetMouseY =
+        tmy =
           (
-            event.clientY /
+            e.clientY /
               window.innerHeight -
             0.5
-          ) * 2;
-
+          ) *
+          2;
       },
       { passive: true }
     );
 
 
+    /* ---------------------------------------------------------
+       ANIMATION
+    --------------------------------------------------------- */
+
     const clock =
       new THREE.Clock();
 
-
-    function animateUniverse() {
-
+    function animate() {
       requestAnimationFrame(
-        animateUniverse
+        animate
       );
 
-      const time =
+      const t =
         clock.getElapsedTime();
 
       starGroup.rotation.y =
-        time * 0.012;
+        t * 0.012;
 
       starGroup.rotation.x =
         Math.sin(
-          time * 0.007
-        ) * 0.08;
+          t * 0.007
+        ) *
+        0.08;
 
       nebulaGroup.rotation.z =
-        time * 0.005;
+        t * 0.005;
 
-      cameraX +=
-        (
-          targetMouseX * 8 -
-          cameraX
-        ) * 0.025;
 
-      cameraY +=
+      camX +=
         (
-          -targetMouseY * 5 -
-          cameraY
-        ) * 0.025;
+          tmx * 8 -
+          camX
+        ) *
+        0.025;
+
+      camY +=
+        (
+          -tmy * 5 -
+          camY
+        ) *
+        0.025;
 
       camera.position.x =
-        cameraX;
+        camX;
 
       camera.position.y =
-        cameraY;
+        camY;
 
       camera.lookAt(
         0,
@@ -1298,59 +697,57 @@
       );
 
 
+      /* Shooting stars */
+
       for (
         let i =
           shooters.length - 1;
         i >= 0;
         i--
       ) {
-
-        const shooter =
+        const s =
           shooters[i];
 
-        shooter.userData.life -=
+        s.userData.life -=
           0.018;
 
-        shooter.material.opacity =
-          shooter.userData.life *
+        s.material.opacity =
+          s.userData.life *
           0.9;
 
-        const positions =
-          shooter.geometry
+        const pos =
+          s.geometry
             .attributes
             .position
             .array;
 
-        positions[0] +=
-          shooter.userData.vx;
+        pos[0] +=
+          s.userData.vx;
 
-        positions[1] +=
-          shooter.userData.vy;
+        pos[1] +=
+          s.userData.vy;
 
-        positions[3] +=
-          shooter.userData.vx;
+        pos[3] +=
+          s.userData.vx;
 
-        positions[4] +=
-          shooter.userData.vy;
+        pos[4] +=
+          s.userData.vy;
 
-        shooter.geometry
+        s.geometry
           .attributes
           .position
           .needsUpdate =
           true;
 
         if (
-          shooter.userData.life <=
+          s.userData.life <=
           0
         ) {
+          scene.remove(s);
 
-          scene.remove(
-            shooter
-          );
+          s.geometry.dispose();
 
-          shooter.geometry.dispose();
-
-          shooter.material.dispose();
+          s.material.dispose();
 
           shooters.splice(
             i,
@@ -1359,21 +756,18 @@
         }
       }
 
-
       renderer.render(
         scene,
         camera
       );
     }
 
-
-    animateUniverse();
+    animate();
 
 
     window.addEventListener(
       "resize",
-      function () {
-
+      () => {
         camera.aspect =
           window.innerWidth /
           window.innerHeight;
@@ -1384,15 +778,11 @@
           window.innerWidth,
           window.innerHeight
         );
-
       },
       { passive: true }
     );
-
   }
 
-
-  /* Run visual universe separately */
 
   try {
     initUniverse();
@@ -1405,7 +795,7 @@
 
 
   /* =========================================================
-     GSAP / SCROLL ANIMATIONS
+     GSAP SCROLL ANIMATIONS
   ========================================================= */
 
   function initGSAP() {
@@ -1416,37 +806,29 @@
       typeof ScrollTrigger ===
         "undefined"
     ) {
-
-      const observer =
+      const obs =
         new IntersectionObserver(
-          function (entries) {
-
+          (entries) => {
             entries.forEach(
-              function (entry, index) {
-
+              (entry, i) => {
                 if (
                   entry.isIntersecting
                 ) {
-
                   setTimeout(
-                    function () {
-
+                    () => {
                       entry.target.classList.add(
                         "in"
                       );
-
                     },
-                    index * 60
+                    i * 60
                   );
 
-                  observer.unobserve(
+                  obs.unobserve(
                     entry.target
                   );
                 }
-
               }
             );
-
           },
           {
             threshold: 0.1,
@@ -1455,17 +837,13 @@
           }
         );
 
-
       document
         .querySelectorAll(
           ".reveal"
         )
         .forEach(
-          function (element) {
-            observer.observe(
-              element
-            );
-          }
+          (el) =>
+            obs.observe(el)
         );
 
       return;
@@ -1477,14 +855,14 @@
     );
 
 
+    /* Hero */
+
     const hero =
       document.getElementById(
         "heroInner"
       );
 
-
     if (hero) {
-
       gsap.from(
         hero.children,
         {
@@ -1492,20 +870,22 @@
           opacity: 0,
           duration: 1,
           stagger: 0.12,
-          ease: "power3.out",
+          ease:
+            "power3.out",
           delay: 0.2
         }
       );
-
     }
 
+
+    /* Sections */
 
     document
       .querySelectorAll(
         ".section"
       )
       .forEach(
-        function (section) {
+        (section) => {
 
           const reveals =
             section.querySelectorAll(
@@ -1531,31 +911,33 @@
               opacity: 1,
               duration: 0.8,
               stagger: 0.1,
-              ease: "power3.out",
+              ease:
+                "power3.out",
 
               scrollTrigger: {
                 trigger: section,
-                start: "top 80%",
+                start:
+                  "top 80%",
                 toggleActions:
                   "play none none none"
               }
-
             }
           );
-
         }
       );
 
+
+    /* Section titles */
 
     document
       .querySelectorAll(
         ".sec-title"
       )
       .forEach(
-        function (element) {
+        (el) => {
 
           gsap.fromTo(
-            element,
+            el,
 
             {
               scale: 0.95,
@@ -1566,19 +948,21 @@
               scale: 1,
               opacity: 1,
               duration: 0.9,
-              ease: "power3.out",
+              ease:
+                "power3.out",
 
               scrollTrigger: {
-                trigger: element,
-                start: "top 85%"
+                trigger: el,
+                start:
+                  "top 85%"
               }
-
             }
           );
-
         }
       );
 
+
+    /* Stat cards */
 
     gsap
       .utils
@@ -1586,7 +970,7 @@
         ".stat-card"
       )
       .forEach(
-        function (card, index) {
+        (card, i) => {
 
           gsap.fromTo(
             card,
@@ -1601,21 +985,22 @@
               opacity: 1,
               duration: 0.6,
               delay:
-                index * 0.1,
+                i * 0.1,
               ease:
                 "back.out(1.4)",
 
               scrollTrigger: {
                 trigger: card,
-                start: "top 85%"
+                start:
+                  "top 85%"
               }
-
             }
           );
-
         }
       );
 
+
+    /* Project cards */
 
     gsap
       .utils
@@ -1623,17 +1008,16 @@
         ".proj-card"
       )
       .forEach(
-        function (card, index) {
+        (card, i) => {
 
           gsap.fromTo(
             card,
 
             {
               x:
-                index % 2 === 0
+                i % 2 === 0
                   ? -60
                   : 60,
-
               opacity: 0
             },
 
@@ -1641,19 +1025,21 @@
               x: 0,
               opacity: 1,
               duration: 0.8,
-              ease: "power3.out",
+              ease:
+                "power3.out",
 
               scrollTrigger: {
                 trigger: card,
-                start: "top 85%"
+                start:
+                  "top 85%"
               }
-
             }
           );
-
         }
       );
 
+
+    /* Skill pills */
 
     gsap
       .utils
@@ -1661,7 +1047,7 @@
         ".spill"
       )
       .forEach(
-        function (pill, index) {
+        (pill, i) => {
 
           gsap.fromTo(
             pill,
@@ -1676,21 +1062,19 @@
               opacity: 1,
               duration: 0.4,
               delay:
-                index * 0.03,
+                i * 0.03,
               ease:
                 "back.out(1.7)",
 
               scrollTrigger: {
                 trigger: pill,
-                start: "top 90%"
+                start:
+                  "top 90%"
               }
-
             }
           );
-
         }
       );
-
   }
 
 
@@ -1708,21 +1092,19 @@
      COUNT-UP NUMBERS
   ========================================================= */
 
-  const countElements =
+  const countEls =
     document.querySelectorAll(
       ".count-up"
     );
 
-  if (
-    countElements.length
-  ) {
+  if (countEls.length) {
 
-    const countObserver =
+    const countObs =
       new IntersectionObserver(
-        function (entries) {
+        (entries) => {
 
           entries.forEach(
-            function (entry) {
+            (entry) => {
 
               if (
                 !entry.isIntersecting
@@ -1730,12 +1112,12 @@
                 return;
               }
 
-              const element =
+              const el =
                 entry.target;
 
               const target =
                 parseInt(
-                  element.dataset.target,
+                  el.dataset.target,
                   10
                 );
 
@@ -1746,9 +1128,9 @@
                 performance.now();
 
 
-              function countStep(now) {
+              function step(now) {
 
-                const progress =
+                const pct =
                   Math.min(
                     (
                       now - start
@@ -1760,59 +1142,46 @@
                 const eased =
                   1 -
                   Math.pow(
-                    1 - progress,
+                    1 - pct,
                     3
                   );
 
-                element.textContent =
+                el.textContent =
                   Math.floor(
                     eased * target
                   );
 
                 if (
-                  progress < 1
+                  pct < 1
                 ) {
-
                   requestAnimationFrame(
-                    countStep
+                    step
                   );
-
                 } else {
-
-                  element.textContent =
+                  el.textContent =
                     target;
-
                 }
-
               }
 
-
               requestAnimationFrame(
-                countStep
+                step
               );
 
-              countObserver.unobserve(
-                element
+              countObs.unobserve(
+                el
               );
-
             }
           );
-
         },
         {
           threshold: 0.6
         }
       );
 
-
-    countElements.forEach(
-      function (element) {
-        countObserver.observe(
-          element
-        );
-      }
+    countEls.forEach(
+      (el) =>
+        countObs.observe(el)
     );
-
   }
 
 
@@ -1825,15 +1194,14 @@
       ".cefr-fill"
     );
 
-
   if (bars.length) {
 
-    const barObserver =
+    const barObs =
       new IntersectionObserver(
-        function (entries) {
+        (entries) => {
 
           entries.forEach(
-            function (entry) {
+            (entry) => {
 
               if (
                 !entry.isIntersecting
@@ -1851,37 +1219,28 @@
                 "0%";
 
               setTimeout(
-                function () {
-
+                () => {
                   element.style.width =
                     width;
-
                 },
                 250
               );
 
-              barObserver.unobserve(
+              barObs.unobserve(
                 element
               );
-
             }
           );
-
         },
         {
           threshold: 0.5
         }
       );
 
-
     bars.forEach(
-      function (bar) {
-        barObserver.observe(
-          bar
-        );
-      }
+      (bar) =>
+        barObs.observe(bar)
     );
-
   }
 
 
@@ -1898,19 +1257,17 @@
       return;
     }
 
-    const tiltElements =
+    const elements =
       document.querySelectorAll(
         "[data-tilt]"
       );
 
-    if (
-      !tiltElements.length
-    ) {
+    if (!elements.length) {
       return;
     }
 
     VanillaTilt.init(
-      tiltElements,
+      elements,
       {
         max: 10,
         speed: 400,
@@ -1919,7 +1276,6 @@
         perspective: 800
       }
     );
-
   }
 
 
@@ -1934,7 +1290,7 @@
 
 
   /* =========================================================
-     SKILL PILL HOVER
+     SKILL PILL HOVER GLOW
   ========================================================= */
 
   document
@@ -1942,29 +1298,658 @@
       ".spill"
     )
     .forEach(
-      function (pill) {
+      (pill) => {
 
         pill.addEventListener(
           "mouseenter",
-          function () {
-
+          () => {
             pill.style.boxShadow =
               "0 0 12px currentColor";
-
           }
         );
 
         pill.addEventListener(
           "mouseleave",
-          function () {
-
+          () => {
             pill.style.boxShadow =
               "";
-
           }
+        );
+      }
+    );
+
+
+  /* =========================================================
+     ASK ASSISTANT
+  ========================================================= */
+
+  function initChatbot() {
+
+    const trigger =
+      document.getElementById(
+        "aiChatTrigger"
+      );
+
+    const win =
+      document.getElementById(
+        "aiChatWindow"
+      );
+
+    const close =
+      document.getElementById(
+        "aiChatClose"
+      );
+
+    const form =
+      document.getElementById(
+        "aiChatForm"
+      );
+
+    const input =
+      document.getElementById(
+        "aiChatInput"
+      );
+
+    const messages =
+      document.getElementById(
+        "aiChatMessages"
+      );
+
+    if (
+      !trigger ||
+      !win ||
+      !close ||
+      !form ||
+      !input ||
+      !messages
+    ) {
+      console.warn(
+        "Ask Assistant elements not found."
+      );
+
+      return;
+    }
+
+
+    /* ---------------------------------------------------------
+       RESPONSE ENGINE
+    --------------------------------------------------------- */
+
+    function response(question) {
+
+      const t =
+        question
+          .toLowerCase()
+          .trim()
+          .replace(
+            /[?!.,]/g,
+            ""
+          );
+
+
+      /* Greetings */
+
+      if (
+        /^(hi|hello|hey)$/.test(t)
+      ) {
+        return (
+          "Hey! I'm Om's portfolio assistant. " +
+          "Ask me about his education, skills, projects, " +
+          "Machine Learning, Data Science, or current focus."
+        );
+      }
+
+
+      /* Current study */
+
+      if (
+        t.includes("study") ||
+        t.includes("studying") ||
+        t.includes("msc") ||
+        t.includes("master")
+      ) {
+        return (
+          "Om is currently a First Year MSc " +
+          "Artificial Intelligence & Data Science student."
+        );
+      }
+
+
+      /* Education */
+
+      if (
+        t.includes("education") ||
+        t.includes("degree") ||
+        t.includes("university") ||
+        t.includes("college") ||
+        t.includes("bca")
+      ) {
+        return (
+          "Om completed his BCA from MIT World Peace " +
+          "University, Pune and is currently pursuing " +
+          "an MSc in Artificial Intelligence & Data Science."
+        );
+      }
+
+
+      /* Skills */
+
+      if (
+        t.includes("skill") ||
+        t.includes("technology") ||
+        t.includes("tech stack")
+      ) {
+        return (
+          "Om's current technical focus includes Python, SQL, " +
+          "NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, " +
+          "data preprocessing, EDA, feature engineering, " +
+          "classification, and model evaluation."
+        );
+      }
+
+
+      /* Machine Learning */
+
+      if (
+        t.includes("machine learning") ||
+        t === "ml" ||
+        t.includes("classification") ||
+        t.includes("model")
+      ) {
+        return (
+          "Machine Learning is one of Om's main areas of interest. " +
+          "He has worked with classification, imbalanced datasets, " +
+          "preprocessing, feature scaling, precision, recall, " +
+          "F1-score and ROC-AUC."
+        );
+      }
+
+
+      /* Data Science */
+
+      if (
+        t.includes("data science") ||
+        t.includes("data analysis") ||
+        t.includes("pandas") ||
+        t.includes("numpy")
+      ) {
+        return (
+          "Om is interested in the complete Data Science workflow — " +
+          "data cleaning, EDA, feature engineering, modelling and evaluation."
+        );
+      }
+
+
+      /* Fraud */
+
+      if (
+        t.includes("fraud") ||
+        t.includes("credit card")
+      ) {
+        return (
+          "Om's Credit Card Fraud Detection project explores an " +
+          "imbalanced transaction dataset, Logistic Regression, " +
+          "Random Forest, precision, recall, F1-score and ROC-AUC."
+        );
+      }
+
+
+      /* Student Performance */
+
+      if (
+        t.includes("student performance") ||
+        t.includes("student prediction")
+      ) {
+        return (
+          "Om built a Student Performance Prediction classification " +
+          "project involving data cleaning, feature selection, " +
+          "EDA and machine learning."
+        );
+      }
+
+
+      /* Projects */
+
+      if (
+        t.includes("project") ||
+        t.includes("work") ||
+        t.includes("built")
+      ) {
+        return (
+          "Om's portfolio features Credit Card Fraud Detection " +
+          "and Student Performance Prediction, with more projects " +
+          "and experiments being developed."
+        );
+      }
+
+
+      /* GitHub */
+
+      if (
+        t.includes("github") ||
+        t.includes("code") ||
+        t.includes("repository")
+      ) {
+        return (
+          "Om's GitHub contains his machine learning projects " +
+          "and code. Use the GitHub links in the portfolio to explore them."
+        );
+      }
+
+
+      /* Contact */
+
+      if (
+        t.includes("contact") ||
+        t.includes("email") ||
+        t.includes("linkedin")
+      ) {
+        return (
+          "You can connect with Om through the GitHub and LinkedIn " +
+          "links in the Contact section."
+        );
+      }
+
+
+      /* Default */
+
+      return (
+        "I don't have an answer for that yet. " +
+        "Try asking about Om's education, skills, projects, " +
+        "Machine Learning, Data Science, or current study."
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       ADD MESSAGE
+    --------------------------------------------------------- */
+
+    function addMessage(
+      text,
+      user = false
+    ) {
+
+      const el =
+        document.createElement(
+          "div"
+        );
+
+      el.className =
+        user
+          ? "ai-message ai-message-user"
+          : "ai-message";
+
+
+      if (user) {
+
+        el.innerHTML = `
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
+
+      } else {
+
+        el.innerHTML = `
+          <span class="ai-message-avatar">✦</span>
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
+
+      }
+
+
+      const paragraph =
+        el.querySelector("p");
+
+      if (paragraph) {
+        paragraph.textContent =
+          text;
+      }
+
+
+      messages.appendChild(
+        el
+      );
+
+      messages.scrollTop =
+        messages.scrollHeight;
+    }
+
+
+    /* ---------------------------------------------------------
+       SEND
+    --------------------------------------------------------- */
+
+    function send(question) {
+
+      const q =
+        String(
+          question || ""
+        ).trim();
+
+      if (!q) {
+        return;
+      }
+
+
+      addMessage(
+        q,
+        true
+      );
+
+      input.value =
+        "";
+
+
+      /* Typing */
+
+      const typing =
+        document.createElement(
+          "div"
+        );
+
+      typing.className =
+        "ai-message ai-typing";
+
+      typing.innerHTML = `
+        <span class="ai-message-avatar">✦</span>
+        <div class="ai-message-content">
+          <div class="ai-typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      `;
+
+      messages.appendChild(
+        typing
+      );
+
+      messages.scrollTop =
+        messages.scrollHeight;
+
+
+      setTimeout(
+        () => {
+
+          typing.remove();
+
+          addMessage(
+            response(q)
+          );
+
+        },
+        500
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       OPEN / CLOSE
+    --------------------------------------------------------- */
+
+    function openChat() {
+
+      win.classList.add(
+        "open"
+      );
+
+      win.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      trigger.classList.add(
+        "active"
+      );
+
+      trigger.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      setTimeout(
+        () => {
+          input.focus();
+        },
+        200
+      );
+    }
+
+
+    function shutChat() {
+
+      win.classList.remove(
+        "open"
+      );
+
+      win.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      trigger.classList.remove(
+        "active"
+      );
+
+      trigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    }
+
+
+    /* ---------------------------------------------------------
+       TRIGGER
+    --------------------------------------------------------- */
+
+    trigger.addEventListener(
+      "click",
+      () => {
+
+        if (
+          win.classList.contains(
+            "open"
+          )
+        ) {
+          shutChat();
+        } else {
+          openChat();
+        }
+
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       CLOSE BUTTON
+    --------------------------------------------------------- */
+
+    close.addEventListener(
+      "click",
+      () => {
+        shutChat();
+      }
+    );
+
+
+    /* ---------------------------------------------------------
+       FORM
+    --------------------------------------------------------- */
+
+    form.addEventListener(
+      "submit",
+      (e) => {
+
+        e.preventDefault();
+
+        send(
+          input.value
         );
 
       }
     );
+
+
+    /* ---------------------------------------------------------
+       QUICK QUESTIONS
+    --------------------------------------------------------- */
+
+    document
+      .querySelectorAll(
+        ".ai-suggestion"
+      )
+      .forEach(
+        (button) => {
+
+          button.type =
+            "button";
+
+          button.setAttribute(
+            "tabindex",
+            "0"
+          );
+
+
+          button.addEventListener(
+            "click",
+            (e) => {
+
+              e.preventDefault();
+
+              e.stopPropagation();
+
+              const question =
+                button.dataset.question ||
+                button.textContent.trim();
+
+              openChat();
+
+              send(
+                question
+              );
+            }
+          );
+
+
+          /* Keyboard */
+
+          button.addEventListener(
+            "keydown",
+            (e) => {
+
+              if (
+                e.key ===
+                  "Enter" ||
+                e.key ===
+                  " "
+              ) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+                const question =
+                  button.dataset.question ||
+                  button.textContent.trim();
+
+                openChat();
+
+                send(
+                  question
+                );
+              }
+            }
+          );
+
+        }
+      );
+
+
+    /* ---------------------------------------------------------
+       ESCAPE
+    --------------------------------------------------------- */
+
+    document.addEventListener(
+      "keydown",
+      (e) => {
+
+        if (
+          e.key ===
+            "Escape" &&
+          win.classList.contains(
+            "open"
+          )
+        ) {
+          shutChat();
+        }
+
+
+        /* "/" opens assistant */
+
+        const active =
+          document.activeElement;
+
+        const isTyping =
+          active &&
+          (
+            active.tagName ===
+              "INPUT" ||
+            active.tagName ===
+              "TEXTAREA" ||
+            active.isContentEditable
+          );
+
+
+        if (
+          e.key === "/" &&
+          !isTyping
+        ) {
+
+          e.preventDefault();
+
+          openChat();
+        }
+
+      }
+    );
+
+
+    /* Initial state */
+
+    win.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    trigger.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+
+    console.log(
+      "Ask Assistant initialized successfully."
+    );
+  }
+
+
+  /* =========================================================
+     INITIALIZE CHATBOT
+  ========================================================= */
+
+  try {
+    initChatbot();
+  } catch (error) {
+    console.error(
+      "Ask Assistant initialization failed:",
+      error
+    );
+  }
 
 })();
