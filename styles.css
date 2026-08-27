@@ -2,7 +2,7 @@
   --bg:#0d0d0f; --bg-alt:#121217; --bg-card:#16161d;
   --border:rgba(255,255,255,0.07); --border-h:rgba(255,255,255,0.15);
   --text:#eeeef0; --text-2:#9b9ba8; --text-3:#555560;
-  --blue:#4f9eff; --blue-bg:rgba(79,158,255,0.1); --blue-b:rgba(79,158,255,0.25);
+  --blue:#4f9eff; --blue-bright:#72b4ff; --blue-bg:rgba(79,158,255,0.1); --blue-b:rgba(79,158,255,0.25);
   --purple:#a78bfa; --purple-bg:rgba(167,139,250,0.1); --purple-b:rgba(167,139,250,0.25);
   --green:#34d399; --green-bg:rgba(52,211,153,0.1); --green-b:rgba(52,211,153,0.25);
   --orange:#fb923c; --orange-bg:rgba(251,146,60,0.1); --orange-b:rgba(251,146,60,0.25);
@@ -1526,7 +1526,7 @@ body:has(button:hover) #cursor-follower{
   display:flex;
   flex-direction:column;
   align-items:flex-end;
-  pointer-events:none
+  pointer-events:auto
 }
 
 .ai-chat-trigger{
@@ -1809,18 +1809,24 @@ body:has(button:hover) #cursor-follower{
    ========================================================= */
 
 .ai-suggestions{
+  position:relative;
+  z-index:20;
   display:flex;
   flex-direction:column;
   gap:5px;
   padding:9px 14px;
-  border-top:1px solid var(--border)
+  border-top:1px solid var(--border);
+  pointer-events:auto
 }
 
 .ai-suggestion{
+  position:relative;
+  z-index:21;
   display:flex;
   align-items:center;
   gap:8px;
   width:100%;
+  min-height:38px;
   padding:8px 9px;
   text-align:left;
   border:1px solid var(--border);
@@ -1828,6 +1834,9 @@ body:has(button:hover) #cursor-follower{
   background:rgba(255,255,255,.025);
   color:var(--text-2);
   cursor:pointer;
+  pointer-events:auto;
+  user-select:none;
+  -webkit-user-select:none;
   transition:.2s
 }
 
@@ -1844,7 +1853,19 @@ body:has(button:hover) #cursor-follower{
 }
 
 .ai-suggestion b{
-  color:var(--blue)
+  color:var(--blue);
+  flex:0 0 auto
+}
+
+.ai-suggestion:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+  border-color:var(--blue);
+  background:var(--blue-bg)
+}
+
+.ai-suggestion:active{
+  transform:translateX(1px) scale(.99)
 }
 
 /* =========================================================
