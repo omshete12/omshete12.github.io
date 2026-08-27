@@ -18,11 +18,16 @@
   <div id="cursor-follower"></div>
 
   <nav class="nav" id="nav">
-    <div class="logo-box">OS</div>
+    <a class="nav-brand" href="#hero" aria-label="Om Shete home">
+      <span class="logo-box">OS</span>
+      <span class="brand-copy"><strong>OM SHETE</strong><small>AI · DATA SCIENCE</small></span>
+    </a>
+
     <div class="nav-center">
       <span class="badge-pulse"></span>
       <span>Open to Work</span>
     </div>
+
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -30,18 +35,25 @@
       <li><a href="#languages">Languages</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+
+    <a class="nav-ai-link" href="#aiAssistant" id="navAiLink">
+      <span class="nav-ai-dot"></span> Ask Assistant <span>↗</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-brand"><span class="logo-box">OS</span><div><strong>OM SHETE</strong><small>AI · DATA SCIENCE</small></div></div>
     <ul>
       <li><a href="#about" class="mobile-link">About</a></li>
       <li><a href="#projects" class="mobile-link">Projects</a></li>
       <li><a href="#skills" class="mobile-link">Skills</a></li>
       <li><a href="#languages" class="mobile-link">Languages</a></li>
       <li><a href="#contact" class="mobile-link">Contact</a></li>
+      <li><a href="#aiAssistant" class="mobile-link mobile-ai-link">✦ Ask Assistant</a></li>
     </ul>
   </div>
 
