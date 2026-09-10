@@ -1,7 +1,6 @@
 (function () {
   "use strict";
 
-
   /* =========================================================
      CUSTOM CURSOR
   ========================================================= */
@@ -69,11 +68,7 @@
   function closeMenu() {
     if (toggle) {
       toggle.classList.remove("open");
-
-      toggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
+      toggle.setAttribute("aria-expanded", "false");
     }
 
     if (mobileMenu) {
@@ -84,26 +79,18 @@
   }
 
   if (toggle && mobileMenu) {
-    toggle.addEventListener(
-      "click",
-      () => {
-        const open =
-          mobileMenu.classList.toggle("open");
+    toggle.addEventListener("click", () => {
+      const open = mobileMenu.classList.toggle("open");
 
-        toggle.classList.toggle(
-          "open",
-          open
-        );
+      toggle.classList.toggle("open", open);
+      toggle.setAttribute(
+        "aria-expanded",
+        String(open)
+      );
 
-        toggle.setAttribute(
-          "aria-expanded",
-          String(open)
-        );
-
-        document.body.style.overflow =
-          open ? "hidden" : "";
-      }
-    );
+      document.body.style.overflow =
+        open ? "hidden" : "";
+    });
   }
 
   document
@@ -114,59 +101,6 @@
         closeMenu
       );
     });
-
-
-  /* =========================================================
-     ACTIVE NAVIGATION
-  ========================================================= */
-
-  const navAnchors =
-    document.querySelectorAll(
-      '.nav-links a[href^="#"]'
-    );
-
-  const pageSections =
-    document.querySelectorAll(
-      "section[id]"
-    );
-
-  function updateActiveNav() {
-    const position =
-      window.scrollY + 180;
-
-    let current = "";
-
-    pageSections.forEach(
-      (section) => {
-        if (
-          position >= section.offsetTop &&
-          position <
-            section.offsetTop +
-              section.offsetHeight
-        ) {
-          current = section.id;
-        }
-      }
-    );
-
-    navAnchors.forEach(
-      (link) => {
-        link.classList.toggle(
-          "active",
-          link.getAttribute("href") ===
-            `#${current}`
-        );
-      }
-    );
-  }
-
-  window.addEventListener(
-    "scroll",
-    updateActiveNav,
-    { passive: true }
-  );
-
-  updateActiveNav();
 
 
   /* =========================================================
@@ -212,9 +146,7 @@
   ========================================================= */
 
   const tw =
-    document.getElementById(
-      "typewriter"
-    );
+    document.getElementById("typewriter");
 
   const lines = [
     "Machine Learning Enthusiast",
@@ -232,26 +164,17 @@
   const PAUSE = 1800;
 
   function typeTick() {
-    if (!tw) {
-      return;
-    }
+    if (!tw) return;
 
-    const current =
-      lines[li];
+    const current = lines[li];
 
     if (!deleting) {
       ci++;
 
       tw.textContent =
-        current.slice(
-          0,
-          ci
-        );
+        current.slice(0, ci);
 
-      if (
-        ci >=
-        current.length
-      ) {
+      if (ci >= current.length) {
         deleting = true;
 
         setTimeout(
@@ -265,10 +188,7 @@
       ci--;
 
       tw.textContent =
-        current.slice(
-          0,
-          ci
-        );
+        current.slice(0, ci);
 
       if (ci <= 0) {
         deleting = false;
@@ -680,9 +600,7 @@
 
       scene.add(line);
 
-      shooters.push(
-        line
-      );
+      shooters.push(line);
     }
 
     setInterval(
@@ -779,9 +697,7 @@
       );
 
 
-      /* -------------------------------------------------------
-         SHOOTING STAR ANIMATION
-      ------------------------------------------------------- */
+      /* Shooting stars */
 
       for (
         let i =
@@ -840,7 +756,6 @@
         }
       }
 
-
       renderer.render(
         scene,
         camera
@@ -849,10 +764,6 @@
 
     animate();
 
-
-    /* ---------------------------------------------------------
-       RESIZE
-    --------------------------------------------------------- */
 
     window.addEventListener(
       "resize",
@@ -873,10 +784,6 @@
   }
 
 
-  /* =========================================================
-     INITIALIZE THREE.JS
-  ========================================================= */
-
   try {
     initUniverse();
   } catch (error) {
@@ -885,6 +792,7 @@
       error
     );
   }
+
 
   /* =========================================================
      GSAP SCROLL ANIMATIONS
@@ -898,24 +806,19 @@
       typeof ScrollTrigger ===
         "undefined"
     ) {
-
       const obs =
         new IntersectionObserver(
           (entries) => {
-
             entries.forEach(
               (entry, i) => {
-
                 if (
                   entry.isIntersecting
                 ) {
-
                   setTimeout(
                     () => {
                       entry.target.classList.add(
                         "in"
                       );
-
                     },
                     i * 60
                   );
@@ -934,7 +837,6 @@
           }
         );
 
-
       document
         .querySelectorAll(
           ".reveal"
@@ -947,14 +849,13 @@
       return;
     }
 
+
     gsap.registerPlugin(
       ScrollTrigger
     );
 
 
-    /* ---------------------------------------------------------
-       HERO
-    --------------------------------------------------------- */
+    /* Hero */
 
     const hero =
       document.getElementById(
@@ -962,7 +863,6 @@
       );
 
     if (hero) {
-
       gsap.from(
         hero.children,
         {
@@ -975,13 +875,10 @@
           delay: 0.2
         }
       );
-
     }
 
 
-    /* ---------------------------------------------------------
-       SECTIONS
-    --------------------------------------------------------- */
+    /* Sections */
 
     document
       .querySelectorAll(
@@ -1000,7 +897,6 @@
           ) {
             return;
           }
-
 
           gsap.fromTo(
             reveals,
@@ -1027,14 +923,11 @@
               }
             }
           );
-
         }
       );
 
 
-    /* ---------------------------------------------------------
-       SECTION TITLES
-    --------------------------------------------------------- */
+    /* Section titles */
 
     document
       .querySelectorAll(
@@ -1065,14 +958,11 @@
               }
             }
           );
-
         }
       );
 
 
-    /* ---------------------------------------------------------
-       STAT CARDS
-    --------------------------------------------------------- */
+    /* Stat cards */
 
     gsap
       .utils
@@ -1106,14 +996,11 @@
               }
             }
           );
-
         }
       );
 
 
-    /* ---------------------------------------------------------
-       PROJECT CARDS
-    --------------------------------------------------------- */
+    /* Project cards */
 
     gsap
       .utils
@@ -1148,14 +1035,11 @@
               }
             }
           );
-
         }
       );
 
 
-    /* ---------------------------------------------------------
-       SKILL PILLS
-    --------------------------------------------------------- */
+    /* Skill pills */
 
     gsap
       .utils
@@ -1189,25 +1073,18 @@
               }
             }
           );
-
         }
       );
   }
 
 
-  /* =========================================================
-     INITIALIZE GSAP
-  ========================================================= */
-
   try {
     initGSAP();
   } catch (error) {
-
     console.error(
       "GSAP initialization failed:",
       error
     );
-
   }
 
 
@@ -1220,9 +1097,7 @@
       ".count-up"
     );
 
-  if (
-    countEls.length
-  ) {
+  if (countEls.length) {
 
     const countObs =
       new IntersectionObserver(
@@ -1236,7 +1111,6 @@
               ) {
                 return;
               }
-
 
               const el =
                 entry.target;
@@ -1265,7 +1139,6 @@
                     1
                   );
 
-
                 const eased =
                   1 -
                   Math.pow(
@@ -1273,41 +1146,30 @@
                     3
                   );
 
-
                 el.textContent =
                   Math.floor(
-                    eased *
-                      target
+                    eased * target
                   );
-
 
                 if (
                   pct < 1
                 ) {
-
                   requestAnimationFrame(
                     step
                   );
-
                 } else {
-
                   el.textContent =
                     target;
-
                 }
-
               }
-
 
               requestAnimationFrame(
                 step
               );
 
-
               countObs.unobserve(
                 el
               );
-
             }
           );
         },
@@ -1316,12 +1178,10 @@
         }
       );
 
-
     countEls.forEach(
       (el) =>
         countObs.observe(el)
     );
-
   }
 
 
@@ -1334,9 +1194,7 @@
       ".cefr-fill"
     );
 
-  if (
-    bars.length
-  ) {
+  if (bars.length) {
 
     const barObs =
       new IntersectionObserver(
@@ -1351,7 +1209,6 @@
                 return;
               }
 
-
               const element =
                 entry.target;
 
@@ -1361,22 +1218,17 @@
               element.style.width =
                 "0%";
 
-
               setTimeout(
                 () => {
-
                   element.style.width =
                     width;
-
                 },
                 250
               );
 
-
               barObs.unobserve(
                 element
               );
-
             }
           );
         },
@@ -1385,12 +1237,10 @@
         }
       );
 
-
     bars.forEach(
       (bar) =>
         barObs.observe(bar)
     );
-
   }
 
 
@@ -1407,18 +1257,14 @@
       return;
     }
 
-
     const elements =
       document.querySelectorAll(
         "[data-tilt]"
       );
 
-    if (
-      !elements.length
-    ) {
+    if (!elements.length) {
       return;
     }
-
 
     VanillaTilt.init(
       elements,
@@ -1430,23 +1276,16 @@
         perspective: 800
       }
     );
-
   }
 
-
-  /* =========================================================
-     INITIALIZE VANILLA TILT
-  ========================================================= */
 
   try {
     initTilt();
   } catch (error) {
-
     console.error(
       "Tilt initialization failed:",
       error
     );
-
   }
 
 
@@ -1464,24 +1303,18 @@
         pill.addEventListener(
           "mouseenter",
           () => {
-
             pill.style.boxShadow =
               "0 0 12px currentColor";
-
           }
         );
-
 
         pill.addEventListener(
           "mouseleave",
           () => {
-
             pill.style.boxShadow =
               "";
-
           }
         );
-
       }
     );
 
@@ -1522,7 +1355,6 @@
         "aiChatMessages"
       );
 
-
     if (
       !trigger ||
       !win ||
@@ -1531,7 +1363,6 @@
       !input ||
       !messages
     ) {
-
       console.warn(
         "Ask Assistant elements not found."
       );
@@ -1556,26 +1387,20 @@
           );
 
 
-      /* -------------------------------------------------------
-         GREETINGS
-      ------------------------------------------------------- */
+      /* Greetings */
 
       if (
         /^(hi|hello|hey)$/.test(t)
       ) {
-
         return (
           "Hey! I'm Om's portfolio assistant. " +
           "Ask me about his education, skills, projects, " +
           "Machine Learning, Data Science, or current focus."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         CURRENT STUDY
-      ------------------------------------------------------- */
+      /* Current study */
 
       if (
         t.includes("study") ||
@@ -1583,18 +1408,14 @@
         t.includes("msc") ||
         t.includes("master")
       ) {
-
         return (
           "Om is currently a First Year MSc " +
           "Artificial Intelligence & Data Science student."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         EDUCATION
-      ------------------------------------------------------- */
+      /* Education */
 
       if (
         t.includes("education") ||
@@ -1603,40 +1424,31 @@
         t.includes("college") ||
         t.includes("bca")
       ) {
-
         return (
           "Om completed his BCA from MIT World Peace " +
-          "University, Pune (2023–2026) and is currently " +
-          "pursuing an MSc in Artificial Intelligence & " +
-          "Data Science (2026–2028)."
+          "University, Pune and is currently pursuing " +
+          "an MSc in Artificial Intelligence & Data Science."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         SKILLS
-      ------------------------------------------------------- */
+      /* Skills */
 
       if (
         t.includes("skill") ||
         t.includes("technology") ||
         t.includes("tech stack")
       ) {
-
         return (
           "Om's current technical focus includes Python, SQL, " +
           "NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, " +
           "data preprocessing, EDA, feature engineering, " +
           "classification, and model evaluation."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         MACHINE LEARNING
-      ------------------------------------------------------- */
+      /* Machine Learning */
 
       if (
         t.includes("machine learning") ||
@@ -1644,20 +1456,16 @@
         t.includes("classification") ||
         t.includes("model")
       ) {
-
         return (
           "Machine Learning is one of Om's main areas of interest. " +
           "He has worked with classification, imbalanced datasets, " +
           "preprocessing, feature scaling, precision, recall, " +
           "F1-score and ROC-AUC."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         DATA SCIENCE
-      ------------------------------------------------------- */
+      /* Data Science */
 
       if (
         t.includes("data science") ||
@@ -1665,200 +1473,178 @@
         t.includes("pandas") ||
         t.includes("numpy")
       ) {
-
         return (
           "Om is interested in the complete Data Science workflow — " +
           "data cleaning, EDA, feature engineering, modelling and evaluation."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         FRAUD PROJECT
-      ------------------------------------------------------- */
+      /* Fraud */
 
       if (
         t.includes("fraud") ||
         t.includes("credit card")
       ) {
-
         return (
           "Om's Credit Card Fraud Detection project explores an " +
           "imbalanced transaction dataset, Logistic Regression, " +
           "Random Forest, precision, recall, F1-score and ROC-AUC."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         STUDENT PERFORMANCE
-      ------------------------------------------------------- */
+      /* Student Performance */
 
       if (
         t.includes("student performance") ||
         t.includes("student prediction")
       ) {
-
         return (
           "Om built a Student Performance Prediction classification " +
           "project involving data cleaning, feature selection, " +
           "EDA and machine learning."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         PROJECTS
-      ------------------------------------------------------- */
+      /* Projects */
 
       if (
         t.includes("project") ||
         t.includes("work") ||
         t.includes("built")
       ) {
-
         return (
           "Om's portfolio features Credit Card Fraud Detection " +
           "and Student Performance Prediction, with more projects " +
           "and experiments being developed."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         GITHUB
-      ------------------------------------------------------- */
+      /* GitHub */
 
       if (
         t.includes("github") ||
         t.includes("code") ||
         t.includes("repository")
       ) {
-
         return (
           "Om's GitHub contains his machine learning projects " +
           "and code. Use the GitHub links in the portfolio to explore them."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         CONTACT
-      ------------------------------------------------------- */
+      /* Contact */
 
       if (
         t.includes("contact") ||
         t.includes("email") ||
-        t.includes("linkedin") ||
-        t.includes("whatsapp")
+        t.includes("linkedin")
       ) {
-
         return (
-          "You can connect with Om through WhatsApp, email, " +
-          "GitHub, or LinkedIn using the links in the Contact section."
+          "You can connect with Om through the GitHub and LinkedIn " +
+          "links in the Contact section."
         );
-
       }
 
 
-      /* -------------------------------------------------------
-         DEFAULT
-      ------------------------------------------------------- */
+      /* Default */
 
       return (
         "I don't have an answer for that yet. " +
         "Try asking about Om's education, skills, projects, " +
         "Machine Learning, Data Science, or current study."
       );
-
     }
 
 
-    /* =========================================================
-       ADD MESSAGE TO CHAT
-    ========================================================= */
+    /* ---------------------------------------------------------
+       ADD MESSAGE
+    --------------------------------------------------------- */
 
     function addMessage(
       text,
-      sender = "assistant"
+      user = false
     ) {
 
-      const message =
+      const el =
         document.createElement(
           "div"
         );
 
-      message.className =
-        `ai-message ai-message-${sender}`;
+      el.className =
+        user
+          ? "ai-message ai-message-user"
+          : "ai-message";
 
 
-      const avatar =
-        document.createElement(
-          "div"
-        );
+      if (user) {
 
-      avatar.className =
-        "ai-message-avatar";
-
-
-      if (
-        sender === "assistant"
-      ) {
-
-        avatar.textContent =
-          "AI";
+        el.innerHTML = `
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
 
       } else {
 
-        avatar.textContent =
-          "You";
+        el.innerHTML = `
+          <span class="ai-message-avatar">✦</span>
+          <div class="ai-message-content">
+            <p></p>
+          </div>
+        `;
 
       }
 
 
-      const content =
-        document.createElement(
-          "div"
-        );
+      const paragraph =
+        el.querySelector("p");
 
-      content.className =
-        "ai-message-content";
-
-
-      content.textContent =
-        text;
-
-
-      message.appendChild(
-        avatar
-      );
-
-      message.appendChild(
-        content
-      );
+      if (paragraph) {
+        paragraph.textContent =
+          text;
+      }
 
 
       messages.appendChild(
-        message
+        el
       );
-
 
       messages.scrollTop =
         messages.scrollHeight;
-
     }
 
 
-    /* =========================================================
-       TYPING INDICATOR
-    ========================================================= */
+    /* ---------------------------------------------------------
+       SEND
+    --------------------------------------------------------- */
 
-    function showTyping() {
+    function send(question) {
+
+      const q =
+        String(
+          question || ""
+        ).trim();
+
+      if (!q) {
+        return;
+      }
+
+
+      addMessage(
+        q,
+        true
+      );
+
+      input.value =
+        "";
+
+
+      /* Typing */
 
       const typing =
         document.createElement(
@@ -1866,74 +1652,45 @@
         );
 
       typing.className =
-        "ai-message ai-message-assistant ai-typing-message";
+        "ai-message ai-typing";
 
-      typing.id =
-        "aiTypingIndicator";
-
-
-      const avatar =
-        document.createElement(
-          "div"
-        );
-
-      avatar.className =
-        "ai-message-avatar";
-
-      avatar.textContent =
-        "AI";
-
-
-      const content =
-        document.createElement(
-          "div"
-        );
-
-      content.className =
-        "ai-message-content ai-typing";
-
-
-      content.innerHTML =
-        "<span></span><span></span><span></span>";
-
-
-      typing.appendChild(
-        avatar
-      );
-
-      typing.appendChild(
-        content
-      );
-
+      typing.innerHTML = `
+        <span class="ai-message-avatar">✦</span>
+        <div class="ai-message-content">
+          <div class="ai-typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      `;
 
       messages.appendChild(
         typing
       );
 
-
       messages.scrollTop =
         messages.scrollHeight;
 
+
+      setTimeout(
+        () => {
+
+          typing.remove();
+
+          addMessage(
+            response(q)
+          );
+
+        },
+        500
+      );
     }
 
 
-    function hideTyping() {
-
-      const typing =
-        document.getElementById(
-          "aiTypingIndicator"
-        );
-
-      if (typing) {
-        typing.remove();
-      }
-
-    }
-
-
-    /* =========================================================
-       OPEN CHAT
-    ========================================================= */
+    /* ---------------------------------------------------------
+       OPEN / CLOSE
+    --------------------------------------------------------- */
 
     function openChat() {
 
@@ -1941,42 +1698,55 @@
         "open"
       );
 
+      win.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
       trigger.classList.add(
         "active"
+      );
+
+      trigger.setAttribute(
+        "aria-expanded",
+        "true"
       );
 
 
       setTimeout(
         () => {
           input.focus();
-
         },
         200
       );
-
     }
 
 
-    /* =========================================================
-       CLOSE CHAT
-    ========================================================= */
-
-    function closeChat() {
+    function shutChat() {
 
       win.classList.remove(
         "open"
+      );
+
+      win.setAttribute(
+        "aria-hidden",
+        "true"
       );
 
       trigger.classList.remove(
         "active"
       );
 
+      trigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
     }
 
 
-    /* =========================================================
-       CHAT TRIGGER
-    ========================================================= */
+    /* ---------------------------------------------------------
+       TRIGGER
+    --------------------------------------------------------- */
 
     trigger.addEventListener(
       "click",
@@ -1987,227 +1757,185 @@
             "open"
           )
         ) {
-
-          closeChat();
-
+          shutChat();
         } else {
-
           openChat();
-
         }
 
       }
     );
 
 
-    /* =========================================================
+    /* ---------------------------------------------------------
        CLOSE BUTTON
-    ========================================================= */
+    --------------------------------------------------------- */
 
     close.addEventListener(
       "click",
       () => {
-
-        closeChat();
-
+        shutChat();
       }
     );
 
 
-    /* =========================================================
-       SUBMIT MESSAGE
-    ========================================================= */
+    /* ---------------------------------------------------------
+       FORM
+    --------------------------------------------------------- */
 
     form.addEventListener(
       "submit",
-      (event) => {
+      (e) => {
 
-        event.preventDefault();
+        e.preventDefault();
 
-
-        const question =
-          input.value.trim();
-
-
-        if (!question) {
-          return;
-        }
-
-
-        /* User message */
-
-        addMessage(
-          question,
-          "user"
+        send(
+          input.value
         );
 
-
-        input.value = "";
-
-
-        /* Disable while responding */
-
-        input.disabled =
-          true;
+      }
+    );
 
 
-        const submit =
-          form.querySelector(
-            'button[type="submit"]'
+    /* ---------------------------------------------------------
+       QUICK QUESTIONS
+    --------------------------------------------------------- */
+
+    document
+      .querySelectorAll(
+        ".ai-suggestion"
+      )
+      .forEach(
+        (button) => {
+
+          button.type =
+            "button";
+
+          button.setAttribute(
+            "tabindex",
+            "0"
           );
 
 
-        if (submit) {
-          submit.disabled =
-            true;
-        }
+          button.addEventListener(
+            "click",
+            (e) => {
 
+              e.preventDefault();
 
-        /* Show typing */
+              e.stopPropagation();
 
-        showTyping();
+              const question =
+                button.dataset.question ||
+                button.textContent.trim();
 
+              openChat();
 
-        /* Small response delay */
-
-        const delay =
-          450 +
-          Math.random() *
-            500;
-
-
-        setTimeout(
-          () => {
-
-            hideTyping();
-
-
-            const answer =
-              response(
+              send(
                 question
               );
-
-
-            addMessage(
-              answer,
-              "assistant"
-            );
-
-
-            input.disabled =
-              false;
-
-
-            if (submit) {
-              submit.disabled =
-                false;
             }
+          );
 
 
-            input.focus();
+          /* Keyboard */
 
-          },
-          delay
-        );
+          button.addEventListener(
+            "keydown",
+            (e) => {
 
-      }
-    );
+              if (
+                e.key ===
+                  "Enter" ||
+                e.key ===
+                  " "
+              ) {
 
+                e.preventDefault();
 
-    /* =========================================================
-       ENTER KEY
-    ========================================================= */
+                e.stopPropagation();
 
-    input.addEventListener(
-      "keydown",
-      (event) => {
+                const question =
+                  button.dataset.question ||
+                  button.textContent.trim();
 
-        if (
-          event.key === "Enter" &&
-          !event.shiftKey
-        ) {
+                openChat();
 
-          event.preventDefault();
-
-          form.requestSubmit();
+                send(
+                  question
+                );
+              }
+            }
+          );
 
         }
-
-      }
-    );
+      );
 
 
-    /* =========================================================
-       ESCAPE TO CLOSE
-    ========================================================= */
+    /* ---------------------------------------------------------
+       ESCAPE
+    --------------------------------------------------------- */
 
     document.addEventListener(
       "keydown",
-      (event) => {
+      (e) => {
 
         if (
-          event.key === "Escape" &&
+          e.key ===
+            "Escape" &&
           win.classList.contains(
             "open"
           )
         ) {
+          shutChat();
+        }
 
-          closeChat();
 
+        /* "/" opens assistant */
+
+        const active =
+          document.activeElement;
+
+        const isTyping =
+          active &&
+          (
+            active.tagName ===
+              "INPUT" ||
+            active.tagName ===
+              "TEXTAREA" ||
+            active.isContentEditable
+          );
+
+
+        if (
+          e.key === "/" &&
+          !isTyping
+        ) {
+
+          e.preventDefault();
+
+          openChat();
         }
 
       }
     );
 
 
-    /* =========================================================
-       CLOSE WHEN CLICKING OUTSIDE
-    ========================================================= */
+    /* Initial state */
 
-    document.addEventListener(
-      "click",
-      (event) => {
+    win.setAttribute(
+      "aria-hidden",
+      "true"
+    );
 
-        if (
-          !win.classList.contains(
-            "open"
-          )
-        ) {
-          return;
-        }
-
-
-        if (
-          win.contains(event.target) ||
-          trigger.contains(event.target)
-        ) {
-          return;
-        }
-
-
-        closeChat();
-
-      }
+    trigger.setAttribute(
+      "aria-expanded",
+      "false"
     );
 
 
-    /* =========================================================
-       INITIAL ASSISTANT MESSAGE
-    ========================================================= */
-
-    if (
-      !messages.children.length
-    ) {
-
-      addMessage(
-        "Hi! I'm Om's portfolio assistant. " +
-        "Ask me anything about his education, skills, " +
-        "projects, or current focus.",
-        "assistant"
-      );
-
-    }
-
+    console.log(
+      "Ask Assistant initialized successfully."
+    );
   }
 
 
@@ -2216,42 +1944,12 @@
   ========================================================= */
 
   try {
-
     initChatbot();
-
   } catch (error) {
-
     console.error(
-      "Chatbot initialization failed:",
+      "Ask Assistant initialization failed:",
       error
     );
-
   }
-
-
-  /* =========================================================
-     WINDOW LOAD SAFETY
-  ========================================================= */
-
-  window.addEventListener(
-    "load",
-    () => {
-
-      document.body.classList.add(
-        "page-loaded"
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     FINAL INITIALIZATION
-  ========================================================= */
-
-  document.documentElement.classList.add(
-    "js-enabled"
-  );
-
 
 })();
