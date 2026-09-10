@@ -1,152 +1,273 @@
-(function () {
+/* =========================================================
+   OM SHETE — PORTFOLIO JAVASCRIPT
+   ========================================================= */
+
+(() => {
   "use strict";
 
-  /* =========================================================
+
+  /* =======================================================
+     HELPERS
+     ======================================================= */
+
+  const $ = (selector, parent = document) =>
+    parent.querySelector(selector);
+
+  const $$ = (selector, parent = document) =>
+    [...parent.querySelectorAll(selector)];
+
+
+  /* =======================================================
      CUSTOM CURSOR
-  ========================================================= */
+     ======================================================= */
 
-  const cursor = document.getElementById("cursor");
-  const follower = document.getElementById("cursor-follower");
+  const cursor = $("#cursor");
+  const cursorFollower = $("#cursor-follower");
 
-  let fx = 0;
-  let fy = 0;
-  let mx = 0;
-  let my = 0;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
 
-  if (cursor && follower) {
-    document.addEventListener(
-      "mousemove",
-      (e) => {
-        mx = e.clientX;
-        my = e.clientY;
+  let followerX = mouseX;
+  let followerY = mouseY;
 
-        cursor.style.left = mx + "px";
-        cursor.style.top = my + "px";
-      },
-      { passive: true }
-    );
+  if (cursor && cursorFollower) {
 
-    (function animFollower() {
-      fx += (mx - fx) * 0.12;
-      fy += (my - fy) * 0.12;
-
-      follower.style.left = fx + "px";
-      follower.style.top = fy + "px";
-
-      requestAnimationFrame(animFollower);
-    })();
-  }
-
-
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
-
-  const nav = document.getElementById("nav");
-
-  if (nav) {
     window.addEventListener(
-      "scroll",
-      () => {
-        nav.classList.toggle(
-          "scrolled",
-          window.scrollY > 40
-        );
+      "mousemove",
+      (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+
+        cursor.style.left = `${mouseX}px`;
+        cursor.style.top = `${mouseY}px`;
       },
       { passive: true }
     );
+
+
+    const animateCursor = () => {
+
+      followerX += (mouseX - followerX) * 0.16;
+      followerY += (mouseY - followerY) * 0.16;
+
+      cursorFollower.style.left = `${followerX}px`;
+      cursorFollower.style.top = `${followerY}px`;
+
+      requestAnimationFrame(animateCursor);
+    };
+
+    animateCursor();
+
+
+    const interactiveElements = $$(
+      "a, button, input, .proj-card, .stat-card, .skill-group, .lang-card, .ccard"
+    );
+
+    interactiveElements.forEach((element) => {
+
+      element.addEventListener("mouseenter", () => {
+        document.body.classList.add("cursor-hover");
+      });
+
+      element.addEventListener("mouseleave", () => {
+        document.body.classList.remove("cursor-hover");
+      });
+
+    });
+
   }
 
 
-  /* =========================================================
+  /* =======================================================
+     NAVIGATION
+     ======================================================= */
+
+  const nav = $("#nav");
+
+  const handleNavScroll = () => {
+
+    if (!nav) return;
+
+    if (window.scrollY > 40) {
+      nav.classList.add("scrolled");
+    } else {
+      nav.classList.remove("scrolled");
+    }
+
+  };
+
+  window.addEventListener(
+    "scroll",
+    handleNavScroll,
+    { passive: true }
+  );
+
+  handleNavScroll();
+
+
+  /* =======================================================
      MOBILE NAVIGATION
-  ========================================================= */
+     ======================================================= */
 
-  const toggle = document.getElementById("navToggle");
-  const mobileMenu = document.getElementById("mobileMenu");
+  const navToggle = $("#navToggle");
+  const mobileMenu = $("#mobileMenu");
 
-  function closeMenu() {
-    if (toggle) {
-      toggle.classList.remove("open");
-      toggle.setAttribute("aria-expanded", "false");
-    }
+  if (navToggle && mobileMenu) {
 
-    if (mobileMenu) {
+    const closeMobileMenu = () => {
+
+      navToggle.classList.remove("open");
       mobileMenu.classList.remove("open");
-    }
 
-    document.body.style.overflow = "";
-  }
-
-  if (toggle && mobileMenu) {
-    toggle.addEventListener("click", () => {
-      const open = mobileMenu.classList.toggle("open");
-
-      toggle.classList.toggle("open", open);
-      toggle.setAttribute(
+      navToggle.setAttribute(
         "aria-expanded",
-        String(open)
+        "false"
       );
 
-      document.body.style.overflow =
-        open ? "hidden" : "";
+    };
+
+
+    navToggle.addEventListener("click", () => {
+
+      const isOpen =
+        mobileMenu.classList.toggle("open");
+
+      navToggle.classList.toggle(
+        "open",
+        isOpen
+      );
+
+      navToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
     });
+
+
+    $$(".mobile-link").forEach((link) => {
+
+      link.addEventListener("click", () => {
+        closeMobileMenu();
+      });
+
+    });
+
+
+    document.addEventListener("click", (event) => {
+
+      if (
+        !mobileMenu.contains(event.target) &&
+        !navToggle.contains(event.target)
+      ) {
+        closeMobileMenu();
+      }
+
+    });
+
   }
 
-  document
-    .querySelectorAll(".mobile-link")
-    .forEach((link) => {
-      link.addEventListener(
-        "click",
-        closeMenu
-      );
+
+  /* =======================================================
+     ACTIVE NAVIGATION
+     ======================================================= */
+
+  const navAnchors =
+    $$(".nav-links a[href^='#']");
+
+  const pageSections =
+    $$("section[id]");
+
+
+  function updateActiveNav() {
+
+    if (!navAnchors.length) return;
+
+    const position =
+      window.scrollY + 180;
+
+    let current = "";
+
+    pageSections.forEach((section) => {
+
+      if (
+        position >= section.offsetTop &&
+        position <
+          section.offsetTop +
+          section.offsetHeight
+      ) {
+        current = section.id;
+      }
+
     });
 
 
-  /* =========================================================
-     SMOOTH SCROLL
-  ========================================================= */
+    navAnchors.forEach((link) => {
 
-  document
-    .querySelectorAll('a[href^="#"]')
-    .forEach((anchor) => {
-      anchor.addEventListener(
-        "click",
-        function (e) {
-          const href =
-            this.getAttribute("href");
-
-          if (
-            !href ||
-            href === "#"
-          ) {
-            return;
-          }
-
-          const target =
-            document.querySelector(href);
-
-          if (target) {
-            e.preventDefault();
-
-            closeMenu();
-
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          }
-        }
+      link.classList.toggle(
+        "active",
+        link.getAttribute("href") === `#${current}`
       );
+
     });
 
+  }
 
-  /* =========================================================
+  window.addEventListener(
+    "scroll",
+    updateActiveNav,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "resize",
+    updateActiveNav
+  );
+
+  updateActiveNav();
+
+
+  /* =======================================================
+     SMOOTH SCROLLING
+     ======================================================= */
+
+  $$("a[href^='#']").forEach((link) => {
+
+    link.addEventListener("click", (event) => {
+
+      const targetId =
+        link.getAttribute("href");
+
+      if (
+        !targetId ||
+        targetId === "#"
+      ) {
+        return;
+      }
+
+      const target =
+        document.querySelector(targetId);
+
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    });
+
+  });
+
+
+  /* =======================================================
      TYPEWRITER
-  ========================================================= */
+     ======================================================= */
 
-  const tw =
-    document.getElementById("typewriter");
+  const typewriter =
+    $("#typewriter");
 
   const lines = [
     "Machine Learning Enthusiast",
@@ -155,96 +276,114 @@
     "BCA 26 @ MIT-WPU Pune"
   ];
 
-  let li = 0;
-  let ci = 0;
-  let deleting = false;
+  if (typewriter) {
 
-  const SPEED_TYPE = 80;
-  const SPEED_DEL = 40;
-  const PAUSE = 1800;
+    let lineIndex = 0;
+    let characterIndex = 0;
+    let deleting = false;
 
-  function typeTick() {
-    if (!tw) return;
+    const typeSpeed = 75;
+    const deleteSpeed = 38;
+    const pauseAfterTyping = 1600;
+    const pauseAfterDeleting = 450;
 
-    const current = lines[li];
 
-    if (!deleting) {
-      ci++;
+    const typeWriterLoop = () => {
 
-      tw.textContent =
-        current.slice(0, ci);
+      const currentLine =
+        lines[lineIndex];
 
-      if (ci >= current.length) {
-        deleting = true;
+
+      if (!deleting) {
+
+        typewriter.textContent =
+          currentLine.slice(
+            0,
+            characterIndex + 1
+          );
+
+        characterIndex++;
+
+
+        if (
+          characterIndex >=
+          currentLine.length
+        ) {
+
+          deleting = true;
+
+          setTimeout(
+            typeWriterLoop,
+            pauseAfterTyping
+          );
+
+          return;
+        }
+
 
         setTimeout(
-          typeTick,
-          PAUSE
+          typeWriterLoop,
+          typeSpeed
         );
 
         return;
       }
-    } else {
-      ci--;
 
-      tw.textContent =
-        current.slice(0, ci);
 
-      if (ci <= 0) {
+      typewriter.textContent =
+        currentLine.slice(
+          0,
+          characterIndex - 1
+        );
+
+      characterIndex--;
+
+
+      if (characterIndex <= 0) {
+
         deleting = false;
 
-        li =
-          (li + 1) %
+        lineIndex =
+          (lineIndex + 1) %
           lines.length;
 
         setTimeout(
-          typeTick,
-          300
+          typeWriterLoop,
+          pauseAfterDeleting
         );
 
         return;
       }
-    }
-
-    setTimeout(
-      typeTick,
-      deleting
-        ? SPEED_DEL
-        : SPEED_TYPE
-    );
-  }
-
-  if (tw) {
-    setTimeout(
-      typeTick,
-      600
-    );
-  }
 
 
-  /* =========================================================
-     THREE.JS UNIVERSE
-  ========================================================= */
-
-  function initUniverse() {
-    if (
-      typeof THREE ===
-      "undefined"
-    ) {
-      return;
-    }
-
-    const canvas =
-      document.getElementById(
-        "universe-canvas"
+      setTimeout(
+        typeWriterLoop,
+        deleteSpeed
       );
 
-    if (!canvas) {
-      return;
-    }
+    };
+
+
+    typeWriterLoop();
+
+  }
+
+
+  /* =======================================================
+     THREE.JS — UNIVERSE
+     ======================================================= */
+
+  const canvas =
+    $("#universe-canvas");
+
+  if (
+    canvas &&
+    typeof THREE !== "undefined"
+  ) {
 
     const scene =
       new THREE.Scene();
+
 
     const camera =
       new THREE.PerspectiveCamera(
@@ -252,17 +391,19 @@
         window.innerWidth /
           window.innerHeight,
         0.1,
-        2000
+        3000
       );
 
-    camera.position.z = 1;
+    camera.position.z = 700;
+
 
     const renderer =
       new THREE.WebGLRenderer({
         canvas,
-        alpha: true,
-        antialias: true
+        antialias: true,
+        alpha: true
       });
+
 
     renderer.setPixelRatio(
       Math.min(
@@ -276,498 +417,386 @@
       window.innerHeight
     );
 
-    renderer.setClearColor(
-      0x000000,
-      0
-    );
+
+    /* -----------------------------------------------------
+       STAR FIELD
+       ----------------------------------------------------- */
+
+    const starCount = 4200;
+
+    const starGeometry =
+      new THREE.BufferGeometry();
+
+    const starPositions =
+      new Float32Array(
+        starCount * 3
+      );
+
+    const starSizes =
+      new Float32Array(
+        starCount
+      );
 
 
-    /* ---------------------------------------------------------
-       STAR GENERATOR
-    --------------------------------------------------------- */
-
-    function makeStars(
-      count,
-      spread,
-      size,
-      color,
-      opacity
+    for (
+      let i = 0;
+      i < starCount;
+      i++
     ) {
-      const pos =
-        new Float32Array(
-          count * 3
-        );
 
-      for (
-        let i = 0;
-        i < count * 3;
-        i++
-      ) {
-        pos[i] =
-          (
-            Math.random() -
-            0.5
-          ) *
-          spread;
-      }
+      const radius =
+        300 +
+        Math.random() * 1300;
 
-      const geo =
-        new THREE.BufferGeometry();
-
-      geo.setAttribute(
-        "position",
-        new THREE.BufferAttribute(
-          pos,
-          3
-        )
-      );
-
-      const mat =
-        new THREE.PointsMaterial({
-          color,
-          size,
-          transparent: true,
-          opacity,
-          sizeAttenuation: true,
-          blending:
-            THREE.AdditiveBlending,
-          depthWrite: false
-        });
-
-      return new THREE.Points(
-        geo,
-        mat
-      );
-    }
-
-
-    const stars1 =
-      makeStars(
-        4000,
-        1800,
-        0.5,
-        0xffffff,
-        0.7
-      );
-
-    const stars2 =
-      makeStars(
-        1200,
-        900,
-        0.9,
-        0x8ab4ff,
-        0.6
-      );
-
-    const stars3 =
-      makeStars(
-        400,
-        400,
-        1.4,
-        0xffffff,
-        0.9
-      );
-
-    const stars4 =
-      makeStars(
-        600,
-        700,
-        0.7,
-        0xc084fc,
-        0.5
-      );
-
-    const stars5 =
-      makeStars(
-        300,
-        500,
-        1.1,
-        0x67e8f9,
-        0.6
-      );
-
-
-    const starGroup =
-      new THREE.Group();
-
-    starGroup.add(
-      stars1,
-      stars2,
-      stars3,
-      stars4,
-      stars5
-    );
-
-    scene.add(
-      starGroup
-    );
-
-
-    /* ---------------------------------------------------------
-       NEBULA
-    --------------------------------------------------------- */
-
-    function makeNebula(
-      x,
-      y,
-      z,
-      scale,
-      color,
-      opacity
-    ) {
-      const geo =
-        new THREE.PlaneGeometry(
-          1,
-          1
-        );
-
-      const mat =
-        new THREE.MeshBasicMaterial({
-          color,
-          transparent: true,
-          opacity,
-          blending:
-            THREE.AdditiveBlending,
-          depthWrite: false,
-          side:
-            THREE.DoubleSide
-        });
-
-      const mesh =
-        new THREE.Mesh(
-          geo,
-          mat
-        );
-
-      mesh.position.set(
-        x,
-        y,
-        z
-      );
-
-      mesh.scale.set(
-        scale,
-        scale,
-        1
-      );
-
-      mesh.rotation.z =
+      const theta =
         Math.random() *
-        Math.PI;
+        Math.PI *
+        2;
 
-      return mesh;
+      const phi =
+        Math.acos(
+          2 * Math.random() - 1
+        );
+
+
+      const x =
+        radius *
+        Math.sin(phi) *
+        Math.cos(theta);
+
+      const y =
+        radius *
+        Math.sin(phi) *
+        Math.sin(theta);
+
+      const z =
+        radius *
+        Math.cos(phi);
+
+
+      const index =
+        i * 3;
+
+      starPositions[index] = x;
+      starPositions[index + 1] = y;
+      starPositions[index + 2] = z;
+
+      starSizes[i] =
+        Math.random() * 2.2 + 0.35;
+
     }
 
 
-    const nebulaGroup =
-      new THREE.Group();
-
-    nebulaGroup.add(
-      makeNebula(
-        -120,
-        60,
-        -600,
-        400,
-        0x3b82f6,
-        0.04
-      ),
-
-      makeNebula(
-        200,
-        -80,
-        -700,
-        500,
-        0x7c3aed,
-        0.03
-      ),
-
-      makeNebula(
-        0,
-        100,
-        -800,
-        600,
-        0x0e7490,
-        0.025
-      ),
-
-      makeNebula(
-        -200,
-        -150,
-        -500,
-        350,
-        0x6d28d9,
-        0.035
-      ),
-
-      makeNebula(
-        150,
-        200,
-        -600,
-        450,
-        0x1e40af,
-        0.03
+    starGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(
+        starPositions,
+        3
       )
     );
 
-    scene.add(
-      nebulaGroup
+    starGeometry.setAttribute(
+      "size",
+      new THREE.BufferAttribute(
+        starSizes,
+        1
+      )
     );
 
 
-    /* ---------------------------------------------------------
-       SHOOTING STARS
-    --------------------------------------------------------- */
+    const starMaterial =
+      new THREE.PointsMaterial({
+        color: 0x8ebeff,
+        size: 1.5,
+        transparent: true,
+        opacity: 0.68,
+        sizeAttenuation: true,
+        blending:
+          THREE.AdditiveBlending,
+        depthWrite: false
+      });
 
-    const shooters = [];
 
-    function spawnShooter() {
-      const geo =
-        new THREE.BufferGeometry();
-
-      const len =
-        Math.random() *
-          4 +
-        2;
-
-      const x =
-        (
-          Math.random() -
-          0.5
-        ) *
-        300;
-
-      const y =
-        (
-          Math.random() -
-          0.5
-        ) *
-          150 +
-        60;
-
-      const z =
-        -Math.random() *
-          50 -
-        5;
-
-      geo.setAttribute(
-        "position",
-        new THREE.BufferAttribute(
-          new Float32Array([
-            x,
-            y,
-            z,
-
-            x - len,
-            y - len * 0.4,
-            z
-          ]),
-          3
-        )
+    const stars =
+      new THREE.Points(
+        starGeometry,
+        starMaterial
       );
 
-      const mat =
+    scene.add(stars);
+
+
+    /* -----------------------------------------------------
+       SECOND STAR FIELD
+       ----------------------------------------------------- */
+
+    const smallStarCount = 2500;
+
+    const smallStarGeometry =
+      new THREE.BufferGeometry();
+
+    const smallStarPositions =
+      new Float32Array(
+        smallStarCount * 3
+      );
+
+
+    for (
+      let i = 0;
+      i < smallStarCount;
+      i++
+    ) {
+
+      const radius =
+        500 +
+        Math.random() * 1100;
+
+      const theta =
+        Math.random() *
+        Math.PI *
+        2;
+
+      const phi =
+        Math.acos(
+          2 * Math.random() - 1
+        );
+
+
+      const index =
+        i * 3;
+
+      smallStarPositions[index] =
+        radius *
+        Math.sin(phi) *
+        Math.cos(theta);
+
+      smallStarPositions[index + 1] =
+        radius *
+        Math.sin(phi) *
+        Math.sin(theta);
+
+      smallStarPositions[index + 2] =
+        radius *
+        Math.cos(phi);
+
+    }
+
+
+    smallStarGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(
+        smallStarPositions,
+        3
+      )
+    );
+
+
+    const smallStarMaterial =
+      new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.8,
+        transparent: true,
+        opacity: 0.4,
+        sizeAttenuation: true,
+        blending:
+          THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+
+    const smallStars =
+      new THREE.Points(
+        smallStarGeometry,
+        smallStarMaterial
+      );
+
+    scene.add(smallStars);
+
+
+    /* -----------------------------------------------------
+       NEBULA PARTICLES
+       ----------------------------------------------------- */
+
+    const nebulaCount = 900;
+
+    const nebulaGeometry =
+      new THREE.BufferGeometry();
+
+    const nebulaPositions =
+      new Float32Array(
+        nebulaCount * 3
+      );
+
+
+    for (
+      let i = 0;
+      i < nebulaCount;
+      i++
+    ) {
+
+      const angle =
+        Math.random() *
+        Math.PI *
+        2;
+
+      const radius =
+        Math.random() *
+        430;
+
+      const index =
+        i * 3;
+
+      nebulaPositions[index] =
+        Math.cos(angle) *
+        radius;
+
+      nebulaPositions[index + 1] =
+        (Math.random() - 0.5) *
+        180;
+
+      nebulaPositions[index + 2] =
+        Math.sin(angle) *
+        radius;
+
+    }
+
+
+    nebulaGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(
+        nebulaPositions,
+        3
+      )
+    );
+
+
+    const nebulaMaterial =
+      new THREE.PointsMaterial({
+        color: 0x6e5bff,
+        size: 1.4,
+        transparent: true,
+        opacity: 0.12,
+        blending:
+          THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+
+    const nebula =
+      new THREE.Points(
+        nebulaGeometry,
+        nebulaMaterial
+      );
+
+    scene.add(nebula);
+
+
+    /* -----------------------------------------------------
+       SHOOTING STARS
+       ----------------------------------------------------- */
+
+    const shootingStars = [];
+
+    function createShootingStar() {
+
+      const geometry =
+        new THREE.BufferGeometry();
+
+      const positions =
+        new Float32Array(6);
+
+      const material =
         new THREE.LineBasicMaterial({
-          color: 0xffffff,
+          color: 0x8bbcff,
           transparent: true,
-          opacity: 0.9,
-          blending:
-            THREE.AdditiveBlending
+          opacity: 0
         });
 
       const line =
         new THREE.Line(
-          geo,
-          mat
+          geometry,
+          material
         );
 
+
+      const startX =
+        (Math.random() - 0.5) *
+        1500;
+
+      const startY =
+        Math.random() *
+        800 + 100;
+
+      const startZ =
+        (Math.random() - 0.5) *
+        900;
+
+
+      line.position.set(
+        startX,
+        startY,
+        startZ
+      );
+
+
       line.userData = {
-        vx:
-          -(
-            Math.random() *
-              0.8 +
-            0.4
+        velocity:
+          new THREE.Vector3(
+            -4 -
+              Math.random() * 3,
+            -3 -
+              Math.random() * 2,
+            0
           ),
-
-        vy:
-          -(
-            Math.random() *
-              0.3 +
-            0.1
-          ),
-
-        life: 1
+        life: 0,
+        maxLife:
+          70 +
+          Math.random() * 50
       };
 
-      scene.add(line);
 
-      shooters.push(line);
+      scene.add(line);
+      shootingStars.push(line);
+
     }
 
-    setInterval(
-      spawnShooter,
-      2500
-    );
 
-
-    /* ---------------------------------------------------------
+    /* -----------------------------------------------------
        MOUSE PARALLAX
-    --------------------------------------------------------- */
+       ----------------------------------------------------- */
 
-    let tmx = 0;
-    let tmy = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
 
-    let camX = 0;
-    let camY = 0;
-
-    document.addEventListener(
+    window.addEventListener(
       "mousemove",
-      (e) => {
-        tmx =
-          (
-            e.clientX /
-              window.innerWidth -
-            0.5
-          ) *
+      (event) => {
+
+        targetMouseX =
+          (event.clientX /
+            window.innerWidth -
+            0.5) *
           2;
 
-        tmy =
-          (
-            e.clientY /
-              window.innerHeight -
-            0.5
-          ) *
+        targetMouseY =
+          (event.clientY /
+            window.innerHeight -
+            0.5) *
           2;
+
       },
       { passive: true }
     );
 
 
-    /* ---------------------------------------------------------
-       ANIMATION
-    --------------------------------------------------------- */
-
-    const clock =
-      new THREE.Clock();
-
-    function animate() {
-      requestAnimationFrame(
-        animate
-      );
-
-      const t =
-        clock.getElapsedTime();
-
-      starGroup.rotation.y =
-        t * 0.012;
-
-      starGroup.rotation.x =
-        Math.sin(
-          t * 0.007
-        ) *
-        0.08;
-
-      nebulaGroup.rotation.z =
-        t * 0.005;
-
-
-      camX +=
-        (
-          tmx * 8 -
-          camX
-        ) *
-        0.025;
-
-      camY +=
-        (
-          -tmy * 5 -
-          camY
-        ) *
-        0.025;
-
-      camera.position.x =
-        camX;
-
-      camera.position.y =
-        camY;
-
-      camera.lookAt(
-        0,
-        0,
-        0
-      );
-
-
-      /* Shooting stars */
-
-      for (
-        let i =
-          shooters.length - 1;
-        i >= 0;
-        i--
-      ) {
-        const s =
-          shooters[i];
-
-        s.userData.life -=
-          0.018;
-
-        s.material.opacity =
-          s.userData.life *
-          0.9;
-
-        const pos =
-          s.geometry
-            .attributes
-            .position
-            .array;
-
-        pos[0] +=
-          s.userData.vx;
-
-        pos[1] +=
-          s.userData.vy;
-
-        pos[3] +=
-          s.userData.vx;
-
-        pos[4] +=
-          s.userData.vy;
-
-        s.geometry
-          .attributes
-          .position
-          .needsUpdate =
-          true;
-
-        if (
-          s.userData.life <=
-          0
-        ) {
-          scene.remove(s);
-
-          s.geometry.dispose();
-
-          s.material.dispose();
-
-          shooters.splice(
-            i,
-            1
-          );
-        }
-      }
-
-      renderer.render(
-        scene,
-        camera
-      );
-    }
-
-    animate();
-
+    /* -----------------------------------------------------
+       RESIZE
+       ----------------------------------------------------- */
 
     window.addEventListener(
       "resize",
       () => {
+
         camera.aspect =
           window.innerWidth /
           window.innerHeight;
@@ -778,1178 +807,1258 @@
           window.innerWidth,
           window.innerHeight
         );
-      },
-      { passive: true }
-    );
-  }
 
-
-  try {
-    initUniverse();
-  } catch (error) {
-    console.error(
-      "Universe initialization failed:",
-      error
-    );
-  }
-
-
-  /* =========================================================
-     GSAP SCROLL ANIMATIONS
-  ========================================================= */
-
-  function initGSAP() {
-
-    if (
-      typeof gsap ===
-        "undefined" ||
-      typeof ScrollTrigger ===
-        "undefined"
-    ) {
-      const obs =
-        new IntersectionObserver(
-          (entries) => {
-            entries.forEach(
-              (entry, i) => {
-                if (
-                  entry.isIntersecting
-                ) {
-                  setTimeout(
-                    () => {
-                      entry.target.classList.add(
-                        "in"
-                      );
-                    },
-                    i * 60
-                  );
-
-                  obs.unobserve(
-                    entry.target
-                  );
-                }
-              }
-            );
-          },
-          {
-            threshold: 0.1,
-            rootMargin:
-              "0px 0px -40px 0px"
-          }
+        renderer.setPixelRatio(
+          Math.min(
+            window.devicePixelRatio,
+            2
+          )
         );
 
-      document
-        .querySelectorAll(
-          ".reveal"
-        )
-        .forEach(
-          (el) =>
-            obs.observe(el)
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       ANIMATION
+       ----------------------------------------------------- */
+
+    let universeTime = 0;
+
+    const animateUniverse = () => {
+
+      requestAnimationFrame(
+        animateUniverse
+      );
+
+      universeTime += 0.001;
+
+
+      stars.rotation.y += 0.00012;
+      stars.rotation.x += 0.000035;
+
+      smallStars.rotation.y -= 0.000055;
+      smallStars.rotation.x += 0.000018;
+
+      nebula.rotation.y += 0.00018;
+
+
+      const parallaxX =
+        targetMouseX * 10;
+
+      const parallaxY =
+        targetMouseY * 7;
+
+
+      camera.position.x +=
+        (parallaxX -
+          camera.position.x) *
+        0.008;
+
+      camera.position.y +=
+        (-parallaxY -
+          camera.position.y) *
+        0.008;
+
+
+      camera.lookAt(
+        scene.position
+      );
+
+
+      /* Shooting stars */
+
+      if (
+        Math.random() < 0.004
+      ) {
+        createShootingStar();
+      }
+
+
+      for (
+        let i =
+          shootingStars.length - 1;
+        i >= 0;
+        i--
+      ) {
+
+        const star =
+          shootingStars[i];
+
+        star.userData.life++;
+
+        const velocity =
+          star.userData.velocity;
+
+        star.position.add(
+          velocity
         );
 
-      return;
-    }
+
+        const lifeProgress =
+          star.userData.life /
+          star.userData.maxLife;
 
 
-    gsap.registerPlugin(
-      ScrollTrigger
-    );
+        star.material.opacity =
+          Math.sin(
+            Math.PI *
+            lifeProgress
+          ) * 0.75;
 
 
-    /* Hero */
+        const p =
+          star.position;
 
-    const hero =
-      document.getElementById(
-        "heroInner"
-      );
+        const length = 32;
 
-    if (hero) {
-      gsap.from(
-        hero.children,
-        {
-          y: 40,
-          opacity: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease:
-            "power3.out",
-          delay: 0.2
-        }
-      );
-    }
+        const positions =
+          new Float32Array([
+            0,
+            0,
+            0,
+            -velocity.x * length / 5,
+            -velocity.y * length / 5,
+            0
+          ]);
 
 
-    /* Sections */
+        star.geometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(
+            positions,
+            3
+          )
+        );
 
-    document
-      .querySelectorAll(
-        ".section"
-      )
-      .forEach(
-        (section) => {
 
-          const reveals =
-            section.querySelectorAll(
-              ".reveal"
-            );
+        if (
+          star.userData.life >=
+          star.userData.maxLife
+        ) {
 
-          if (
-            !reveals.length
-          ) {
-            return;
-          }
+          scene.remove(star);
 
-          gsap.fromTo(
-            reveals,
+          star.geometry.dispose();
+          star.material.dispose();
 
-            {
-              y: 36,
-              opacity: 0
-            },
-
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.1,
-              ease:
-                "power3.out",
-
-              scrollTrigger: {
-                trigger: section,
-                start:
-                  "top 80%",
-                toggleActions:
-                  "play none none none"
-              }
-            }
+          shootingStars.splice(
+            i,
+            1
           );
+
         }
+
+      }
+
+
+      renderer.render(
+        scene,
+        camera
       );
 
-
-    /* Section titles */
-
-    document
-      .querySelectorAll(
-        ".sec-title"
-      )
-      .forEach(
-        (el) => {
-
-          gsap.fromTo(
-            el,
-
-            {
-              scale: 0.95,
-              opacity: 0
-            },
-
-            {
-              scale: 1,
-              opacity: 1,
-              duration: 0.9,
-              ease:
-                "power3.out",
-
-              scrollTrigger: {
-                trigger: el,
-                start:
-                  "top 85%"
-              }
-            }
-          );
-        }
-      );
+    };
 
 
-    /* Stat cards */
+    animateUniverse();
 
-    gsap
-      .utils
-      .toArray(
-        ".stat-card"
-      )
-      .forEach(
-        (card, i) => {
-
-          gsap.fromTo(
-            card,
-
-            {
-              scale: 0.8,
-              opacity: 0
-            },
-
-            {
-              scale: 1,
-              opacity: 1,
-              duration: 0.6,
-              delay:
-                i * 0.1,
-              ease:
-                "back.out(1.4)",
-
-              scrollTrigger: {
-                trigger: card,
-                start:
-                  "top 85%"
-              }
-            }
-          );
-        }
-      );
-
-
-    /* Project cards */
-
-    gsap
-      .utils
-      .toArray(
-        ".proj-card"
-      )
-      .forEach(
-        (card, i) => {
-
-          gsap.fromTo(
-            card,
-
-            {
-              x:
-                i % 2 === 0
-                  ? -60
-                  : 60,
-              opacity: 0
-            },
-
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease:
-                "power3.out",
-
-              scrollTrigger: {
-                trigger: card,
-                start:
-                  "top 85%"
-              }
-            }
-          );
-        }
-      );
-
-
-    /* Skill pills */
-
-    gsap
-      .utils
-      .toArray(
-        ".spill"
-      )
-      .forEach(
-        (pill, i) => {
-
-          gsap.fromTo(
-            pill,
-
-            {
-              scale: 0,
-              opacity: 0
-            },
-
-            {
-              scale: 1,
-              opacity: 1,
-              duration: 0.4,
-              delay:
-                i * 0.03,
-              ease:
-                "back.out(1.7)",
-
-              scrollTrigger: {
-                trigger: pill,
-                start:
-                  "top 90%"
-              }
-            }
-          );
-        }
-      );
   }
 
 
-  try {
-    initGSAP();
-  } catch (error) {
-    console.error(
-      "GSAP initialization failed:",
-      error
-    );
-  }
+  /* =======================================================
+     GSAP / SCROLLTRIGGER
+     ======================================================= */
 
-
-  /* =========================================================
-     COUNT-UP NUMBERS
-  ========================================================= */
-
-  const countEls =
-    document.querySelectorAll(
-      ".count-up"
-    );
-
-  if (countEls.length) {
-
-    const countObs =
-      new IntersectionObserver(
-        (entries) => {
-
-          entries.forEach(
-            (entry) => {
-
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
-
-              const el =
-                entry.target;
-
-              const target =
-                parseInt(
-                  el.dataset.target,
-                  10
-                );
-
-              const duration =
-                1200;
-
-              const start =
-                performance.now();
-
-
-              function step(now) {
-
-                const pct =
-                  Math.min(
-                    (
-                      now - start
-                    ) /
-                      duration,
-                    1
-                  );
-
-                const eased =
-                  1 -
-                  Math.pow(
-                    1 - pct,
-                    3
-                  );
-
-                el.textContent =
-                  Math.floor(
-                    eased * target
-                  );
-
-                if (
-                  pct < 1
-                ) {
-                  requestAnimationFrame(
-                    step
-                  );
-                } else {
-                  el.textContent =
-                    target;
-                }
-              }
-
-              requestAnimationFrame(
-                step
-              );
-
-              countObs.unobserve(
-                el
-              );
-            }
-          );
-        },
-        {
-          threshold: 0.6
-        }
-      );
-
-    countEls.forEach(
-      (el) =>
-        countObs.observe(el)
-    );
-  }
-
-
-  /* =========================================================
-     CEFR BARS
-  ========================================================= */
-
-  const bars =
-    document.querySelectorAll(
-      ".cefr-fill"
-    );
-
-  if (bars.length) {
-
-    const barObs =
-      new IntersectionObserver(
-        (entries) => {
-
-          entries.forEach(
-            (entry) => {
-
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
-
-              const element =
-                entry.target;
-
-              const width =
-                element.style.width;
-
-              element.style.width =
-                "0%";
-
-              setTimeout(
-                () => {
-                  element.style.width =
-                    width;
-                },
-                250
-              );
-
-              barObs.unobserve(
-                element
-              );
-            }
-          );
-        },
-        {
-          threshold: 0.5
-        }
-      );
-
-    bars.forEach(
-      (bar) =>
-        barObs.observe(bar)
-    );
-  }
-
-
-  /* =========================================================
-     VANILLA TILT
-  ========================================================= */
-
-  function initTilt() {
+  if (
+    typeof gsap !== "undefined"
+  ) {
 
     if (
-      typeof VanillaTilt ===
+      typeof ScrollTrigger !==
       "undefined"
     ) {
-      return;
+      gsap.registerPlugin(
+        ScrollTrigger
+      );
     }
 
-    const elements =
-      document.querySelectorAll(
-        "[data-tilt]"
+
+    /* -----------------------------------------------------
+       HERO ENTRANCE
+       ----------------------------------------------------- */
+
+    const heroElements =
+      $$(".hero-inner > *");
+
+
+    if (heroElements.length) {
+
+      gsap.fromTo(
+        heroElements,
+        {
+          opacity: 0,
+          y: 22
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.08,
+          ease: "power3.out",
+          delay: 0.1
+        }
       );
 
-    if (!elements.length) {
-      return;
     }
 
-    VanillaTilt.init(
-      elements,
-      {
-        max: 10,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.15,
-        perspective: 800
-      }
-    );
-  }
 
-
-  try {
-    initTilt();
-  } catch (error) {
-    console.error(
-      "Tilt initialization failed:",
-      error
-    );
-  }
-
-
-  /* =========================================================
-     SKILL PILL HOVER GLOW
-  ========================================================= */
-
-  document
-    .querySelectorAll(
-      ".spill"
-    )
-    .forEach(
-      (pill) => {
-
-        pill.addEventListener(
-          "mouseenter",
-          () => {
-            pill.style.boxShadow =
-              "0 0 12px currentColor";
-          }
-        );
-
-        pill.addEventListener(
-          "mouseleave",
-          () => {
-            pill.style.boxShadow =
-              "";
-          }
-        );
-      }
-    );
-
-
-  /* =========================================================
-     ASK ASSISTANT
-  ========================================================= */
-
-  function initChatbot() {
-
-    const trigger =
-      document.getElementById(
-        "aiChatTrigger"
-      );
-
-    const win =
-      document.getElementById(
-        "aiChatWindow"
-      );
-
-    const close =
-      document.getElementById(
-        "aiChatClose"
-      );
-
-    const form =
-      document.getElementById(
-        "aiChatForm"
-      );
-
-    const input =
-      document.getElementById(
-        "aiChatInput"
-      );
-
-    const messages =
-      document.getElementById(
-        "aiChatMessages"
-      );
+    /* -----------------------------------------------------
+       REVEAL ELEMENTS
+       ----------------------------------------------------- */
 
     if (
-      !trigger ||
-      !win ||
-      !close ||
-      !form ||
-      !input ||
-      !messages
-    ) {
-      console.warn(
-        "Ask Assistant elements not found."
-      );
-
-      return;
-    }
-
-
-    /* ---------------------------------------------------------
-       RESPONSE ENGINE
-    --------------------------------------------------------- */
-
-    function response(question) {
-
-      const t =
-        question
-          .toLowerCase()
-          .trim()
-          .replace(
-            /[?!.,]/g,
-            ""
-          );
-
-
-      /* Greetings */
-
-      if (
-        /^(hi|hello|hey)$/.test(t)
-      ) {
-        return (
-          "Hey! I'm Om's portfolio assistant. " +
-          "Ask me about his education, skills, projects, " +
-          "Machine Learning, Data Science, or current focus."
-        );
-      }
-
-
-      /* Current study */
-
-      if (
-        t.includes("study") ||
-        t.includes("studying") ||
-        t.includes("msc") ||
-        t.includes("master")
-      ) {
-        return (
-          "Om is currently a First Year MSc " +
-          "Artificial Intelligence & Data Science student."
-        );
-      }
-
-
-      /* Education */
-
-      if (
-        t.includes("education") ||
-        t.includes("degree") ||
-        t.includes("university") ||
-        t.includes("college") ||
-        t.includes("bca")
-      ) {
-        return (
-          "Om completed his BCA from MIT World Peace " +
-          "University, Pune and is currently pursuing " +
-          "an MSc in Artificial Intelligence & Data Science."
-        );
-      }
-
-
-      /* Skills */
-
-      if (
-        t.includes("skill") ||
-        t.includes("technology") ||
-        t.includes("tech stack")
-      ) {
-        return (
-          "Om's current technical focus includes Python, SQL, " +
-          "NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, " +
-          "data preprocessing, EDA, feature engineering, " +
-          "classification, and model evaluation."
-        );
-      }
-
-
-      /* Machine Learning */
-
-      if (
-        t.includes("machine learning") ||
-        t === "ml" ||
-        t.includes("classification") ||
-        t.includes("model")
-      ) {
-        return (
-          "Machine Learning is one of Om's main areas of interest. " +
-          "He has worked with classification, imbalanced datasets, " +
-          "preprocessing, feature scaling, precision, recall, " +
-          "F1-score and ROC-AUC."
-        );
-      }
-
-
-      /* Data Science */
-
-      if (
-        t.includes("data science") ||
-        t.includes("data analysis") ||
-        t.includes("pandas") ||
-        t.includes("numpy")
-      ) {
-        return (
-          "Om is interested in the complete Data Science workflow — " +
-          "data cleaning, EDA, feature engineering, modelling and evaluation."
-        );
-      }
-
-
-      /* Fraud */
-
-      if (
-        t.includes("fraud") ||
-        t.includes("credit card")
-      ) {
-        return (
-          "Om's Credit Card Fraud Detection project explores an " +
-          "imbalanced transaction dataset, Logistic Regression, " +
-          "Random Forest, precision, recall, F1-score and ROC-AUC."
-        );
-      }
-
-
-      /* Student Performance */
-
-      if (
-        t.includes("student performance") ||
-        t.includes("student prediction")
-      ) {
-        return (
-          "Om built a Student Performance Prediction classification " +
-          "project involving data cleaning, feature selection, " +
-          "EDA and machine learning."
-        );
-      }
-
-
-      /* Projects */
-
-      if (
-        t.includes("project") ||
-        t.includes("work") ||
-        t.includes("built")
-      ) {
-        return (
-          "Om's portfolio features Credit Card Fraud Detection " +
-          "and Student Performance Prediction, with more projects " +
-          "and experiments being developed."
-        );
-      }
-
-
-      /* GitHub */
-
-      if (
-        t.includes("github") ||
-        t.includes("code") ||
-        t.includes("repository")
-      ) {
-        return (
-          "Om's GitHub contains his machine learning projects " +
-          "and code. Use the GitHub links in the portfolio to explore them."
-        );
-      }
-
-
-      /* Contact */
-
-      if (
-        t.includes("contact") ||
-        t.includes("email") ||
-        t.includes("linkedin")
-      ) {
-        return (
-          "You can connect with Om through the GitHub and LinkedIn " +
-          "links in the Contact section."
-        );
-      }
-
-
-      /* Default */
-
-      return (
-        "I don't have an answer for that yet. " +
-        "Try asking about Om's education, skills, projects, " +
-        "Machine Learning, Data Science, or current study."
-      );
-    }
-
-
-    /* ---------------------------------------------------------
-       ADD MESSAGE
-    --------------------------------------------------------- */
-
-    function addMessage(
-      text,
-      user = false
+      typeof ScrollTrigger !==
+      "undefined"
     ) {
 
-      const el =
-        document.createElement(
-          "div"
-        );
+      $$(".reveal").forEach(
+        (element) => {
 
-      el.className =
-        user
-          ? "ai-message ai-message-user"
-          : "ai-message";
-
-
-      if (user) {
-
-        el.innerHTML = `
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-
-      } else {
-
-        el.innerHTML = `
-          <span class="ai-message-avatar">✦</span>
-          <div class="ai-message-content">
-            <p></p>
-          </div>
-        `;
-
-      }
-
-
-      const paragraph =
-        el.querySelector("p");
-
-      if (paragraph) {
-        paragraph.textContent =
-          text;
-      }
-
-
-      messages.appendChild(
-        el
-      );
-
-      messages.scrollTop =
-        messages.scrollHeight;
-    }
-
-
-    /* ---------------------------------------------------------
-       SEND
-    --------------------------------------------------------- */
-
-    function send(question) {
-
-      const q =
-        String(
-          question || ""
-        ).trim();
-
-      if (!q) {
-        return;
-      }
-
-
-      addMessage(
-        q,
-        true
-      );
-
-      input.value =
-        "";
-
-
-      /* Typing */
-
-      const typing =
-        document.createElement(
-          "div"
-        );
-
-      typing.className =
-        "ai-message ai-typing";
-
-      typing.innerHTML = `
-        <span class="ai-message-avatar">✦</span>
-        <div class="ai-message-content">
-          <div class="ai-typing-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      `;
-
-      messages.appendChild(
-        typing
-      );
-
-      messages.scrollTop =
-        messages.scrollHeight;
-
-
-      setTimeout(
-        () => {
-
-          typing.remove();
-
-          addMessage(
-            response(q)
+          gsap.to(
+            element,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: element,
+                start: "top 88%",
+                once: true
+              }
+            }
           );
 
-        },
-        500
+        }
       );
+
+    } else {
+
+      $$(".reveal").forEach(
+        (element) => {
+          element.classList.add(
+            "revealed"
+          );
+        }
+      );
+
     }
 
 
-    /* ---------------------------------------------------------
+    /* -----------------------------------------------------
+       SECTION HEADINGS
+       ----------------------------------------------------- */
+
+    if (
+      typeof ScrollTrigger !==
+      "undefined"
+    ) {
+
+      $$(".sec-title").forEach(
+        (element) => {
+
+          gsap.fromTo(
+            element,
+            {
+              opacity: 0,
+              y: 25
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: element,
+                start: "top 88%",
+                once: true
+              }
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       HERO PARALLAX
+       ----------------------------------------------------- */
+
+    const heroInner =
+      $("#heroInner");
+
+    if (
+      heroInner &&
+      typeof ScrollTrigger !==
+      "undefined"
+    ) {
+
+      gsap.to(
+        heroInner,
+        {
+          y: 90,
+          opacity: 0.35,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          }
+        }
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     COUNT-UP STATS
+     ======================================================= */
+
+  const countElements =
+    $$(".count-up");
+
+
+  if (
+    countElements.length
+  ) {
+
+    const animateCounter =
+      (element) => {
+
+        const target =
+          Number(
+            element.dataset.target
+          ) || 0;
+
+        const duration = 1000;
+
+        const startTime =
+          performance.now();
+
+
+        const updateCounter =
+          (currentTime) => {
+
+            const elapsed =
+              currentTime -
+              startTime;
+
+            const progress =
+              Math.min(
+                elapsed / duration,
+                1
+              );
+
+            const eased =
+              1 -
+              Math.pow(
+                1 - progress,
+                3
+              );
+
+
+            element.textContent =
+              Math.floor(
+                eased * target
+              );
+
+
+            if (
+              progress < 1
+            ) {
+
+              requestAnimationFrame(
+                updateCounter
+              );
+
+            } else {
+
+              element.textContent =
+                target;
+
+            }
+
+          };
+
+
+        requestAnimationFrame(
+          updateCounter
+        );
+
+      };
+
+
+    if (
+      typeof IntersectionObserver !==
+      "undefined"
+    ) {
+
+      const observer =
+        new IntersectionObserver(
+          (entries, obs) => {
+
+            entries.forEach(
+              (entry) => {
+
+                if (
+                  !entry.isIntersecting
+                ) {
+                  return;
+                }
+
+                animateCounter(
+                  entry.target
+                );
+
+                obs.unobserve(
+                  entry.target
+                );
+
+              }
+            );
+
+          },
+          {
+            threshold: 0.5
+          }
+        );
+
+
+      countElements.forEach(
+        (element) => {
+          observer.observe(
+            element
+          );
+        }
+      );
+
+    } else {
+
+      countElements.forEach(
+        animateCounter
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     VANILLA TILT
+     ======================================================= */
+
+  if (
+    typeof VanillaTilt !==
+    "undefined"
+  ) {
+
+    const tiltElements =
+      $$("[data-tilt]");
+
+
+    if (tiltElements.length) {
+
+      VanillaTilt.init(
+        tiltElements,
+        {
+          max: 8,
+          speed: 400,
+          perspective: 1000,
+          scale: 1.01,
+          glare: true,
+          "max-glare": 0.12,
+          gyroscope: false
+        }
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     EDUCATION — CHATBOT KNOWLEDGE
+     ======================================================= */
+
+  const assistantKnowledge = {
+
+    name: "Om Shete",
+
+    education:
+      "Om completed his BCA from MIT World Peace University, Pune (2023–2026) and is currently pursuing an MSc in Artificial Intelligence & Data Science (2026–2028).",
+
+    projects:
+      "Om has two featured machine learning projects: Credit Card Fraud Detection and Student Performance Prediction.",
+
+    skills:
+      "Om's technical toolkit includes Python, SQL, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Jupyter, Git, GitHub, VS Code, Google Colab, SMOTE, feature engineering, EDA, cross-validation, Precision, Recall, F1-score and ROC-AUC.",
+
+    languages:
+      "Om is proficient in English at C1+ level and German at B1 level.",
+
+    contact:
+      "You can contact Om through WhatsApp, email, GitHub, or LinkedIn in the Contact section.",
+
+    current:
+      "Om is currently pursuing his MSc in AI & Data Science and is focused on Machine Learning, Data Science and predictive modeling."
+
+  };
+
+
+  /* =======================================================
+     CHATBOT
+     ======================================================= */
+
+  const aiAssistant =
+    $("#aiAssistant");
+
+  const aiChatTrigger =
+    $("#aiChatTrigger");
+
+  const aiChatWindow =
+    $("#aiChatWindow");
+
+  const aiChatClose =
+    $("#aiChatClose");
+
+  const aiChatMessages =
+    $("#aiChatMessages");
+
+  const aiChatForm =
+    $("#aiChatForm");
+
+  const aiChatInput =
+    $("#aiChatInput");
+
+  const aiSuggestions =
+    $$(".ai-suggestion");
+
+
+  if (
+    aiAssistant &&
+    aiChatTrigger &&
+    aiChatWindow &&
+    aiChatClose &&
+    aiChatMessages &&
+    aiChatForm &&
+    aiChatInput
+  ) {
+
+
+    /* -----------------------------------------------------
        OPEN / CLOSE
-    --------------------------------------------------------- */
+       ----------------------------------------------------- */
 
-    function openChat() {
+    const openAssistant = () => {
 
-      win.classList.add(
+      aiAssistant.classList.add(
         "open"
       );
 
-      win.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-
-      trigger.classList.add(
-        "active"
-      );
-
-      trigger.setAttribute(
+      aiChatTrigger.setAttribute(
         "aria-expanded",
         "true"
       );
 
-
-      setTimeout(
-        () => {
-          input.focus();
-        },
-        200
+      aiChatWindow.setAttribute(
+        "aria-hidden",
+        "false"
       );
-    }
 
 
-    function shutChat() {
+      setTimeout(() => {
 
-      win.classList.remove(
+        aiChatInput.focus();
+
+      }, 250);
+
+    };
+
+
+    const closeAssistant = () => {
+
+      aiAssistant.classList.remove(
         "open"
       );
 
-      win.setAttribute(
+      aiChatTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      aiChatWindow.setAttribute(
         "aria-hidden",
         "true"
       );
 
-      trigger.classList.remove(
-        "active"
-      );
-
-      trigger.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-    }
+    };
 
 
-    /* ---------------------------------------------------------
-       TRIGGER
-    --------------------------------------------------------- */
-
-    trigger.addEventListener(
+    aiChatTrigger.addEventListener(
       "click",
       () => {
 
         if (
-          win.classList.contains(
+          aiAssistant.classList.contains(
             "open"
           )
         ) {
-          shutChat();
+          closeAssistant();
         } else {
-          openChat();
+          openAssistant();
         }
 
       }
     );
 
 
-    /* ---------------------------------------------------------
-       CLOSE BUTTON
-    --------------------------------------------------------- */
-
-    close.addEventListener(
+    aiChatClose.addEventListener(
       "click",
-      () => {
-        shutChat();
-      }
+      closeAssistant
     );
 
-
-    /* ---------------------------------------------------------
-       FORM
-    --------------------------------------------------------- */
-
-    form.addEventListener(
-      "submit",
-      (e) => {
-
-        e.preventDefault();
-
-        send(
-          input.value
-        );
-
-      }
-    );
-
-
-    /* ---------------------------------------------------------
-       QUICK QUESTIONS
-    --------------------------------------------------------- */
-
-    document
-      .querySelectorAll(
-        ".ai-suggestion"
-      )
-      .forEach(
-        (button) => {
-
-          button.type =
-            "button";
-
-          button.setAttribute(
-            "tabindex",
-            "0"
-          );
-
-
-          button.addEventListener(
-            "click",
-            (e) => {
-
-              e.preventDefault();
-
-              e.stopPropagation();
-
-              const question =
-                button.dataset.question ||
-                button.textContent.trim();
-
-              openChat();
-
-              send(
-                question
-              );
-            }
-          );
-
-
-          /* Keyboard */
-
-          button.addEventListener(
-            "keydown",
-            (e) => {
-
-              if (
-                e.key ===
-                  "Enter" ||
-                e.key ===
-                  " "
-              ) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-                const question =
-                  button.dataset.question ||
-                  button.textContent.trim();
-
-                openChat();
-
-                send(
-                  question
-                );
-              }
-            }
-          );
-
-        }
-      );
-
-
-    /* ---------------------------------------------------------
-       ESCAPE
-    --------------------------------------------------------- */
 
     document.addEventListener(
       "keydown",
-      (e) => {
+      (event) => {
 
         if (
-          e.key ===
-            "Escape" &&
-          win.classList.contains(
+          event.key === "Escape" &&
+          aiAssistant.classList.contains(
             "open"
           )
         ) {
-          shutChat();
-        }
 
+          closeAssistant();
 
-        /* "/" opens assistant */
-
-        const active =
-          document.activeElement;
-
-        const isTyping =
-          active &&
-          (
-            active.tagName ===
-              "INPUT" ||
-            active.tagName ===
-              "TEXTAREA" ||
-            active.isContentEditable
-          );
-
-
-        if (
-          e.key === "/" &&
-          !isTyping
-        ) {
-
-          e.preventDefault();
-
-          openChat();
         }
 
       }
     );
 
 
-    /* Initial state */
+    /* -----------------------------------------------------
+       MESSAGE HELPERS
+       ----------------------------------------------------- */
 
-    win.setAttribute(
-      "aria-hidden",
-      "true"
+    const scrollMessagesToBottom =
+      () => {
+
+        aiChatMessages.scrollTop =
+          aiChatMessages.scrollHeight;
+
+      };
+
+
+    const addMessage =
+      (
+        message,
+        sender = "assistant"
+      ) => {
+
+        const wrapper =
+          document.createElement("div");
+
+        wrapper.className =
+          `ai-message ${sender === "user" ? "user" : ""}`;
+
+
+        const avatar =
+          document.createElement("span");
+
+        avatar.className =
+          "ai-message-avatar";
+
+        avatar.textContent =
+          sender === "user"
+            ? "U"
+            : "✦";
+
+
+        const content =
+          document.createElement("div");
+
+        content.className =
+          "ai-message-content";
+
+
+        const paragraphs =
+          String(message)
+            .split(/\n+/)
+            .filter(Boolean);
+
+
+        paragraphs.forEach(
+          (paragraph) => {
+
+            const p =
+              document.createElement("p");
+
+            p.textContent =
+              paragraph;
+
+            content.appendChild(p);
+
+          }
+        );
+
+
+        wrapper.appendChild(
+          avatar
+        );
+
+        wrapper.appendChild(
+          content
+        );
+
+
+        aiChatMessages.appendChild(
+          wrapper
+        );
+
+
+        scrollMessagesToBottom();
+
+        return wrapper;
+
+      };
+
+
+    /* -----------------------------------------------------
+       TYPING INDICATOR
+       ----------------------------------------------------- */
+
+    const addTypingIndicator =
+      () => {
+
+        const wrapper =
+          document.createElement("div");
+
+        wrapper.className =
+          "ai-message ai-typing";
+
+
+        const avatar =
+          document.createElement("span");
+
+        avatar.className =
+          "ai-message-avatar";
+
+        avatar.textContent =
+          "✦";
+
+
+        const content =
+          document.createElement("div");
+
+        content.className =
+          "ai-message-content";
+
+
+        const p =
+          document.createElement("p");
+
+        p.textContent =
+          "Thinking...";
+
+
+        content.appendChild(p);
+
+        wrapper.appendChild(
+          avatar
+        );
+
+        wrapper.appendChild(
+          content
+        );
+
+
+        aiChatMessages.appendChild(
+          wrapper
+        );
+
+        scrollMessagesToBottom();
+
+        return wrapper;
+
+      };
+
+
+    /* -----------------------------------------------------
+       BOT RESPONSE
+       ----------------------------------------------------- */
+
+    const getBotResponse =
+      (question) => {
+
+        const t =
+          question
+            .toLowerCase()
+            .trim();
+
+
+        if (!t) {
+
+          return "Ask me something about Om's portfolio.";
+
+        }
+
+
+        /* GREETING */
+
+        if (
+          t === "hi" ||
+          t === "hello" ||
+          t === "hey" ||
+          t.includes("good morning") ||
+          t.includes("good evening")
+        ) {
+
+          return (
+            "Hey! I'm Om's portfolio assistant. " +
+            "You can ask me about his education, projects, skills, languages, or how to contact him."
+          );
+
+        }
+
+
+        /* NAME */
+
+        if (
+          t.includes("who is om") ||
+          t.includes("about om") ||
+          t.includes("who are you")
+        ) {
+
+          return (
+            "Om Shete is an MSc AI & Data Science student focused on Machine Learning, Data Science and predictive modeling. " +
+            "He completed his BCA from MIT World Peace University, Pune."
+          );
+
+        }
+
+
+        /* EDUCATION */
+
+        if (
+          t.includes("education") ||
+          t.includes("degree") ||
+          t.includes("university") ||
+          t.includes("college") ||
+          t.includes("bca") ||
+          t.includes("msc") ||
+          t.includes("study") ||
+          t.includes("studying")
+        ) {
+
+          return assistantKnowledge.education;
+
+        }
+
+
+        /* PROJECTS */
+
+        if (
+          t.includes("project") ||
+          t.includes("projects") ||
+          t.includes("work") ||
+          t.includes("built")
+        ) {
+
+          return (
+            "Om has two featured ML projects: " +
+            "Credit Card Fraud Detection and Student Performance Prediction. " +
+            "Both are available on his GitHub."
+          );
+
+        }
+
+
+        /* FRAUD PROJECT */
+
+        if (
+          t.includes("fraud") ||
+          t.includes("credit card")
+        ) {
+
+          return (
+            "Om built a Credit Card Fraud Detection project using machine learning. " +
+            "It focuses on highly imbalanced transaction data, preprocessing, feature scaling, class imbalance handling, and evaluating models using metrics such as Precision, Recall, F1-score and ROC-AUC."
+          );
+
+        }
+
+
+        /* STUDENT PROJECT */
+
+        if (
+          t.includes("student performance") ||
+          t.includes("student prediction") ||
+          t.includes("academic performance")
+        ) {
+
+          return (
+            "Om built a Student Performance Prediction project using machine learning. " +
+            "The project covers exploratory data analysis, preprocessing, feature engineering, model building and evaluation."
+          );
+
+        }
+
+
+        /* SKILLS */
+
+        if (
+          t.includes("skill") ||
+          t.includes("technical") ||
+          t.includes("technology") ||
+          t.includes("tech stack") ||
+          t.includes("tools")
+        ) {
+
+          return assistantKnowledge.skills;
+
+        }
+
+
+        /* PYTHON */
+
+        if (
+          t.includes("python")
+        ) {
+
+          return (
+            "Python is one of Om's core programming languages. " +
+            "He uses it for data analysis, preprocessing, visualization and machine learning."
+          );
+
+        }
+
+
+        /* MACHINE LEARNING */
+
+        if (
+          t.includes("machine learning") ||
+          t === "ml" ||
+          t.includes("model")
+        ) {
+
+          return (
+            "Om is focused on Machine Learning and predictive modeling. " +
+            "His current work includes classification, feature engineering, cross-validation, class imbalance handling, and model evaluation."
+          );
+
+        }
+
+
+        /* DATA SCIENCE */
+
+        if (
+          t.includes("data science") ||
+          t.includes("data analysis") ||
+          t.includes("eda")
+        ) {
+
+          return (
+            "Om is developing his Data Science skills across the complete workflow — data cleaning, exploratory data analysis, feature engineering, visualization, machine learning and evaluation."
+          );
+
+        }
+
+
+        /* LANGUAGES */
+
+        if (
+          t.includes("language") ||
+          t.includes("english") ||
+          t.includes("german") ||
+          t.includes("deutsch") ||
+          t.includes("ielts")
+        ) {
+
+          return assistantKnowledge.languages;
+
+        }
+
+
+        /* GERMAN */
+
+        if (
+          t.includes("german") ||
+          t.includes("deutsch")
+        ) {
+
+          return (
+            "Om's German proficiency is B1."
+          );
+
+        }
+
+
+        /* ENGLISH */
+
+        if (
+          t.includes("english") ||
+          t.includes("ielts")
+        ) {
+
+          return (
+            "Om's English proficiency is C1+ and he has an IELTS Academic background."
+          );
+
+        }
+
+
+        /* CURRENT STATUS */
+
+        if (
+          t.includes("currently") ||
+          t.includes("now") ||
+          t.includes("what is he doing") ||
+          t.includes("what does he do")
+        ) {
+
+          return assistantKnowledge.current;
+
+        }
+
+
+        /* CONTACT */
+
+        if (
+          t.includes("contact") ||
+          t.includes("email") ||
+          t.includes("linkedin") ||
+          t.includes("github") ||
+          t.includes("whatsapp") ||
+          t.includes("reach")
+        ) {
+
+          return (
+            "You can connect with Om through WhatsApp, email, GitHub, or LinkedIn. " +
+            "All four options are available in the Contact section of the portfolio."
+          );
+
+        }
+
+
+        /* RESUME */
+
+        if (
+          t.includes("resume") ||
+          t.includes("cv")
+        ) {
+
+          return (
+            "Om's resume is available through the Resume button in the hero section."
+          );
+
+        }
+
+
+        /* INTERNSHIP */
+
+        if (
+          t.includes("internship") ||
+          t.includes("job") ||
+          t.includes("hire") ||
+          t.includes("hiring")
+        ) {
+
+          return (
+            "Om is currently open to internships and opportunities related to Machine Learning, Data Science and AI."
+          );
+
+        }
+
+
+        /* LOCATION */
+
+        if (
+          t.includes("pune") ||
+          t.includes("location") ||
+          t.includes("where")
+        ) {
+
+          return (
+            "Om is based in Pune and is open to relevant opportunities in Pune or remotely."
+          );
+
+        }
+
+
+        /* DEFAULT */
+
+        return (
+          "I can help with information about Om's education, projects, skills, languages, current focus, resume, or contact details."
+        );
+
+      };
+
+
+    /* -----------------------------------------------------
+       SEND MESSAGE
+       ----------------------------------------------------- */
+
+    const processQuestion =
+      (question) => {
+
+        const cleanQuestion =
+          String(question)
+            .trim();
+
+
+        if (!cleanQuestion) {
+          return;
+        }
+
+
+        addMessage(
+          cleanQuestion,
+          "user"
+        );
+
+
+        aiChatInput.value = "";
+
+
+        const typing =
+          addTypingIndicator();
+
+
+        const delay =
+          350 +
+          Math.random() * 450;
+
+
+        setTimeout(
+          () => {
+
+            if (typing) {
+              typing.remove();
+            }
+
+
+            addMessage(
+              getBotResponse(
+                cleanQuestion
+              ),
+              "assistant"
+            );
+
+          },
+          delay
+        );
+
+      };
+
+
+    aiChatForm.addEventListener(
+      "submit",
+      (event) => {
+
+        event.preventDefault();
+
+        processQuestion(
+          aiChatInput.value
+        );
+
+      }
     );
 
-    trigger.setAttribute(
-      "aria-expanded",
-      "false"
+
+    /* -----------------------------------------------------
+       SUGGESTIONS
+       ----------------------------------------------------- */
+
+    aiSuggestions.forEach(
+      (button) => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const question =
+              button.dataset.question;
+
+            if (!question) {
+              return;
+            }
+
+            processQuestion(
+              question
+            );
+
+          }
+        );
+
+      }
     );
 
 
-    console.log(
-      "Ask Assistant initialized successfully."
+    /* -----------------------------------------------------
+       ENTER KEY
+       ----------------------------------------------------- */
+
+    aiChatInput.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
+
+          event.preventDefault();
+
+          aiChatForm.requestSubmit();
+
+        }
+
+      }
     );
+
   }
 
 
-  /* =========================================================
-     INITIALIZE CHATBOT
-  ========================================================= */
+  /* =======================================================
+     ACCESSIBILITY / REDUCED MOTION
+     ======================================================= */
 
-  try {
-    initChatbot();
-  } catch (error) {
-    console.error(
-      "Ask Assistant initialization failed:",
-      error
-    );
+  const prefersReducedMotion =
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+
+  if (prefersReducedMotion) {
+
+    document.documentElement.style
+      .scrollBehavior = "auto";
+
   }
+
+
+  /* =======================================================
+     PAGE READY
+     ======================================================= */
+
+  document.body.classList.add(
+    "page-ready"
+  );
 
 })();
